@@ -851,7 +851,7 @@ code {
                         <h2 class="card-title">Abstract</h2>
                         <p class="card-text">Accumulated evidence demonstrates that long non-coding RNAs (lncRNAs) are involved in key roles such as regulating cell differentiation and homeostasis. Despite the versatile roles of lncRNAs, their functions in different cell types are poorly understood because of technical limitations. Here, we employed a targeted sequencing at the single-cell level for detecting lncRNAs and established single cell lncRNA atlas of multiple mouse tissues as a powerful resource for lncRNA studies. We generated a web interface for single cell lncRNA atlas to interactively visualize our data. Our workflow enhanced the lncRNAs capture sensitivity and enabled us to a comprehensive analysis. With higher coverage of lncRNAs, we identified unique and distinct expression patterns of lncRNAs across various cell types and differentiation stages. Furthermore, our single cell lncRNA profiles allowed us to construct gene regulatory networks (GRNs) of each cell type centered on lncRNA-transcription factor (TF) interactions, which suggests that lncRNAs have critical roles in maintaining transcription program of the cell types cooperatively with core TFs. Additionally, virtual-KO analysis showed that cell type-specific lncRNAs and core TFs shared similar target genes, confirming the role of the lncRNAs in governing GRNs of the cell type. Collectively, our data can be utilized as a valuable resource for lncRNA researches and provides key evidence how cell type-specific lncRNAs regulate the identity of a broad range of cell types.</p>
                     </div>
-                    <div class="mr-auto ml-auto"><a style="font-size: 1.35em; font-weight: bold" target="_blank" rel="noopener noreferrer" class="btn btn-link btn-sm mx-1 my-0" role="button" data-toggle="button" data-tooltip="tooltip" data-placement="bottom" data-html="true" title="Click to view our BioRXiv preprint">BioRXiv preprint<i class="material-icons icon-black" style="font-size: 0.9em">launch</i></a></div>
+<!--                     <div class="mr-auto ml-auto"><a style="font-size: 1.35em; font-weight: bold" target="_blank" rel="noopener noreferrer" class="btn btn-link btn-sm mx-1 my-0" role="button" data-toggle="button" data-tooltip="tooltip" data-placement="bottom" data-html="true" title="Click to view our BioRXiv preprint">BioRXiv preprint<i class="material-icons icon-black" style="font-size: 0.9em">launch</i></a></div> -->
                 </div>
 
                 <h1 class="modal-title">Usages</h1>
@@ -893,8 +893,8 @@ var DragSort=function(t){
                           "current/rawdata/base64/expr.correlation.index.tsv.gz.base64.txt"
                         ]; 
     var object_data = { }; // an object containing data
-    object_data.file = { };
-    object_data.file.base_url = "current/rawdata/base64/";
+    object_data.file = { }; 
+    object_data.file.base_url = "https://raw.githubusercontent.com/ahs2202/sc-lncrna-atlas/main/current/rawdata/base64/";
     object_data.file.dict_name_file_to_parsed_data = { };
     object_data.main = { };
     object_data.main.gene = { };
@@ -1549,9 +1549,9 @@ startNetwork({ nodes: nodesView, edges: edgesView });
         return new Promise( async function( resolve, reject ) { 
             Loading_Screen( true );
         // initialize cache objects
-            InitializeCacheForRemoteData( object_data.main.gene.expr, object_data.file.dict_name_file_to_parsed_data[ "expr.multiplied_by_1000.index.tsv.gz.base64.txt" ], [ 'gene_symbol' ], "current/rawdata/base64/expr.multiplied_by_1000.tsv.gz.base64.concatenated.txt" )
-            InitializeCacheForRemoteData( object_data.main.cell_marker, object_data.file.dict_name_file_to_parsed_data[ "cell_marker.index.tsv.gz.base64.txt" ], [ 'tissue', 'cluster' ], "current/rawdata/base64/cell_marker.tsv.gz.base64.concatanated.txt" )
-            InitializeCacheForRemoteData( object_data.main.gene.correl, object_data.file.dict_name_file_to_parsed_data[ "expr.correlation.index.tsv.gz.base64.txt" ], [ 'gene_symbol' ], "current/rawdata/base64/expr.correlation.tsv.gz.base64.concatanated.txt" )
+            InitializeCacheForRemoteData( object_data.main.gene.expr, object_data.file.dict_name_file_to_parsed_data[ "expr.multiplied_by_1000.index.tsv.gz.base64.txt" ], [ 'gene_symbol' ], object_data.file.base_url + "expr.multiplied_by_1000.tsv.gz.base64.concatenated.txt" )
+            InitializeCacheForRemoteData( object_data.main.cell_marker, object_data.file.dict_name_file_to_parsed_data[ "cell_marker.index.tsv.gz.base64.txt" ], [ 'tissue', 'cluster' ], object_data.file.base_url + "cell_marker.tsv.gz.base64.concatanated.txt" )
+            InitializeCacheForRemoteData( object_data.main.gene.correl, object_data.file.dict_name_file_to_parsed_data[ "expr.correlation.index.tsv.gz.base64.txt" ], [ 'gene_symbol' ], object_data.file.base_url + "expr.correlation.tsv.gz.base64.concatanated.txt" )
         // preview boxplot
             object_data.main.gene_summary = { };
             object_data.main.gene_summary.boxplot = { };
