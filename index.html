@@ -1892,7 +1892,7 @@ startNetwork({ nodes: nodesView, edges: edgesView });
     object_data.setting.plot.single_cell_scatter = { 
         max_height: 750,
         marker_size: 3
-    };
+    }; // defsult single-cell scatter plot setting
     object_data.setting.plot.single_cell_violin = { };
     var config_plotly = { responsive: true, displaylogo: false, toImageButtonOptions: { hoverClosestCartesian: true, format: 'png', filename: name_application, height: 750, width: 1100, scale: 1 }, modeBarButtonsToRemove: [ 'autoScale2d', 'toggleSpikelines', 'hoverCompareCartesian', 'hoverClosestCartesian' ] } // flexible plot width according to the window size  // do not display plotly logo
     function SortViolinTrace_Expression( trace_a, trace_b ) { return - ( trace_a.mean_expression_for_sorting - trace_b.mean_expression_for_sorting ) } // Sort Plotly Violin traces displaying expression values based on parameter values
@@ -2192,25 +2192,40 @@ startNetwork({ nodes: nodesView, edges: edgesView });
     
     // synchronization of zoom levels across plots
     function PlotlySynchronizedLayout( ed, divs ) {
-        if (Object.entries(ed).length === 0) {return;}
+        if ( Object.entries( ed ).length === 0 ) { return; }
+        // broadcasting updated zoom level across plots
         divs.forEach( ( div, i ) => {
             let x = div.layout.xaxis, y = div.layout.yaxis, flag_relayout = false, update = { }; // a flag indicating whether a relayout event is required
             // ignore when layouts are changed due to autoranging
-            console.log( x, y, ed );
+//             console.log( x, y, ed );
+            let int_factor_axis_range_to_marker_size = 30, int_factor_marker_size_multiply = 3, int_marker_size_current = div.data[ 0 ].marker.size;
+                int_marker_size_to_be_updated = Math.min( 10, Math.min( Math.ceil( int_factor_axis_range_to_marker_size / ( x.range[ 1 ] - x.range[ 0 ] ) ), Math.ceil( int_factor_axis_range_to_marker_size / ( y.range[ 1 ] - y.range[ 0 ] ) ) ) * int_factor_marker_size_multiply ),
+                flag_restyle = int_marker_size_to_be_updated != int_marker_size_current;
+
+            if ( flag_restyle ) { // restyle existing plot
+                console.log( "[UpdateGene] restyling marker size to ", int_marker_size_to_be_updated );
+                let update = { marker : div.data[ 0 ].marker };
+                update.marker.size = int_marker_size_to_be_updated;
+                Plotly.restyle( div, update, [ 0 ] );
+            } 
+            
             if ( ( ed[ "xaxis.autorange" ] && x.autorange ) && ( ed[ "yaxis.autorange" ] && y.autorange ) ) { 
                 return;
             }
             // update x-axis
             if ( x.range[ 0 ] != ed[ "xaxis.range[0]" ] || x.range[ 1 ] != ed[ "xaxis.range[1]" ] ) {
+                flag_relayout = true;
                 update = { ... update, 'xaxis.range[0]': ed[ "xaxis.range[0]" ], 'xaxis.range[1]': ed[ "xaxis.range[1]" ], 'xaxis.autorange': ed[ "xaxis.autorange" ] };
             }
             // update y-axis
             if ( y.range[ 0 ] != ed[ "yaxis.range[0]" ] || y.range[ 1 ] != ed[ "yaxis.range[1]" ] ) {
+                flag_relayout = true;
                 update = { ... update, 'yaxis.range[0]': ed[ "yaxis.range[0]" ], 'yaxis.range[1]': ed[ "yaxis.range[1]" ], 'yaxis.autorange': ed[ "yaxis.autorange" ] };
             }
-            if ( flag_relayout = true ) {
+            if ( flag_relayout ) {
                 Plotly.relayout( div, update ); // perform relayout operation
             }
+            
         });
     }
     var l_div_plotly = [ plotSingleCellAnnotation, plotSingleCellExpression ];
