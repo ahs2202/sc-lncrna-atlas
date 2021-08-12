@@ -854,9 +854,9 @@ code {
 <!--                     <div class="mr-auto ml-auto"><a style="font-size: 1.35em; font-weight: bold" target="_blank" rel="noopener noreferrer" class="btn btn-link btn-sm mx-1 my-0" role="button" data-toggle="button" data-tooltip="tooltip" data-placement="bottom" data-html="true" title="Click to view our BioRXiv preprint">BioRXiv preprint<i class="material-icons icon-black" style="font-size: 0.9em">launch</i></a></div> -->
                 </div>
 
-                <h1 class="modal-title">Usages</h1>
+<!--                 <h1 class="modal-title">Usages</h1> -->
 
-                <h5 class="text-muted" style="text-align:center;">Data analysis has been performed by Gyeongdae Kim and the web application has been developed by Hyunsu An at Gwangju Institute of Science and Technology under the supervision of Professor JiHwan Park.</h5>
+                <h5 class="text-muted" style="text-align:center;">Data analysis has been conducted by Gyeongdae Kim and the web application has been developed by Hyunsu An at Gwangju Institute of Science and Technology under the supervision of Professor JiHwan Park.</h5>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary btn-lg btn-block" data-dismiss="modal">Start!</button>
@@ -894,7 +894,7 @@ var DragSort=function(t){
                         ]; 
     var object_data = { }; // an object containing data
     object_data.file = { }; 
-    object_data.file.base_url = "https://raw.githubusercontent.com/ahs2202/sc-lncrna-atlas/main/current/rawdata/base64/";
+    object_data.file.base_url = "current/rawdata/base64/";
     object_data.file.dict_name_file_to_parsed_data = { };
     object_data.main = { };
     object_data.main.gene = { };
@@ -1455,27 +1455,66 @@ startNetwork({ nodes: nodesView, edges: edgesView });
         return result;
     }
     async function RetrieveRemoteFile_PartialData( l_index, dict_arr, dir_remote_file ) {
-        let l_range = [ ], i = 0;
-        // retrieve text records from a remote file
-        for ( i = 0; i < l_index.length; i ++ ) {
-            let index_record = l_index[ i ],
-                index_byte_start = dict_arr.index_byte_start[ index_record ],
-                index_byte_end = dict_arr.index_byte_end[ index_record ];
-            l_range.push( [ index_byte_start + 1, index_byte_end - 1 ] ); // the first byte in each 'file' in the concatanated files is a spacer character (' ')
-        }
-        let text_combined = LoadRemoteTextFile_PartialData( dir_remote_file, l_range ),
-            l_text = [ ];
-        if ( l_range.length == 1 ) {
-            // when partial data of single part is retrieved, add all of the retrieved string to the list
-            l_text.push( text_combined );
-        } else {
-            let l_split = text_combined.split( '\r\n' ).slice( 1, -1 ), index_text = 4; // retrieved data starts from the fifth line (index = 4)
-            for ( i = 0; i < l_range.length; i ++ ) {
-                l_text.push( l_split[ index_text ] ); 
-                index_text += 5; // retrieved data is in every fifth line
+        // when 'flag_split_file' is true, assumes the main concatenated files are split into multiple file to satisfy maximum file size limits
+        flag_split_file = 'index_file' in dict_arr; // check whether dict_arr contains the 'index_file' column
+        if ( flag_split_file ) {
+            let dict_index_file_to_l_range = { }, i = 0;
+            // retrieve range containing records for each split file
+            for ( i = 0; i < l_index.length ; i ++ ) {
+                let index_record = l_index[ i ],
+                    index_byte_start = dict_arr.index_byte_start[ index_record ],
+                    index_byte_end = dict_arr.index_byte_end[ index_record ],
+                    index_file = dict_arr.index_file[ index_record ];
+                if ( ! ( index_file in dict_index_file_to_l_range ) ) {
+                    dict_index_file_to_l_range[ index_file ] = [ ];
+                }
+                dict_index_file_to_l_range[ index_file ].push( [ index_byte_start + 1, index_byte_end - 1 ] ); // the first byte in each 'file' in the concatanated files is a spacer character (' ')
             }
+            // retrieve data and parse data into records for each split file
+            let l_record = [ ],
+                l_index_file = Object.keys( dict_index_file_to_l_range );
+            for ( i = 0; i < l_index_file.length; i ++ ) {
+                // retrieve text records from a remote file
+                let index_file = l_index_file[ i ],
+                    l_range = dict_index_file_to_l_range[ index_file ];
+                let text_combined = LoadRemoteTextFile_PartialData( dir_remote_file + '.' + index_file.toString( ), l_range ),
+                    l_text = [ ];
+                if ( l_range.length == 1 ) {
+                    // when partial data of single part is retrieved, add all of the retrieved string to the list
+                    l_text.push( text_combined );
+                } else {
+                    let l_split = text_combined.split( '\r\n' ).slice( 1, -1 ), index_text = 4; // retrieved data starts from the fifth line (index = 4)
+                    for ( i = 0; i < l_range.length; i ++ ) {
+                        l_text.push( l_split[ index_text ] ); 
+                        index_text += 5; // retrieved data is in every fifth line
+                    }
+                }
+                l_record.push( ... await ParseLocalData( l_text ) );
+            }
+            return l_record;
+        } else {
+            let l_range = [ ], i = 0;
+            // retrieve text records from a remote file
+            for ( i = 0; i < l_index.length ; i ++ ) {
+                let index_record = l_index[ i ],
+                    index_byte_start = dict_arr.index_byte_start[ index_record ],
+                    index_byte_end = dict_arr.index_byte_end[ index_record ];
+                l_range.push( [ index_byte_start + 1, index_byte_end - 1 ] ); // the first byte in each 'file' in the concatanated files is a spacer character (' ')
+            }
+            let text_combined = LoadRemoteTextFile_PartialData( dir_remote_file, l_range ),
+                l_text = [ ];
+            if ( l_range.length == 1 ) {
+                // when partial data of single part is retrieved, add all of the retrieved string to the list
+                l_text.push( text_combined );
+            } else {
+                let l_split = text_combined.split( '\r\n' ).slice( 1, -1 ), index_text = 4; // retrieved data starts from the fifth line (index = 4)
+                for ( i = 0; i < l_range.length; i ++ ) {
+                    l_text.push( l_split[ index_text ] ); 
+                    index_text += 5; // retrieved data is in every fifth line
+                }
+            }
+            return await ParseLocalData( l_text );
         }
-        return await ParseLocalData( l_text );
     }
     async function ParseLocalData( l_text, flag_base64 = true ) { // parse local string or base64 string
         return new Promise( async function( resolve, reject ) { 
@@ -1563,7 +1602,7 @@ startNetwork({ nodes: nodesView, edges: edgesView });
         });
     }
     // caching data from local or remote sources
-    function InitializeCacheForRemoteData( object_cache, dict_arr_index, l_col_key, dir_remote_file ) {
+    function InitializeCacheForRemoteData( object_cache, dict_arr_index, l_col_key, dir_remote_file ) { 
         object_cache.dir_remote_file = dir_remote_file;
         object_cache.dict_arr_index = dict_arr_index;
         // index 'dict_arr_index' with 'l_col_key', combining values from 'l_col_key' with '|'
