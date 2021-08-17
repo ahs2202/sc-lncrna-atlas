@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description"
         content="single cell lncRNA database web application">
-    <title>Single Cell LncRNA Database</title>
+    <title>Single Cell LncRNA Atlas</title>
     
     <!--Bootstrap CSS library-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -147,28 +147,10 @@
         .table_right { text-align: right; }
         .table_add { color: green; }
         .table_minus { color: red; }
-        
-        #button_scroll_to_the_top { /* CSS for Scroll Back To Top Button */
-          display: none; /* Hidden by default */
-          position: fixed; /* Fixed/sticky position */
-          bottom: 20px; /* Place the button at the bottom of the page */
-          right: 30px; /* Place the button 30px from the right */
-          z-index: 99; /* Make sure it does not overlap */
-          border: none; /* Remove borders */
-          outline: none; /* Remove outline */
-          background-color: DarkViolet; /* Set a background color */
-          color: white; /* Text color */
-          cursor: pointer; /* Add a mouse pointer on hover */
-          padding: 15px; /* Some padding */
-          border-radius: 10px; /* Rounded corners */
-          font-size: 18px; /* Increase font size */
-        }
+
 /*     for tidy organization of buttons     */
         .btn { 
             margin-bottom: 0px !important;
-        }
-        #button_scroll_to_the_top:hover {
-          background-color: #555 ; /* Indigo Add a dark-grey background on hover */
         }
         .helpIcon
         {
@@ -306,6 +288,28 @@
             flex: 1 1 750px;
             margin: 10px;
         }
+        
+/* sidebar button (for small window) */
+        #button_open_sidebar { /* CSS for Scroll Back To Top Button */
+          display: none; /* Hidden by default */
+          position: fixed; /* Fixed/sticky position */
+          top: 25px; /* Place the button at the bottom of the page */
+          right: 30px; /* Place the button 30px from the right */
+          z-index: 9999; /* Make sure it does not overlap */
+          outline: none; /* Remove outline */
+          border-width: 1px;
+          border-color: #0a5e5d;
+          background-color: #10918f; /* Set a background color */
+          color: white; /* Text color */
+          cursor: pointer; /* Add a mouse pointer on hover */
+          padding: 15px; /* Some padding */
+          border-radius: 50%; /* Rounded corners */
+          font-size: 18px; /* Increase font size */
+        }
+        #button_open_sidebar:hover {
+          background-color: #555 ; /* Indigo Add a dark-grey background on hover */
+        }
+        
 /*     custom css on Pro Sidebar (https://github.com/azouaoui-med/pro-sidebar-template)  */
         
 #mynetwork {
@@ -338,7 +342,7 @@ code {
             <div class="sidebar-content">
                 <!-- sidebar-brand  -->
 <!--                 <div class="sidebar-item sidebar-brand">
-                    <a href="#">Single Cell lncRNA Database</a>
+                    <a href="#">Single Cell lncRNA Atlas</a>
                 </div> -->
                 <!-- sidebar-header  -->
 <!--                 <div class="sidebar-item sidebar-header d-flex flex-nowrap">
@@ -581,7 +585,7 @@ code {
 <div id="application-current-view"> 
 <div id="single_cell_lncrna_database">
     <nav class="navbar navbar-expand-lg navbar-dark bg-custom-navbar"> <!-- sticky-top -->
-        <a class="navbar-brand mb-0 h1">Single Cell Long noncoding RNA Database</a>
+        <a class="navbar-brand mb-0 h1">Single Cell Long noncoding RNA Atlas</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav_top" aria-controls="navbarNav_top" aria-expanded="false" aria-label="Toggle top navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarNav_top">
             <ul class="navbar-nav">
@@ -603,8 +607,9 @@ code {
             <button type="button" class="btn btn-light bth-sm ml-1 my-0" aria-label="toggle tooltips" data-tooltip-always-active="tooltip" data-placement="bottom" data-html="true" title="Press to <b>on/off</b> help messages on mouse over (hover) of certain buttons" onclick="Toggle_Tooltips( )"><i class="material-icons icon-black" style="font-size:25px">help_outline</i></button>
         </div>
     </nav>
+    <button onclick="Toggle_Sidebar( )" id="button_open_sidebar" title="Open Sidebar"><i class="fas fa-sliders-h"></i></button>
     <div id="container_single_cell_scatter_plot">
-        <div id="controlBox_plotly_graph_molecular_mimicry_map">
+        <div id="controlBox_plotly_graph_main">
             <div class="pos-f-t">
                 <nav class="navbar navbar-dark bg-custom-navbar">
                     <form class="form-inline">
@@ -624,9 +629,16 @@ code {
 <!--                         <button class="btn btn-light btn-sm mx-2 my-0" type="button" data-toggle="button" data-tooltip="tooltip" data-placement="left" data-html="true" title="Press to <b>on/off</b> the <i>legend</i> of the graph" id="button_toggle_legend_UMAP" onclick="Toggle_Legend_UMAP( )"><i class="fas fa-list"></i></button> -->
                     </form>
                     <form class="form-inline mx-auto">
-                        <div class="input-group-prepend mx-2 my-0 my-0" style="height:30px"><h5 id="text_umap_expression" class="input-group-text">Expression</h5></div>
-                        <select class="form-control my-0" id="select_umap_expression_visualization" style="text-align: center; height:30px; line-height: 0px; padding-top: 0px; padding-bottom: 0px;" data-tooltip="tooltip" data-placement="bottom" data-html="true" title="Select how to visualize data on the 'Expression' UMAP plot" onchange="">
-                            <option value="UMAP" selected>UMAP</option>
+                        <div class="input-group-prepend mx-2 my-0 my-0" style="height:30px"><h5 id="text_umap_expression_x" class="input-group-text">X</h5></div>
+                        <select class="form-control my-0" id="select_scatter_x_axis" style="text-align: center; height:30px; line-height: 0px; padding-top: 0px; padding-bottom: 0px;" data-tooltip="tooltip" data-placement="bottom" data-html="true" title="Select X-axis of scatter plots. When selecting 'Gene', click a gene of interest in the list of gene symbol tags in the search box to set the expression of the given gene as the axis." onchange="Change_UMAP_Coordinate( null );">
+                            <option value="__UMAP__" selected>UMAP-1</option>
+                            <option value="Gene">Gene</option>
+<!--                             <option value="Scatter">Scatter</option> -->
+                        </select>
+                        <div class="input-group-prepend mx-2 my-0 my-0" style="height:30px"><h5 id="text_umap_expression_y" class="input-group-text">Y</h5></div>
+                        <select class="form-control my-0" id="select_scatter_y_axis" style="text-align: center; height:30px; line-height: 0px; padding-top: 0px; padding-bottom: 0px;" data-tooltip="tooltip" data-placement="bottom" data-html="true" title="Select Y-axis of scatter plots. When selecting 'Gene', click a gene of interest in the list of gene symbol tags in the search box to set the expression of the given gene as the axis." onchange="Change_UMAP_Coordinate( null );">
+                            <option value="__UMAP__" selected>UMAP-2</option>
+                            <option value="Gene">Gene</option>
 <!--                             <option value="Scatter">Scatter</option> -->
                         </select>
 <!--                         <button class="btn btn-light btn-sm mx-2 my-0" type="button" data-toggle="button" data-tooltip="tooltip" data-placement="bottom" data-html="true" title="Press to <b>on/off</b> the <i>legend</i> of the graph" id="button_umap_expr_left" onclick=""><i class="fas fa-caret-up"></i></button> -->
@@ -668,17 +680,19 @@ code {
                 </div>
             </div>
         </div> 
-        <div id="container_searchbox_main">
-            <input name='tags' id='searchbox_main' placeholder='Enter Gene Symbol' value='Fos,Gapdh,Actb' data-blacklist='.NET,PHP'>
-            <div id="container_plotly_searchbox_main_preview" class="collapse">
-                <!--    space for dropdown list      -->
-    <!--     <br><br><br><br><br><br><br><br><br><br><br><br><br> -->
-                <div id="plotly_searchbox_main_preview"></div>
+        <div id="container_main_panel">
+            <div id="container_searchbox_main">
+                <input name='tags' id='searchbox_main' placeholder='Enter Gene Symbol' value='Fos,Gapdh,Actb' data-blacklist='.NET,PHP'>
             </div>
-        </div>
-        <div class="deconstructed_pancake__parent">
-            <div class="deconstructed_pancake__box"><div id="plotly_sclncrna_expression_umap_annotation"></div></div>
-            <div class="deconstructed_pancake__box"><div id="plotly_sclncrna_expression_umap_expression"></div></div>
+            <div id="container_plotly_searchbox_main_preview_container" style="position:relative">
+                <div id="container_plotly_searchbox_main_preview" class="collapse" style="position:absolute; z-index:990; left:0; top:0;">
+                    <div id="plotly_searchbox_main_preview"></div>
+                </div>
+            </div>
+            <div class="deconstructed_pancake__parent">
+                <div class="deconstructed_pancake__box"><div id="plotly_sclncrna_expression_umap_annotation"></div></div>
+                <div class="deconstructed_pancake__box"><div id="plotly_sclncrna_expression_umap_expression"></div></div>
+            </div>
         </div>
     </div>
     <div>
@@ -689,7 +703,7 @@ code {
         <form class="form-inline">
             <button class="btn btn-light btn-sm mx-1 my-0" id="btn_cell_marker_table" type="button" data-toggle="collapse" data-toggle="button" data-target="#container_panel_datatable_cell_marker" aria-expanded="false" aria-controls="container_panel_datatable_cell_marker" data-tooltip="tooltip" data-placement="bottom" data-html="true" title="Press to <b>toggle</b> <i>a data table</i> displaying <b>cell markers</b> for a given cell cluster" aria-label="">Cell Marker Table</button>
             <button class="btn btn-light btn-sm mx-1 my-0" id="btn_correl_gene_table" type="button" data-toggle="collapse" data-toggle="button" data-target="#container_panel_datatable_correl" aria-expanded="false" aria-controls="container_panel_datatable_correl" data-tooltip="tooltip" data-placement="bottom" data-html="true" title="Press to <b>toggle</b> <i>a data table</i> displaying a list of genes <b>whose expression is correlated with the current gene</b>" aria-label="">Co-expressed Gene Table</button>
-            <button class="btn btn-light btn-sm mx-1 my-0" type="button" data-toggle="collapse" data-toggle="button" data-target="#container_interaction_network" aria-expanded="false" aria-controls="container_interaction_network"data-tooltip="tooltip" data-placement="bottom" data-html="true" title="Press to <b>toggle</b> <i>a table</i> showing <b>predicted/experimental structural properties</b> of aligned query and SARS-CoV-2 target proteins" aria-label="">Interactions</button>
+<!--             <button class="btn btn-light btn-sm mx-1 my-0" type="button" data-toggle="collapse" data-toggle="button" data-target="#container_interaction_network" aria-expanded="false" aria-controls="container_interaction_network"data-tooltip="tooltip" data-placement="bottom" data-html="true" title="Press to <b>toggle</b> <i>a table</i> showing <b>predicted/experimental structural properties</b> of aligned query and SARS-CoV-2 target proteins" aria-label="">Interactions</button> -->
         </form>
     </nav>
     <div class="collapse" id="navbarToggleExternalContent_supplementary_graph_setting_panel">
@@ -723,7 +737,7 @@ code {
         </nav>
         <div id="container_datatable_correl"><table id="datatable_correl" class="display" width="100%"></table></div>
     </div>
-    <div id="container_interaction_network" class="collapse">
+<!--     <div id="container_interaction_network" class="collapse">
         <nav class="navbar navbar-dark bg-custom-navbar">
             <a class="navbar-brand mb-0 h5">Data Tables</a>
             <div class="btn-toolbar" role="toolbar">
@@ -783,7 +797,7 @@ code {
                 <div id="mynetwork"></div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     
 
@@ -822,7 +836,7 @@ code {
   <div class="modal-dialog" style="width: 100%!important;height: 100%!important;margin: 0!important;padding: 0!important;max-width:none !important;">
     <div class="modal-content" style="height: auto !important; min-height: 100% !important; border-radius: 0 !important;min-width: 100% !important;">
         <nav class="navbar navbar-expand-lg navbar-dark bg-custom-navbar"> <!-- sticky-top -->
-            <a class="navbar-brand mb-0 h1">Single Cell Long noncoding RNA Database</a>
+            <a class="navbar-brand mb-0 h1">Single Cell Long noncoding RNA Atlas</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav_top" aria-controls="navbarNav_top" aria-expanded="false" aria-label="Toggle top navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarNav_top">
                 <ul class="navbar-nav">
@@ -917,134 +931,134 @@ var DragSort=function(t){
         Loading_Screen( false );
     }    
         
-const nodeFilterSelector = document.getElementById("nodeFilterSelect");
-const edgeFilters = document.getElementsByName("edgesFilter");
+// const nodeFilterSelector = document.getElementById("nodeFilterSelect");
+// const edgeFilters = document.getElementsByName("edgesFilter");
 
-function startNetwork(data) {
-  const container = document.getElementById("mynetwork");
-  const options = {};
-  new vis.Network(container, data, options);
-}
+// function startNetwork(data) {
+//   const container = document.getElementById("mynetwork");
+//   const options = {};
+//   new vis.Network(container, data, options);
+// }
 
-/**
- * In this example we do not mutate nodes or edges source data.
- */
-const nodes = new vis.DataSet([
-  { id: 1, label: "Eric Cartman", age: "kid", gender: "male" },
-  { id: 2, label: "Stan Marsh", age: "kid", gender: "male" },
-  { id: 3, label: "Wendy Testaburger", age: "kid", gender: "female" },
-  { id: 4, label: "Mr Mackey", age: "adult", gender: "male" },
-  { id: 5, label: "Sharon Marsh", age: "adult", gender: "female" },
-]);
-const edges = new vis.DataSet([
-  {
-    from: 1,
-    to: 2,
-    relation: "friend",
-    arrows: "to, from",
-    color: { color: "red" },
-  },
-  {
-    from: 1,
-    to: 3,
-    relation: "friend",
-    arrows: "to, from",
-    color: { color: "red" },
-  },
-  {
-    from: 2,
-    to: 3,
-    relation: "friend",
-    arrows: "to, from",
-    color: { color: "red" },
-  },
-  {
-    from: 5,
-    to: 2,
-    relation: "parent",
-    arrows: "to",
-    color: { color: "green" },
-  },
-  {
-    from: 4,
-    to: 1,
-    relation: "teacher",
-    arrows: "to",
-    color: { color: "blue" },
-  },
-  {
-    from: 4,
-    to: 2,
-    relation: "teacher",
-    arrows: "to",
-    color: { color: "blue" },
-  },
-  {
-    from: 4,
-    to: 3,
-    relation: "teacher",
-    arrows: "to",
-    color: { color: "blue" },
-  },
-]);
+// /**
+//  * In this example we do not mutate nodes or edges source data.
+//  */
+// const nodes = new vis.DataSet([
+//   { id: 1, label: "Eric Cartman", age: "kid", gender: "male" },
+//   { id: 2, label: "Stan Marsh", age: "kid", gender: "male" },
+//   { id: 3, label: "Wendy Testaburger", age: "kid", gender: "female" },
+//   { id: 4, label: "Mr Mackey", age: "adult", gender: "male" },
+//   { id: 5, label: "Sharon Marsh", age: "adult", gender: "female" },
+// ]);
+// const edges = new vis.DataSet([
+//   {
+//     from: 1,
+//     to: 2,
+//     relation: "friend",
+//     arrows: "to, from",
+//     color: { color: "red" },
+//   },
+//   {
+//     from: 1,
+//     to: 3,
+//     relation: "friend",
+//     arrows: "to, from",
+//     color: { color: "red" },
+//   },
+//   {
+//     from: 2,
+//     to: 3,
+//     relation: "friend",
+//     arrows: "to, from",
+//     color: { color: "red" },
+//   },
+//   {
+//     from: 5,
+//     to: 2,
+//     relation: "parent",
+//     arrows: "to",
+//     color: { color: "green" },
+//   },
+//   {
+//     from: 4,
+//     to: 1,
+//     relation: "teacher",
+//     arrows: "to",
+//     color: { color: "blue" },
+//   },
+//   {
+//     from: 4,
+//     to: 2,
+//     relation: "teacher",
+//     arrows: "to",
+//     color: { color: "blue" },
+//   },
+//   {
+//     from: 4,
+//     to: 3,
+//     relation: "teacher",
+//     arrows: "to",
+//     color: { color: "blue" },
+//   },
+// ]);
 
-/**
- * filter values are updated in the outer scope.
- * in order to apply filters to new values, DataView.refresh() should be called
- */
-let nodeFilterValue = "";
-const edgesFilterValues = {
-  friend: true,
-  teacher: true,
-  parent: true,
-};
+// /**
+//  * filter values are updated in the outer scope.
+//  * in order to apply filters to new values, DataView.refresh() should be called
+//  */
+// let nodeFilterValue = "";
+// const edgesFilterValues = {
+//   friend: true,
+//   teacher: true,
+//   parent: true,
+// };
 
-/*
-      filter function should return true or false
-      based on whether item in DataView satisfies a given condition.
-    */
-const nodesFilter = (node) => {
-  if (nodeFilterValue === "") {
-    return true;
-  }
-  switch (nodeFilterValue) {
-    case "kid":
-      return node.age === "kid";
-    case "adult":
-      return node.age === "adult";
-    case "male":
-      return node.gender === "male";
-    case "female":
-      return node.gender === "female";
-    default:
-      return true;
-  }
-};
-const edgesFilter = (edge) => {
-  return edgesFilterValues[edge.relation];
-};
-const nodesView = new vis.DataView(nodes, { filter: nodesFilter });
-const edgesView = new vis.DataView(edges, { filter: edgesFilter });
+// /*
+//       filter function should return true or false
+//       based on whether item in DataView satisfies a given condition.
+//     */
+// const nodesFilter = (node) => {
+//   if (nodeFilterValue === "") {
+//     return true;
+//   }
+//   switch (nodeFilterValue) {
+//     case "kid":
+//       return node.age === "kid";
+//     case "adult":
+//       return node.age === "adult";
+//     case "male":
+//       return node.gender === "male";
+//     case "female":
+//       return node.gender === "female";
+//     default:
+//       return true;
+//   }
+// };
+// const edgesFilter = (edge) => {
+//   return edgesFilterValues[edge.relation];
+// };
+// const nodesView = new vis.DataView(nodes, { filter: nodesFilter });
+// const edgesView = new vis.DataView(edges, { filter: edgesFilter });
 
-nodeFilterSelector.addEventListener("change", (e) => {
-  // set new value to filter variable
-  nodeFilterValue = e.target.value;
-  /*
-        refresh DataView,
-        so that its filter function is re-calculated with the new variable
-      */
-  nodesView.refresh();
-});
+// nodeFilterSelector.addEventListener("change", (e) => {
+//   // set new value to filter variable
+//   nodeFilterValue = e.target.value;
+//   /*
+//         refresh DataView,
+//         so that its filter function is re-calculated with the new variable
+//       */
+//   nodesView.refresh();
+// });
 
-edgeFilters.forEach((filter) =>
-  filter.addEventListener("change", (e) => {
-    const { value, checked } = e.target;
-    edgesFilterValues[value] = checked;
-    edgesView.refresh();
-  })
-);
+// edgeFilters.forEach((filter) =>
+//   filter.addEventListener("change", (e) => {
+//     const { value, checked } = e.target;
+//     edgesFilterValues[value] = checked;
+//     edgesView.refresh();
+//   })
+// );
 
-startNetwork({ nodes: nodesView, edges: edgesView });
+// startNetwork({ nodes: nodesView, edges: edgesView });
     
 // Bootstrap component control
     var flag_tooltip_active_Toggle_Tooltips = true;
@@ -1707,7 +1721,7 @@ startNetwork({ nodes: nodesView, edges: edgesView });
                 var imgageData = canvas.toDataURL("image/png");
                 // Now browser starts downloading it instead of just showing it
                 var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
-                $("#anchor-current-view").attr("download", "Single Cell long-noncoding RNA Database-screenshot.png").attr( "href", newData );
+                $("#anchor-current-view").attr("download", "Single Cell long-noncoding RNA Atlas-screenshot.png").attr( "href", newData );
                 $("#anchor-current-view").get( 0 ).click( ) // download image file
          });
     }
@@ -1717,7 +1731,7 @@ startNetwork({ nodes: nodesView, edges: edgesView });
     function Initialize_SearchBox_Main( ) {
         tagify_searchbox_main = new Tagify( searchbox_main, {
             dropdown: { 
-                maxItems: 100,
+                maxItems: parseInt( ( window.innerHeight > 1500 ) ? 100 : Math.max( 1, ( window.innerHeight - 500 ) / 100 ) ), // set max number of dropdown items according to the window height
                 enabled: 0,
                 position: 'text', // enable minimal sizing of a dropdown list
                 highlightFirst: true, // enable enhanced autocomplete feature
@@ -1730,14 +1744,23 @@ startNetwork({ nodes: nodesView, edges: edgesView });
         tagify_searchbox_main
               .on( 'add', e => { 
             console.log( "onAddTag: ", e.detail.data.value );
-            object_data.main.gene.gene_symbol = e.detail.data.value;
-            UpdateGene( flag_restyle = true );
+            if ( object_data.main.scatter.flag_waiting_selection_of_gene ) { // use the selected gene as one of the axes of the scatter plot
+                object_data.main.scatter.gene_symbol_selected = e.detail.data.value;
+                Change_UMAP_Coordinate( null );
+            } else { // use the selected gene to color points
+                object_data.main.gene.gene_symbol = e.detail.data.value;
+                UpdateGene( flag_restyle = true );
+            }
         } )
-        
               .on( 'click', e => { 
             console.log( "onClickTag: ", e.detail.data.value );
-            object_data.main.gene.gene_symbol = e.detail.data.value;
-            UpdateGene( flag_restyle = true );
+            if ( object_data.main.scatter.flag_waiting_selection_of_gene ) { // use the selected gene as one of the axes of the scatter plot
+                object_data.main.scatter.gene_symbol_selected = e.detail.data.value;
+                Change_UMAP_Coordinate( null );
+            } else { // use the selected gene to color points
+                object_data.main.gene.gene_symbol = e.detail.data.value;
+                UpdateGene( flag_restyle = true );
+            }
         } )
               .on( 'remove', e => { console.log( "onRemoveTag: ", e.detail ); } )
               .on('input', e => { // preview during typing
@@ -1849,32 +1872,110 @@ startNetwork({ nodes: nodesView, edges: edgesView });
     object_data.main.cell_marker = { data : { }, data_size : 5 };
     object_data.main.gene.correl = { data : { }, data_size : 10 };
     object_data.main.umap = { tissue : 'not_drawn' }
+    object_data.main.scatter = { x_label : 'UMAP-1', y_label : 'UMAP-2', x_axis_option : '__UMAP__', y_axis_option : '__UMAP__', x_axis_col_name : 'UMAP_1', y_axis_col_name : 'UMAP_2', flag_waiting_selection_of_gene : false, gene_symbol_selected : '', flag_axis_using_gene_expr : true }; // initialize axis of the scatter plot
     object_data.setting.expression = { };
     object_data.setting.expression.n_digits_below_floating_point = 3; // number of digits below floading point of the original expression values (converted to integer by multiplying 1000 during delivery of the data)
     object_data.main.datatable = { 'datatable_cell_marker' : { df : null, name : 'cell_marker' }, 'datatable_correl' : { df : null, name : 'correl_gene' } };
     
-    function Change_UMAP_Coordinate( str_tissue ) { 
-        // change UMAP coordinates to the UMAP coordinates of the given tissue
-        if ( str_tissue == object_data.main.umap.tissue ) {
-            console.log( "[Change_UMAP_Coordinate] UMAP coordinates of", str_tissue, "already drawn, exiting" );
-            return -1;
-        }
-        object_data.main.umap.tissue = str_tissue; // update str_tissue of the main UMAP graph
-        object_data.main.umap.flag_all_tissues = str_tissue == 'All'; // flag indicating whether UMAP coordinates of all tissues are used.
-        let dictarr = object_data.file.dict_name_file_to_parsed_data[ "cells.all.tsv.gz.base64.txt" ];
-        if ( object_data.main.umap.flag_all_tissues ) {
-            object_data.main.umap.dictarr = dictarr;
-        } else {
-            // build a boolean index for retrieving UMAP coordinates (and other data) for the current tissue
-            let l_tissue = dictarr[ "tissue" ],
-                l_bool_index = [ ],
-                i = 0;
-            for ( i = 0; i < l_tissue.length; i ++ ) {
-                l_bool_index.push( l_tissue[ i ] == str_tissue );
+    async function Change_UMAP_Coordinate( str_tissue = null ) { 
+        if ( str_tissue === null ) {
+            // change x or y-axis of scatter plot using the current setting
+            let select_x_axis = $id( 'select_scatter_x_axis' ),
+                select_y_axis = $id( 'select_scatter_y_axis' ),
+                x_axis_option_current = select_x_axis.value,
+                y_axis_option_current = select_y_axis.value,
+                x_axis_option_previous = object_data.main.scatter.x_axis_option,
+                y_axis_option_previous = object_data.main.scatter.y_axis_option,
+                flag_update_x_axis = x_axis_option_current != x_axis_option_previous,
+                flag_update_y_axis = y_axis_option_current != y_axis_option_previous,
+                flag_update_axis = flag_update_x_axis | flag_update_y_axis;
+            if ( ! flag_update_axis ) {
+                console.log( "[Change_UMAP_Coordinate] no change in x- or y-axis setting detected, exiting" );
+                return -1
             }
-            object_data.main.umap.l_bool_index_tissue = l_bool_index;
-            object_data.main.umap.dictarr = DictArrBooleanIndexing( dictarr, l_bool_index );
+            if ( flag_update_x_axis ) { // update x-axis
+                let option_gene = select_x_axis.options[ 1 ];
+                if( x_axis_option_current == '__UMAP__' ) {
+                    object_data.main.scatter.x_label = 'UMAP-1';
+                    object_data.main.scatter.x_axis_option = x_axis_option_current;
+                    object_data.main.scatter.x_axis_col_name = '__UMAP__';
+                    // reset select option
+                    option_gene.value = 'Gene';
+                    option_gene.innerHTML = 'Gene';
+                    object_data.main.scatter.flag_axis_using_gene_expr = false;
+                } else if ( object_data.main.scatter.flag_waiting_selection_of_gene ) {
+                    // update setting for scatter plot
+                    let gene_symbol = object_data.main.scatter.gene_symbol_selected;
+                    object_data.main.scatter.flag_waiting_selection_of_gene = false; // reset flag
+                    object_data.main.scatter.x_label = gene_symbol;
+                    object_data.main.scatter.x_axis_option = gene_symbol;
+                    object_data.main.scatter.x_axis_col_name = '__x_axis_gene_expr__';
+                    object_data.main.scatter.flag_axis_using_gene_expr = true;
+                    // update select option
+                    option_gene.value = gene_symbol;
+                    option_gene.innerHTML = gene_symbol;
+                } else {
+                    object_data.main.scatter.flag_waiting_selection_of_gene = true;
+                    // lock selection button to allow the selection of axis by clicking gene_symbol
+                    select_x_axis.disabled = true;
+                    select_y_axis.disabled = true;
+                    console.log( '[Change_UMAP_Coordinate] (X-axis) waiting a gene_symbol to be selected' );
+                    return 1;
+                }
+            } else {
+                let option_gene = select_y_axis.options[ 1 ];
+                if( y_axis_option_current == '__UMAP__' ) {
+                    object_data.main.scatter.y_label = 'UMAP-2';
+                    object_data.main.scatter.y_axis_option = y_axis_option_current;
+                    object_data.main.scatter.y_axis_col_name = '__UMAP__';
+                    // reset select option
+                    option_gene.value = 'Gene';
+                    option_gene.innerHTML = 'Gene';
+                    object_data.main.scatter.flag_axis_using_gene_expr = false;
+                } else if ( object_data.main.scatter.flag_waiting_selection_of_gene ) {
+                    // update setting for scatter plot
+                    let gene_symbol = object_data.main.scatter.gene_symbol_selected;
+                    object_data.main.scatter.flag_waiting_selection_of_gene = false; // reset flag
+                    object_data.main.scatter.y_label = gene_symbol;
+                    object_data.main.scatter.y_axis_option = gene_symbol;
+                    object_data.main.scatter.y_axis_col_name = '__y_axis_gene_expr__';
+                    object_data.main.scatter.flag_axis_using_gene_expr = true;
+                    // update select option
+                    option_gene.value = gene_symbol;
+                    option_gene.innerHTML = gene_symbol;
+                } else {
+                    object_data.main.scatter.flag_waiting_selection_of_gene = true;
+                    // lock selection button to allow the selection of axis by clicking gene_symbol
+                    select_x_axis.disabled = true;
+                    select_y_axis.disabled = true;
+                    console.log( '[Change_UMAP_Coordinate] (Y-axis) waiting a gene_symbol to be selected' );
+                    return 1;
+                }
+            }
+        } else { 
+            // change UMAP coordinates to the UMAP coordinates of the given tissue
+            if ( str_tissue == object_data.main.umap.tissue ) {
+                console.log( "[Change_UMAP_Coordinate] UMAP coordinates of", str_tissue, "already drawn, exiting" );
+                return -1;
+            }
+            object_data.main.umap.tissue = str_tissue; // update str_tissue of the main UMAP graph
+            object_data.main.umap.flag_all_tissues = str_tissue == 'All'; // flag indicating whether UMAP coordinates of all tissues are used.
+            let dictarr = object_data.file.dict_name_file_to_parsed_data[ "cells.all.tsv.gz.base64.txt" ];
+            if ( object_data.main.umap.flag_all_tissues ) {
+                object_data.main.umap.dictarr = dictarr;
+            } else {
+                // build a boolean index for retrieving UMAP coordinates (and other data) for the current tissue
+                let l_tissue = dictarr[ "tissue" ],
+                    l_bool_index = [ ],
+                    i = 0;
+                for ( i = 0; i < l_tissue.length; i ++ ) {
+                    l_bool_index.push( l_tissue[ i ] == str_tissue );
+                }
+                object_data.main.umap.l_bool_index_tissue = l_bool_index;
+                object_data.main.umap.dictarr = DictArrBooleanIndexing( dictarr, l_bool_index );
+            }
         }
+        // Update coordinates of scatter plots
         // draw cell annotation plot
         PlotCellAnnotation( );
         // draw expression plot
@@ -1891,7 +1992,9 @@ startNetwork({ nodes: nodesView, edges: edgesView });
         plotSingleCellExpressionViolin = document.getElementById( "plotly_sclncrna_expression_violine" );
     object_data.setting.plot.single_cell_scatter = { 
         max_height: 750,
-        marker_size: 3
+        marker_size: 3,
+        int_factor_axis_range_to_marker_size : 30, 
+        int_factor_marker_size_multiply : 3
     }; // defsult single-cell scatter plot setting
     object_data.setting.plot.single_cell_violin = { };
     var config_plotly = { responsive: true, displaylogo: false, toImageButtonOptions: { hoverClosestCartesian: true, format: 'png', filename: name_application, height: 750, width: 1100, scale: 1 }, modeBarButtonsToRemove: [ 'autoScale2d', 'toggleSpikelines', 'hoverCompareCartesian', 'hoverClosestCartesian' ] } // flexible plot width according to the window size  // do not display plotly logo
@@ -1955,15 +2058,42 @@ startNetwork({ nodes: nodesView, edges: edgesView });
     
         let dictarr = object_data.main.umap.dictarr,
             l_expr = object_data.main.gene.expr.data[ gene_symbol ].data,
-            col_name_umap_1 = 'UMAP_1',
-            col_name_umap_2 = 'UMAP_2',
             col_name_cell_type = 'cell_type';
         if ( ! object_data.main.umap.flag_all_tissues ) {
             l_expr = ArrayBooleanIndexing( l_expr, object_data.main.umap.l_bool_index_tissue );
-            col_name_umap_1 = 'tissue_UMAP_1';
-            col_name_umap_2 = 'tissue_UMAP_2';
             col_name_cell_type = 'tissue_cell_type';
         }
+        // update x-axis values from gene expression data
+        if ( object_data.main.scatter.x_axis_col_name == '__x_axis_gene_expr__' ) {
+            let gene_symbol_x_axis = object_data.main.scatter.x_axis_option,
+                l_expr_x_axis = [ ];
+            await UpdateCache( object_cache, preprocess_expr, [ gene_symbol_x_axis ] ); // retrieve the single cells expression data of the current gene.
+            l_expr_x_axis = object_data.main.gene.expr.data[ gene_symbol_x_axis ].data;
+            if ( ! object_data.main.umap.flag_all_tissues ) {
+                l_expr_x_axis = ArrayBooleanIndexing( l_expr_x_axis, object_data.main.umap.l_bool_index_tissue );
+            }
+            dictarr[ '__x_axis_gene_expr__' ] = l_expr_x_axis;
+        } else {
+            object_data.main.scatter.x_axis_col_name = ( object_data.main.umap.flag_all_tissues ) ? 'UMAP_1' : 'tissue_UMAP_1';
+        }
+        if ( object_data.main.scatter.y_axis_col_name == '__y_axis_gene_expr__' ) {
+            let gene_symbol_y_axis = object_data.main.scatter.y_axis_option,
+                l_expr_y_axis = [ ];
+            await UpdateCache( object_cache, preprocess_expr, [ gene_symbol_y_axis ] ); // retrieve the single cells expression data of the current gene.
+            l_expr_y_axis = object_data.main.gene.expr.data[ gene_symbol_y_axis ].data;
+            if ( ! object_data.main.umap.flag_all_tissues ) {
+                l_expr_y_axis = ArrayBooleanIndexing( l_expr_y_axis, object_data.main.umap.l_bool_index_tissue );
+            }
+            dictarr[ '__y_axis_gene_expr__' ] = l_expr_y_axis;
+        } else {
+            object_data.main.scatter.y_axis_col_name = ( object_data.main.umap.flag_all_tissues ) ? 'UMAP_2' : 'tissue_UMAP_2';
+        }
+        // complete the selection process by re-enabling the selection button
+        $id( 'select_scatter_x_axis' ).disabled = false; 
+        $id( 'select_scatter_y_axis' ).disabled = false; 
+        object_data.setting.plot.single_cell_scatter.int_factor_axis_range_to_marker_size = object_data.main.scatter.flag_axis_using_gene_expr ? 7 : 30;
+        object_data.setting.plot.single_cell_scatter.marker_size = ResponsiveMarkerSize( plotSingleCellAnnotation, object_data.setting.plot.single_cell_scatter.int_factor_axis_range_to_marker_size, object_data.setting.plot.single_cell_scatter.int_factor_marker_size_multiply );
+        console.log( object_data.setting.plot.single_cell_scatter.marker_size );
         if ( flag_restyle ) { // restyle existing plot
             console.log( "[UpdateGene] restyling existing plot for", gene_symbol );
             let update = { 
@@ -1971,8 +2101,8 @@ startNetwork({ nodes: nodesView, edges: edgesView });
                                 "tissue: <b>%{customdata[1]}</b>",
                                 "cluster: <b>%{customdata[0]}</b>",
                                 "",
-                                "UMAP-1: <b>%{x:.2f}</b>",
-                                "UMAP-2: <b>%{y:.2f}</b>",
+                                object_data.main.scatter.x_label + ": <b>%{x:.2f}</b>",
+                                object_data.main.scatter.y_label + ": <b>%{y:.2f}</b>",
                                 "%{customdata[2]}",
                                 "<extra></extra>" ].join( "<br>" ),
                 marker: { 
@@ -1988,8 +2118,8 @@ startNetwork({ nodes: nodesView, edges: edgesView });
             let trace = {
                 mode: 'markers',
                 type: 'scattergl',
-                x: dictarr[ col_name_umap_1 ],
-                y: dictarr[ col_name_umap_2 ],
+                x: dictarr[ object_data.main.scatter.x_axis_col_name ],
+                y: dictarr[ object_data.main.scatter.y_axis_col_name ],
                 customdata: ArrayTranspose( [ dictarr[ col_name_cell_type ],
                                               dictarr[ "tissue" ],
                                               dictarr[ 'id_cell' ]
@@ -1998,8 +2128,8 @@ startNetwork({ nodes: nodesView, edges: edgesView });
                                 "tissue: <b>%{customdata[1]}</b>",
                                 "cell type: <b>%{customdata[0]}</b>",
                                 "",
-                                "UMAP-1: <b>%{x:.2f}</b>",
-                                "UMAP-2: <b>%{y:.2f}</b>",
+                                object_data.main.scatter.x_label + ": <b>%{x:.2f}</b>",
+                                object_data.main.scatter.y_label + ": <b>%{y:.2f}</b>",
                                 "%{customdata[2]}",
                                 "<extra></extra>" ].join( "<br>" ),
                 marker: { 
@@ -2013,9 +2143,12 @@ startNetwork({ nodes: nodesView, edges: edgesView });
                     width: 0
                 },
             };
-            Plotly.newPlot( plotSingleCellExpression, [ trace ], { margin: { l: 65, r: 65, b: 90, t: 50, pad: 4 }, xaxis: { title : "UMAP-1", zeroline: false }, yaxis: { title : "UMAP-2", zeroline: false }, hovermode: "closest" }, { ... config_plotly, filename: name_application + '__Expression_of_' + gene_symbol, height: 1100, width: 1100 } ); // draw scatter plot of the annotation
+            Plotly.newPlot( plotSingleCellExpression, [ trace ], { margin: { l: 65, r: 65, b: 90, t: 50, pad: 4 }, xaxis: { title : object_data.main.scatter.x_label, zeroline: false }, yaxis: { title : object_data.main.scatter.y_label, zeroline: false }, hovermode: "closest" }, { ... config_plotly, filename: name_application + '__Expression_of_' + gene_symbol, height: 1100, width: 1100 } ); // draw scatter plot of the annotation
             plotSingleCellExpression.on( "plotly_relayout" , function( ed ) {
                 PlotlySynchronizedLayout( ed, l_div_plotly );
+            });
+            plotSingleCellExpression.on( 'plotly_click', async function( data ) {
+                PlotlyCallBackSingleCellMarker( data.points[ 0 ] );
             });
         }
         // Update correlated genes 
@@ -2095,7 +2228,7 @@ startNetwork({ nodes: nodesView, edges: edgesView });
         "Liver" : "#00BFC4", 
         "Thymus" : "#F564E3", 
     }; // define color for each tissue
-    function PlotCellAnnotation( flag_restyle = false ) { // draw a new plot by default
+    async function PlotCellAnnotation( flag_restyle = false ) { // draw a new plot by default
         let str_tissue = object_data.main.umap.tissue, // retrieve current tissue
             option_selected = Select_Get_Selected_Option_Using_ID( "select_umap_annotation_data" ),
             str_name_data_annotation = option_selected.value, // retrieve name of data for annotations
@@ -2103,9 +2236,8 @@ startNetwork({ nodes: nodesView, edges: edgesView });
         
         plotSingleCellAnnotation.style.height = Math.min( plotSingleCellAnnotation.offsetWidth, object_data.setting.plot.single_cell_scatter.max_height ) + 'px'; // responsive height ( width = height )
         // demonstration
+        let object_cache = object_data.main.gene.expr;
         let dictarr = object_data.main.umap.dictarr, 
-            col_name_umap_1 = ( object_data.main.umap.flag_all_tissues ) ? 'UMAP_1' : 'tissue_UMAP_1',
-            col_name_umap_2 = ( object_data.main.umap.flag_all_tissues ) ? 'UMAP_2' : 'tissue_UMAP_2',
             col_name_cell_type = ( object_data.main.umap.flag_all_tissues ) ? 'cell_type' : 'tissue_cell_type',
             l_color = [ ], marker_colormap = { }, str_hovertemplate_additional_line = '';
         // set color 
@@ -2122,14 +2254,44 @@ startNetwork({ nodes: nodesView, edges: edgesView });
             str_hovertemplate_additional_line = "<b>" + str_name_option_selected + "</b>: <b>%{marker.color:." + ( ( str_name_option_selected == 'MT Percentage' ) ? 1 : 0 ).toString( ) + "f}</b><br>"; // only MT percentage data will be shown as floating point numbers
             break;
         }
+        // update x-axis values from gene expression data
+        if ( object_data.main.scatter.x_axis_col_name == '__x_axis_gene_expr__' ) {
+            let gene_symbol_x_axis = object_data.main.scatter.x_axis_option,
+                l_expr_x_axis = [ ];
+            await UpdateCache( object_cache, preprocess_expr, [ gene_symbol_x_axis ] ); // retrieve the single cells expression data of the current gene.
+            l_expr_x_axis = object_data.main.gene.expr.data[ gene_symbol_x_axis ].data;
+            if ( ! object_data.main.umap.flag_all_tissues ) {
+                l_expr_x_axis = ArrayBooleanIndexing( l_expr_x_axis, object_data.main.umap.l_bool_index_tissue );
+            }
+            dictarr[ '__x_axis_gene_expr__' ] = l_expr_x_axis;
+        } else {
+            object_data.main.scatter.x_axis_col_name = ( object_data.main.umap.flag_all_tissues ) ? 'UMAP_1' : 'tissue_UMAP_1';
+        }
+        if ( object_data.main.scatter.y_axis_col_name == '__y_axis_gene_expr__' ) {
+            let gene_symbol_y_axis = object_data.main.scatter.y_axis_option,
+                l_expr_y_axis = [ ];
+            await UpdateCache( object_cache, preprocess_expr, [ gene_symbol_y_axis ] ); // retrieve the single cells expression data of the current gene.
+            l_expr_y_axis = object_data.main.gene.expr.data[ gene_symbol_y_axis ].data;
+            if ( ! object_data.main.umap.flag_all_tissues ) {
+                l_expr_y_axis = ArrayBooleanIndexing( l_expr_y_axis, object_data.main.umap.l_bool_index_tissue );
+            }
+            dictarr[ '__y_axis_gene_expr__' ] = l_expr_y_axis;
+        }  else {
+            object_data.main.scatter.y_axis_col_name = ( object_data.main.umap.flag_all_tissues ) ? 'UMAP_2' : 'tissue_UMAP_2';
+        }
+        // complete the selection process by re-enabling the selection button
+        $id( 'select_scatter_x_axis' ).disabled = false; 
+        $id( 'select_scatter_y_axis' ).disabled = false; 
+        object_data.setting.plot.single_cell_scatter.int_factor_axis_range_to_marker_size = object_data.main.scatter.flag_axis_using_gene_expr ? 7 : 30;
+        object_data.setting.plot.single_cell_scatter.marker_size = ResponsiveMarkerSize( plotSingleCellAnnotation, object_data.setting.plot.single_cell_scatter.int_factor_axis_range_to_marker_size, object_data.setting.plot.single_cell_scatter.int_factor_marker_size_multiply );
         if ( flag_restyle ) { // restyle existing plot
             console.log( "[PlotCellAnnotation] restyling existing plot for", str_name_data_annotation );
             let update = {
                 hovertemplate: [ str_hovertemplate_additional_line + "tissue: <b>%{customdata[1]}</b>",
                                 "cell type: <b>%{customdata[0]}</b>",
                                 "",
-                                "UMAP-1: <b>%{x:.2f}</b>",
-                                "UMAP-2: <b>%{y:.2f}</b>",
+                                object_data.main.scatter.x_label + ": <b>%{x:.2f}</b>",
+                                object_data.main.scatter.y_label + ": <b>%{y:.2f}</b>",
                                 "%{customdata[2]}",
                                 "<extra></extra>" ].join( "<br>" ),
                 marker: { 
@@ -2143,8 +2305,8 @@ startNetwork({ nodes: nodesView, edges: edgesView });
             let trace = {
                 mode: 'markers',
                 type: 'scattergl',
-                x: dictarr[ col_name_umap_1 ],
-                y: dictarr[ col_name_umap_2 ],
+                x: dictarr[ object_data.main.scatter.x_axis_col_name ],
+                y: dictarr[ object_data.main.scatter.y_axis_col_name ],
                 customdata: ArrayTranspose( [ dictarr[ col_name_cell_type ],
                                               dictarr[ "tissue" ],
                                               dictarr[ 'id_cell' ]
@@ -2152,8 +2314,8 @@ startNetwork({ nodes: nodesView, edges: edgesView });
                 hovertemplate: [ str_hovertemplate_additional_line + "tissue: <b>%{customdata[1]}</b>",
                                 "cell type: <b>%{customdata[0]}</b>",
                                 "",
-                                "UMAP-1: <b>%{x:.2f}</b>",
-                                "UMAP-2: <b>%{y:.2f}</b>",
+                                object_data.main.scatter.x_label + ": <b>%{x:.2f}</b>",
+                                object_data.main.scatter.y_label + ": <b>%{y:.2f}</b>",
                                 "%{customdata[2]}",
                                 "<extra></extra>" ].join( "<br>" ),
                 marker: { 
@@ -2165,24 +2327,11 @@ startNetwork({ nodes: nodesView, edges: edgesView });
                 },
             };
             trace.marker = { ... trace.marker, ... marker_colormap }; // update setting for showing colormap
-            Plotly.newPlot( plotSingleCellAnnotation, [ trace ], { margin: { l: 65, r: 65, b: 90, t: 50, pad: 4 }, xaxis: { title : "UMAP-1", zeroline: false }, yaxis: { title : "UMAP-2", zeroline: false }, hovermode: "closest" }, { ... config_plotly, filename: name_application + '__Annotation', height: 1100, width: 1100 } ); // draw scatter plot of the annotation
+            Plotly.newPlot( plotSingleCellAnnotation, [ trace ], { margin: { l: 65, r: 65, b: 90, t: 50, pad: 4 }, xaxis: { title : object_data.main.scatter.x_label, zeroline: false }, yaxis: { title : object_data.main.scatter.y_label, zeroline: false }, hovermode: "closest" }, { ... config_plotly, filename: name_application + '__Annotation', height: 1100, width: 1100 } ); // draw scatter plot of the annotation
             
             // add interactions
             plotSingleCellAnnotation.on( 'plotly_click', async function( data ) {
-                let clicked_point = data.points[ 0 ]; // only use the first point in the returned list of points to show a table containing alignment metrics and details
-                console.log( clicked_point );
-                let index_point = clicked_point.pointIndex, dictarr = object_data.main.umap.dictarr;
-                let str_tissue = dictarr[ "tissue" ][ index_point ], str_tissue_cell_type = dictarr[ "tissue_cell_type" ][ index_point ], str_key = str_tissue + '|' + str_tissue_cell_type;
-                console.log( str_key );
-                let object_cache = object_data.main.cell_marker;
-                await UpdateCache( object_cache, null, [ str_key ] ); // update cache of cell marker data
-                Display_DataTable( 'container_datatable_cell_marker', 'datatable_cell_marker', object_cache.data[ str_key ].data, [ 'p_val_adj', 'gene', 'avg_logFC', 'pct.1', 'pct.2' ] );
-                // change panel name
-                document.getElementById( "panel_name_cellmarker").innerHTML = "Cell Marker Table for " + str_tissue_cell_type + ' (' + str_tissue + ')';
-                // change datatable name 
-                object_data.main.datatable[ 'datatable_cell_marker' ].name = `cell_marker.${str_tissue}.${str_tissue_cell_type}`;
-                // show datatable panel
-                $( "#container_panel_datatable_cell_marker" ).collapse( 'show' )
+                PlotlyCallBackSingleCellMarker( data.points[ 0 ] );
             });
             plotSingleCellAnnotation.on( "plotly_relayout" , function( ed ) {
                 PlotlySynchronizedLayout( ed, l_div_plotly );
@@ -2190,6 +2339,30 @@ startNetwork({ nodes: nodesView, edges: edgesView });
         }
     }
     
+    async function PlotlyCallBackSingleCellMarker( clicked_point ) { // load the cell-type marker gene table of the cell-type to which the clicked cell belongs
+        console.log( clicked_point );
+        let index_point = clicked_point.pointIndex, dictarr = object_data.main.umap.dictarr;
+        let str_tissue = dictarr[ "tissue" ][ index_point ], str_tissue_cell_type = dictarr[ "tissue_cell_type" ][ index_point ], str_key = str_tissue + '|' + str_tissue_cell_type;
+        console.log( str_key );
+        let object_cache = object_data.main.cell_marker;
+        await UpdateCache( object_cache, null, [ str_key ] ); // update cache of cell marker data
+        Display_DataTable( 'container_datatable_cell_marker', 'datatable_cell_marker', object_cache.data[ str_key ].data, [ 'p_val_adj', 'gene', 'avg_logFC', 'pct.1', 'pct.2' ] );
+        // change panel name
+        document.getElementById( "panel_name_cellmarker").innerHTML = "Cell Marker Table for " + str_tissue_cell_type + ' (' + str_tissue + ')';
+        // change datatable name 
+        object_data.main.datatable[ 'datatable_cell_marker' ].name = `cell_marker.${str_tissue}.${str_tissue_cell_type}`;
+        // show datatable panel
+        $( "#container_panel_datatable_cell_marker" ).collapse( 'show' )
+    }
+    
+    function ResponsiveMarkerSize( div, int_factor_axis_range_to_marker_size = 30, int_factor_marker_size_multiply = 3 ) { // get marker size according to the given parameter and x- and y-axis range of the division containing a plotly plot
+        if ( ! ( 'layout' in div ) ) {
+            return object_data.setting.plot.single_cell_scatter.marker_size; // if plotly has not been drawn, use the default value for the marker size
+        }
+        let x = div.layout.xaxis, y = div.layout.yaxis,
+            int_marker_size_to_be_updated = Math.min( 10, Math.min( Math.ceil( int_factor_axis_range_to_marker_size / ( x.range[ 1 ] - x.range[ 0 ] ) ), Math.ceil( int_factor_axis_range_to_marker_size / ( y.range[ 1 ] - y.range[ 0 ] ) ) ) * int_factor_marker_size_multiply );
+        return int_marker_size_to_be_updated;
+    }
     // synchronization of zoom levels across plots
     function PlotlySynchronizedLayout( ed, divs ) {
         if ( Object.entries( ed ).length === 0 ) { return; }
@@ -2197,15 +2370,15 @@ startNetwork({ nodes: nodesView, edges: edgesView });
         divs.forEach( ( div, i ) => {
             let x = div.layout.xaxis, y = div.layout.yaxis, flag_relayout = false, update = { }; // a flag indicating whether a relayout event is required
             // ignore when layouts are changed due to autoranging
-//             console.log( x, y, ed );
-            let int_factor_axis_range_to_marker_size = 30, int_factor_marker_size_multiply = 3, int_marker_size_current = div.data[ 0 ].marker.size;
-                int_marker_size_to_be_updated = Math.min( 10, Math.min( Math.ceil( int_factor_axis_range_to_marker_size / ( x.range[ 1 ] - x.range[ 0 ] ) ), Math.ceil( int_factor_axis_range_to_marker_size / ( y.range[ 1 ] - y.range[ 0 ] ) ) ) * int_factor_marker_size_multiply ),
+            let int_marker_size_current = div.data[ 0 ].marker.size;
+                int_marker_size_to_be_updated = ResponsiveMarkerSize( div, object_data.setting.plot.single_cell_scatter.int_factor_axis_range_to_marker_size, object_data.setting.plot.single_cell_scatter.int_factor_marker_size_multiply ),
                 flag_restyle = int_marker_size_to_be_updated != int_marker_size_current;
 
             if ( flag_restyle ) { // restyle existing plot
                 console.log( "[UpdateGene] restyling marker size to ", int_marker_size_to_be_updated );
                 let update = { marker : div.data[ 0 ].marker };
                 update.marker.size = int_marker_size_to_be_updated;
+                object_data.setting.plot.single_cell_scatter.marker_size = int_marker_size_to_be_updated; // update marker size
                 Plotly.restyle( div, update, [ 0 ] );
             } 
             
@@ -2264,6 +2437,16 @@ startNetwork({ nodes: nodesView, edges: edgesView });
     }; // define color for each tissue
     function SortBoxTrace( trace_a, trace_b ) { return - ( trace_a.q3 - trace_b.q3 ) } // Sort Plotly Boxplot traces based on parameter values
     function PreviewGene( gene_symbol ) { // draw preview of expression of the current gene using boxplots
+        
+        let window_width = window.innerWidth,
+            window_height = window.innerHeight,
+            window_width_excluding_sidebar = $id( "controlBox_plotly_graph_main" ).offsetWidth,
+            preview_height = parseInt( Math.min( Math.max( 175, window_height / 3.5 ), 500 ) ),
+            preview_width = window_width_excluding_sidebar,
+            div_preview = $id( "plotly_searchbox_main_preview" );
+        div_preview.style.height = ( preview_height ).toString( ) + 'px';
+        div_preview.style.width = ( preview_width ).toString( ) + 'px';
+        
         let index_gene = object_data.main.gene.expr.dict_key_to_index[ gene_symbol ][ 0 ],
             l_trace = [ ], dictdictarr = object_data.main.gene_summary.boxplot.dictdictarr;
         for ( let category in dictdictarr ) {
@@ -2281,15 +2464,17 @@ startNetwork({ nodes: nodesView, edges: edgesView });
         }
         l_trace = l_trace.sort( SortBoxTrace );
 //         document.getElementById( "plotly_searchbox_main_preview" ).style.height = "350px";
-        Plotly.newPlot( "plotly_searchbox_main_preview", l_trace, { margin: { l: 65, r: 65, b: 90, t: 50, pad: 4 }, yaxis: { title : "Relative Expression of " + gene_symbol } }, { ... config_plotly, filename: name_application + '__Preview_Expression_of_' + gene_symbol, height: 750, width: 1100 } ); // draw boxplot of expression of the gene 
+        Plotly.newPlot( "plotly_searchbox_main_preview", l_trace, { margin: { l: 65, r: 65, b: 90, t: 50, pad: 4 }, yaxis: { title : "Relative Expression of " + gene_symbol } }, { filename: name_application + '__Preview_Expression_of_' + gene_symbol, height: preview_height, width: preview_width, ... config_plotly } ); // draw boxplot of expression of the gene 
     }
-    function Toggle_Side_Menu( ) {
+    function Toggle_Sidebar( ) {
         // toggle side menu
         let id_container = "#container_main_sidebar"
-        if( $( id_container ).hasClass( 'toggled' ) ) {
-            $( id_container ).removeClass( 'toggled' );
-        } else {
-            $( id_container ).addClass( 'toggled' );
+        if( $( id_container ).hasClass( 'toggled' ) ) { // when sidebar is shown
+            $( id_container ).removeClass( 'toggled' ); // side sidebar
+            button_open_sidebar.style.display = "block"; // show the button opening sidebar
+        } else { // when sidebar is hidden
+            $( id_container ).addClass( 'toggled' ); // show the sidebar
+            button_open_sidebar.style.display = "none"; // hide the button opening sidebar
         }
     }
     $( "#container_main_sidebar" ).on( "toggle.sidebar.complete", function ( event ) {
@@ -2298,6 +2483,14 @@ startNetwork({ nodes: nodesView, edges: edgesView });
     $( "#container_main_sidebar" ).on( "pin.sidebar.complete", function ( event ) {
         window.dispatchEvent( new Event( 'resize' ) ); // trigger resize events to allow Plotly plots to resize its plot
     } );
+    
+    $( "#container_main_sidebar" ).on( "pin.sidebar.hidden", function ( event ) {
+         button_open_sidebar.style.display = "block";
+    } );
+    
+    // Get the button_open_sidebar:
+    button_open_sidebar = document.getElementById( "button_open_sidebar" );
+
 
 </script>
 </body>

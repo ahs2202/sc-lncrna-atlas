@@ -60,7 +60,10 @@ jQuery(function ($) {
 
   //toggle sidebar overlay
   $('#overlay').click(function () {
-    $('.page-wrapper').toggleClass('toggled');
+        $('.page-wrapper').toggleClass('toggled');
+        setTimeout( function( ) { $('.page-wrapper').trigger( "pin.sidebar.hidden" ); // trigger custom event
+            console.log( 'pin.sidebar.hidden event triggered' );
+        }, 50 );
   });
 
   //switch between themes
