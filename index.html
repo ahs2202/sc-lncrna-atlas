@@ -383,26 +383,43 @@ code {
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'All' )">All Tissues<span class="badge badge-pill badge-primary">22244 cells</span></a>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Combined.Aging_Kidney' )">Aging Kidney<span class="badge badge-pill badge-primary">20261 cells</span></a>
                                     </li>
                                     <li>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Heart' )">Heart<span class="badge badge-pill badge-primary">5979 cells</span></a>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Glom (Old)' )">Glomerulus (Old)<span class="badge badge-pill badge-secondary">6505 cells</span></a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Intestine' )">Intestine<span class="badge badge-pill badge-primary">2330 cells</span></a>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Glom (Young)' )">Glomerulus (Young)<span class="badge badge-pill badge-secondary">7658 cells</span></a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Kidney' )">Kidney<span class="badge badge-pill badge-primary">2455 cells</span></a>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Tubule (Old)' )">Tubule (Old)<span class="badge badge-pill badge-secondary">2772 cells</span></a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Lung' )">Lung<span class="badge badge-pill badge-primary">4375 cells</span></a>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Tubule (Young)' )">Tubule (Young)<span class="badge badge-pill badge-secondary">3326 cells</span></a>
+                                    </li>
+                                    <br>
+                                    <li>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Combined.mTissues6' )">6 Mouse Tissues<span class="badge badge-pill badge-primary">22244 cells</span></a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Liver' )">Liver<span class="badge badge-pill badge-primary">4191 cells</span></a>
+                                    <li>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Heart' )">Heart<span class="badge badge-pill badge-secondary">5979 cells</span></a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Thymus' )">Thymus<span class="badge badge-pill badge-primary">2914 cells</span></a>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Intestine' )">Intestine<span class="badge badge-pill badge-secondary">2330 cells</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Kidney' )">Kidney<span class="badge badge-pill badge-secondary">2455 cells</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Lung' )">Lung<span class="badge badge-pill badge-secondary">4375 cells</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Liver' )">Liver<span class="badge badge-pill badge-secondary">4191 cells</span></a>
+                                    </li>
+                                    <li>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Thymus' )">Thymus<span class="badge badge-pill badge-secondary">2914 cells</span></a>
                                     </li>
                                 </ul>
                             </div>
@@ -907,23 +924,94 @@ var DragSort=function(t){
         Toggle_Tooltips( ); // set tooltips status
         Initialize( );
     });
-    // for faster async loading, the data files will be loaded together
-    var l_remote_file = [ "current/rawdata/base64/cells.all.tsv.gz.base64.txt",
-                          "current/rawdata/base64/all.box_precomputed_by_tissue.multiplied_by_1000.tsv.gz.base64.txt",
-                          "current/rawdata/base64/genes.tsv.gz.base64.txt",
-                          "current/rawdata/base64/expr.multiplied_by_1000.index.tsv.gz.base64.txt",
-                          "current/rawdata/base64/cell_marker.index.tsv.gz.base64.txt",
-                          "current/rawdata/base64/expr.correlation.index.tsv.gz.base64.txt"
-                        ]; 
+    // settings
     var object_data = { }; // an object containing data
     object_data.file = { }; 
     object_data.file.base_url = "current/rawdata/base64/";
     object_data.file.dict_name_file_to_parsed_data = { };
     object_data.main = { };
     object_data.main.gene = { };
+    object_data.main.combined = { 'Combined.Aging_Kidney' : { 'Glom (Old)' : 1, 'Glom (Young)' : 1, 'Tubule (Old)' : 1, 'Tubule (Young)' : 1 }, 'Combined.mTissues6' : { 'Heart' : 1, 'Intestine' : 1, 'Kidney' : 1, 'Lung' : 1, 'Liver' : 1, 'Thymus' : 1 } }; // define combined dataset
+    object_data.main.filters_for_subsets = { }; // an empty object that will contains filters for subset
     object_data.setting = { };
+    object_data.setting.app = { };
+    object_data.setting.app.name_tissue_default = 'Combined.Aging_Kidney'; // name_tissue of the initial dataset that will be loaded by default
     object_data.setting.plot = { };
     object_data.flags = { };
+    object_data.main.gene.expr = { data : { }, data_size : 250 }; // cache of expression data // size of the cache
+    object_data.main.cell_marker = { data : { }, data_size : 5 };
+    object_data.main.gene.correl = { };
+    object_data.main.gene.correl.dict_name_tissue_to_prefix = { 
+        'Heart' : 'expr.correlation.tissue.Heart', 
+        'Intestine' : 'expr.correlation.tissue.Intestine', 
+        'Kidney' : 'expr.correlation.tissue.Kidney', 
+        'Lung' : 'expr.correlation.tissue.Lung', 
+        'Liver' : 'expr.correlation.tissue.Liver', 
+        'Thymus' : 'expr.correlation.tissue.Thymus', 
+        'Glom (Old)' : 'expr.correlation.tissue.Kidney_Glom_Old', 
+        'Tubule (Old)' : 'expr.correlation.tissue.Kidney_Tubule_Old', 
+        'Glom (Young)' : 'expr.correlation.tissue.Kidney_Glom_Young', 
+        'Tubule (Young)' : 'expr.correlation.tissue.Kidney_Tubule_Young', 
+        'Combined.mTissues6' : 'expr.correlation.combined.mTissues6', 
+        'Combined.Aging_Kidney' : 'expr.correlation.combined.Aging_and_Young_Kidney_Glom_Enrich', 
+    }
+    object_data.main.gene.correl.dict_name_tissue_to_cache = { };
+    object_data.main.umap = { tissue : 'not_drawn' }; // set default values
+    object_data.main.scatter = { x_label : 'UMAP-1', y_label : 'UMAP-2', x_axis_option : '__UMAP__', y_axis_option : '__UMAP__', x_axis_col_name : 'UMAP_1', y_axis_col_name : 'UMAP_2', flag_waiting_selection_of_gene : false, gene_symbol_selected : '', flag_axis_using_gene_expr : true }; // initialize axis of the scatter plot
+    object_data.setting.expression = { };
+    object_data.setting.expression.n_digits_below_floating_point = 3; // number of digits below floading point of the original expression values (converted to integer by multiplying 1000 during delivery of the data)
+    object_data.main.datatable = { 'datatable_cell_marker' : { df : null, name : 'cell_marker' }, 'datatable_correl' : { df : null, name : 'correl_gene' } };
+    
+    object_data.setting.plot.annotation = { };
+    object_data.setting.plot.annotation.dict_tissue_to_dict_cell_type_to_color = {
+'Combined.mTissues6': {'kidney_PT': '#9ACD32', 'kidney_nephrone': '#9932CC', 'lung_AT1': '#FF0000', 'lung_AT2': '#27408B', 'liver_hepatocyte': '#CD5555', 'heart_Fibroblast': '#EEB422', 'lung_Fibroblast': '#CD2626', 'Endothelial': '#90EE90', 'liver_Endo': '#EE4000', 'SMC': '#000080', 'Pericyte': '#8B1C62', 'Plasma': '#00BFFF', 'Intestine_SC': '#8B8B83', 'Intestine TA': '#4EEE94', 'DN': '#EE5C42', 'DP': '#EE00EE', 'DP2': '#7A67EE', 'B cell': '#CDB79E', 'B cell2': '#CDAD00', 'B cell3': '#1874CD', 'T cell': '#CD853F', 'NK': '#4A708B', 'liver_Kuffer': '#8B5742', 'lung_AM': '#CD5555', 'Macrophage': '#5D478B', 'Macrophage2': '#EE9572', 'Myeloid': '#9ACD32', 'Myeloid2': '#009ACD', 'Platlet': '#8B668B', 'RBC': '#CD6839', 'RBC2': '#8B7B8B'},
+'Kidney': {'PTS1': '#9ACD32', 'PTS1-S2': '#9932CC', 'PTS2': '#FF0000', 'PTS3': '#1874CD', 'ALOH': '#CD5555', 'DCT': '#EEB422', 'CNT': '#00C5CD', 'CD PC': '#90EE90', 'CD IC': '#FF1493', 'Mesangium': '#000080', 'Podocyte': '#8B1C62', 'ENDO': '#00BFFF', 'ENDO2': '#B22222', 'Proliferation': '#4EEE94', 'B cell': '#EE5C42', 'NK': '#EE00EE', 'Macro': '#EE4000', 'Monocyte': '#CDB79E', 'RBC': '#CDAD00'},
+'Thymus': {'DN': '#9ACD32', 'ISP': '#9932CC', 'DP(P)': '#FF0000', 'DP2(P)': '#27408B', 'DP': '#EEB423', 'gd T': '#EEB422', 'ab T': '#CD1076', 'CD8 aa': '#90EE90', 'Cd4 SP': '#EE4000', 'Cd4 SP2': '#000080', 'Cd8 SP': '#8B1C62', 'Cd4 SP(M)': '#00BFFF', 'NK': '#8B8B83', 'DC': '#27408B'},
+"Liver" : { "Hepatocyte1" : "#FF0000", "RBC" : "#9ACD32", "Hepatocyte2" : "#A63603", "Stellate cell" : "#00441B", "Endo" : "#A1D99B", "Endo2" : "#238B45", "Endo3" : "#41AB5D", "B cell" : "#2171B5", "B cell2" : "#08306B", "T cell" : "#DFC27D", "T cell2" : "#FD8D3C", "NK/T" : "#BF812D", "NK cell" : "#FDBE85", "Cycling" : "#A6761D", "Kupffer" : "#9ECAE1", "Kupffer2" : "#4292C6", "Granulocyte" : "#9E9AC8", "Neutro" : "#756BB1", "DC" : "#54278F", "Mono" : "#FEE6CE", "pat.Mono" : "#FDAE6B" },
+'Intestine' : { "ISC" : "#FF0000", "Proli_ISC" : "#A63603", "Lgr5+ISC" : "#F781BF", "VTT" : "#00441B", "Fibro" : "#74C476", "Pdgfrb+Fibro" : "#41AB5D", "Myofibro1" : "#80CDC1", "Myofibro2" : "#35978F", "Endo1" : "#DFC27D", "Endo2" : "#BF812D", "Endo3" : "#8C510A", "Endo4" : "#FDBE85", "LV" : "#A6761D", "B cell1" : "#9ECAE1", "B cell2" : "#4292C6", "B cell3" : "#2171B5", "plasma1" : "#756BB1", "plasma2" : "#54278F", "plasma3" : "#9E9AC8", "T cell" : "#FCAE91", "NK cell" : "#FB6A4A", "Lymphoid" : "#A50F15", "Macro" : "#FB9A99", "DC" : "#DE2D26" },
+'Heart' : { "Fibro4" : "#9ACD32", "Cardiomyocyte" : "#D94801", "Endo" : "#FD8D3C", "Endo2" : "#E6550D", "LV" : "#E6550D", "Fibro1" : "#A1D99B", "Fibro2" : "#74C476", "Fibro3" : "#238B45", "Mural cell" : "#F16913", "Myofibro" : "#41AB5D", "SMC2" : "#41AB5D", "Pericyte" : "#4292C6", "B cell" : "#2171B5", "NK cell" : "#756BB1", "Resident Macro" : "#FB6A4A", "DC" : "#FCBBA1", "Granulocyte" : "#A50F15", "Platelet" : "#8C510A", "RBC" : "#4575B4" },
+'Lung' : { "Fibroblast" : "#9ACD32", "Basophils" : "#9ACD32", "AT1" : "#9E0142", "AT2" : "#D53E4F", "Ciliated" : "#DE2D26", "gCap" : "#E6550D", "gCap2" : "#FCBBA1", "gCap3" : "#FD8D3C", "Endo" : "#FDBE85", "Fibroblast2" : "#238B45", "Fibroblast3" : "#006D2C", "Myofibroblast" : "#A1D99B", "Mesothelial" : "#74C476", "SMC" : "#F16913", "Pericyte" : "#8C510A", "Proliferation" : "#2171B5", "Immune stromal cell" : "#4292C6", "B cell" : "#2171B5", "B cell2" : "#9ECAE1", "Naive T cell" : "#80CDC1", "T cell" : "#35978F", "NK/T" : "#003C30", "NK cell" : "#C7EAE5", "AM" : "#FB9A99", "DC" : "#FDAE6B", "Monocyte" : "#C7E9C0", "Monocyte2" : "#41AB5D", "Neutrophils" : "#9E9AC8", "RBC" : "#54278F" },
+'Combined.Aging_Kidney' : { "podocyte" : "#A63603", "mesangial cell" : "#E6550D", "JGC" : "#FD8D3C", "PEC" : "#FDBE85", "PT" : "#00441B", "PCT1_1" : "#006D2C", "PCT1_2" : "#238B45", "PCT2_1" : "#41AB5D", "PCT2_2" : "#74C476", "PST" : "#A1D99B", "ALOH" : "#08306B", "macula densa" : "#08306B", "DCT" : "#2171B5", "CNT" : "#4292C6", "CD PC" : "#4292C6", "CD IC" : "#9ECAE1", "GEC" : "#54278F", "aterioles" : "#756BB1", "CD4" : "#9E9AC8", "CD8" : "#A50F15", "NK" : "#DE2D26", "B cell" : "#FB6A4A", "Macrophage" : "#FCAE91", "RBC" : "#543005" },
+'Glom (Old)' : { "podocyte" : "#A63603", "mesangial cell" : "#E6550D", "JGC" : "#FD8D3C", "PEC" : "#FDBE85", "PT" : "#00441B", "PCT1_1" : "#006D2C", "PCT1_2" : "#238B45", "PCT2_1" : "#41AB5D", "PCT2_2" : "#74C476", "PST" : "#A1D99B", "ALOH" : "#08306B", "macula densa" : "#08306B", "DCT" : "#2171B5", "CNT" : "#4292C6", "CD PC" : "#4292C6", "CD IC" : "#9ECAE1", "GEC" : "#54278F", "aterioles" : "#756BB1", "CD4" : "#9E9AC8", "CD8" : "#A50F15", "NK" : "#DE2D26", "B cell" : "#FB6A4A", "Macrophage" : "#FCAE91", "RBC" : "#543005" },
+'Glom (Young)' : { "podocyte" : "#A63603", "mesangial cell" : "#E6550D", "JGC" : "#FD8D3C", "PEC" : "#FDBE85", "PT" : "#00441B", "PCT1_1" : "#006D2C", "PCT1_2" : "#238B45", "PCT2_1" : "#41AB5D", "PCT2_2" : "#74C476", "PST" : "#A1D99B", "ALOH" : "#08306B", "macula densa" : "#08306B", "DCT" : "#2171B5", "CNT" : "#4292C6", "CD PC" : "#4292C6", "CD IC" : "#9ECAE1", "GEC" : "#54278F", "aterioles" : "#756BB1", "CD4" : "#9E9AC8", "CD8" : "#A50F15", "NK" : "#DE2D26", "B cell" : "#FB6A4A", "Macrophage" : "#FCAE91", "RBC" : "#543005" },
+'Tubule (Old)' : { "podocyte" : "#A63603", "mesangial cell" : "#E6550D", "JGC" : "#FD8D3C", "PEC" : "#FDBE85", "PT" : "#00441B", "PCT1_1" : "#006D2C", "PCT1_2" : "#238B45", "PCT2_1" : "#41AB5D", "PCT2_2" : "#74C476", "PST" : "#A1D99B", "ALOH" : "#08306B", "macula densa" : "#08306B", "DCT" : "#2171B5", "CNT" : "#4292C6", "CD PC" : "#4292C6", "CD IC" : "#9ECAE1", "GEC" : "#54278F", "aterioles" : "#756BB1", "CD4" : "#9E9AC8", "CD8" : "#A50F15", "NK" : "#DE2D26", "B cell" : "#FB6A4A", "Macrophage" : "#FCAE91", "RBC" : "#543005" },
+'Tubule (Young)' : { "podocyte" : "#A63603", "mesangial cell" : "#E6550D", "JGC" : "#FD8D3C", "PEC" : "#FDBE85", "PT" : "#00441B", "PCT1_1" : "#006D2C", "PCT1_2" : "#238B45", "PCT2_1" : "#41AB5D", "PCT2_2" : "#74C476", "PST" : "#A1D99B", "ALOH" : "#08306B", "macula densa" : "#08306B", "DCT" : "#2171B5", "CNT" : "#4292C6", "CD PC" : "#4292C6", "CD IC" : "#9ECAE1", "GEC" : "#54278F", "aterioles" : "#756BB1", "CD4" : "#9E9AC8", "CD8" : "#A50F15", "NK" : "#DE2D26", "B cell" : "#FB6A4A", "Macrophage" : "#FCAE91", "RBC" : "#543005" },
+    }; // define color for each cell type
+    object_data.setting.plot.annotation.dict_tissue_to_color = {
+        "Heart" : '#F8766D', 
+        "Intestine" : '#B79F00', 
+        "Kidney" : "#00BA38", 
+        "Lung" : "#619CFF", 
+        "Liver" : "#00BFC4", 
+        "Thymus" : "#F564E3", 
+        "Glom (Young)" : "#7111F0",
+        "Glom (Old)" : "#E590E8",
+        "Tubule (Young)" : "#E6E627",
+        "Tubule (Old)" : "#E8D190",
+    }; // define color for each tissue
+    object_data.setting.plot.preview_gene = { };
+    object_data.setting.plot.preview_gene.dict_category_to_color = {
+        "Heart (n=5979)" : '#F8766D',
+        "Intestine (n=2330)" : '#B79F00',
+        "Kidney (n=2455)" : "#00BA38",
+        "Lung (n=4375)" : "#619CFF",
+        "Liver (n=4191)" : "#00BFC4",
+        "Thymus (n=2914)" : "#F564E3",
+        "Glom (Young) (n=7658)" : "#7111F0",
+        "Glom (Old) (n=6505)" : "#E590E8",
+        "Tubule (Young) (n=3326)" : "#E6E627",
+        "Tubule (Old) (n=2772)" : "#E8D190",
+    }; // define color for each tissue
+    
+    // for faster async loading, the data files will be loaded together
+    var l_remote_file = [ "current/rawdata/base64/cells.all.tsv.gz.base64.txt",
+                          "current/rawdata/base64/all.box_precomputed_by_tissue.multiplied_by_1000.tsv.gz.base64.txt",
+                          "current/rawdata/base64/genes.tsv.gz.base64.txt",
+                          "current/rawdata/base64/expr.multiplied_by_1000.index.tsv.gz.base64.txt",
+                          "current/rawdata/base64/cell_marker.index.tsv.gz.base64.txt",
+                          `current/rawdata/base64/${object_data.main.gene.correl.dict_name_tissue_to_prefix[ object_data.setting.app.name_tissue_default ]}.index.tsv.gz.base64.txt`
+                        ]; 
+    
     async function Initialize( ) { // initialize the web application
         await LoadRemoteData( l_remote_file ); // load remote core data 
         console.log( "[Initialize] core data loaded", Object.keys( object_data.file.dict_name_file_to_parsed_data ) );
@@ -935,140 +1023,11 @@ var DragSort=function(t){
         // plot one gene as an example
         object_data.main.gene.gene_symbol = 'Fos';
         // plot graph
-        Change_UMAP_Coordinate( 'All' )
+        Change_UMAP_Coordinate( object_data.setting.app.name_tissue_default ); // load the default name_tissue
         PreviewGene( object_data.main.gene.gene_symbol );
         Loading_Screen( false );
     }    
         
-// const nodeFilterSelector = document.getElementById("nodeFilterSelect");
-// const edgeFilters = document.getElementsByName("edgesFilter");
-
-// function startNetwork(data) {
-//   const container = document.getElementById("mynetwork");
-//   const options = {};
-//   new vis.Network(container, data, options);
-// }
-
-// /**
-//  * In this example we do not mutate nodes or edges source data.
-//  */
-// const nodes = new vis.DataSet([
-//   { id: 1, label: "Eric Cartman", age: "kid", gender: "male" },
-//   { id: 2, label: "Stan Marsh", age: "kid", gender: "male" },
-//   { id: 3, label: "Wendy Testaburger", age: "kid", gender: "female" },
-//   { id: 4, label: "Mr Mackey", age: "adult", gender: "male" },
-//   { id: 5, label: "Sharon Marsh", age: "adult", gender: "female" },
-// ]);
-// const edges = new vis.DataSet([
-//   {
-//     from: 1,
-//     to: 2,
-//     relation: "friend",
-//     arrows: "to, from",
-//     color: { color: "red" },
-//   },
-//   {
-//     from: 1,
-//     to: 3,
-//     relation: "friend",
-//     arrows: "to, from",
-//     color: { color: "red" },
-//   },
-//   {
-//     from: 2,
-//     to: 3,
-//     relation: "friend",
-//     arrows: "to, from",
-//     color: { color: "red" },
-//   },
-//   {
-//     from: 5,
-//     to: 2,
-//     relation: "parent",
-//     arrows: "to",
-//     color: { color: "green" },
-//   },
-//   {
-//     from: 4,
-//     to: 1,
-//     relation: "teacher",
-//     arrows: "to",
-//     color: { color: "blue" },
-//   },
-//   {
-//     from: 4,
-//     to: 2,
-//     relation: "teacher",
-//     arrows: "to",
-//     color: { color: "blue" },
-//   },
-//   {
-//     from: 4,
-//     to: 3,
-//     relation: "teacher",
-//     arrows: "to",
-//     color: { color: "blue" },
-//   },
-// ]);
-
-// /**
-//  * filter values are updated in the outer scope.
-//  * in order to apply filters to new values, DataView.refresh() should be called
-//  */
-// let nodeFilterValue = "";
-// const edgesFilterValues = {
-//   friend: true,
-//   teacher: true,
-//   parent: true,
-// };
-
-// /*
-//       filter function should return true or false
-//       based on whether item in DataView satisfies a given condition.
-//     */
-// const nodesFilter = (node) => {
-//   if (nodeFilterValue === "") {
-//     return true;
-//   }
-//   switch (nodeFilterValue) {
-//     case "kid":
-//       return node.age === "kid";
-//     case "adult":
-//       return node.age === "adult";
-//     case "male":
-//       return node.gender === "male";
-//     case "female":
-//       return node.gender === "female";
-//     default:
-//       return true;
-//   }
-// };
-// const edgesFilter = (edge) => {
-//   return edgesFilterValues[edge.relation];
-// };
-// const nodesView = new vis.DataView(nodes, { filter: nodesFilter });
-// const edgesView = new vis.DataView(edges, { filter: edgesFilter });
-
-// nodeFilterSelector.addEventListener("change", (e) => {
-//   // set new value to filter variable
-//   nodeFilterValue = e.target.value;
-//   /*
-//         refresh DataView,
-//         so that its filter function is re-calculated with the new variable
-//       */
-//   nodesView.refresh();
-// });
-
-// edgeFilters.forEach((filter) =>
-//   filter.addEventListener("change", (e) => {
-//     const { value, checked } = e.target;
-//     edgesFilterValues[value] = checked;
-//     edgesView.refresh();
-//   })
-// );
-
-// startNetwork({ nodes: nodesView, edges: edgesView });
-    
 // Bootstrap component control
     var flag_tooltip_active_Toggle_Tooltips = true;
     function Toggle_Tooltips(  ) {
@@ -1610,11 +1569,13 @@ var DragSort=function(t){
     async function ParseData( ) { // parse loaded data and prepare data objects
         return new Promise( async function( resolve, reject ) { 
             Loading_Screen( true );
-        // initialize cache objects
-            InitializeCacheForRemoteData( object_data.main.gene.expr, object_data.file.dict_name_file_to_parsed_data[ "expr.multiplied_by_1000.index.tsv.gz.base64.txt" ], [ 'gene_symbol' ], object_data.file.base_url + "expr.multiplied_by_1000.tsv.gz.base64.concatenated.txt" )
-            InitializeCacheForRemoteData( object_data.main.cell_marker, object_data.file.dict_name_file_to_parsed_data[ "cell_marker.index.tsv.gz.base64.txt" ], [ 'tissue', 'cluster' ], object_data.file.base_url + "cell_marker.tsv.gz.base64.concatanated.txt" )
-            InitializeCacheForRemoteData( object_data.main.gene.correl, object_data.file.dict_name_file_to_parsed_data[ "expr.correlation.index.tsv.gz.base64.txt" ], [ 'gene_symbol' ], object_data.file.base_url + "expr.correlation.tsv.gz.base64.concatanated.txt" )
-        // preview boxplot
+            // initialize cache objects
+            InitializeCacheForRemoteData( object_data.main.gene.expr, object_data.file.dict_name_file_to_parsed_data[ "expr.multiplied_by_1000.index.tsv.gz.base64.txt" ], [ 'gene_symbol' ], object_data.file.base_url + "expr.multiplied_by_1000.tsv.gz.base64.concatenated.txt" );
+            InitializeCacheForRemoteData( object_data.main.cell_marker, object_data.file.dict_name_file_to_parsed_data[ "cell_marker.index.tsv.gz.base64.txt" ], [ 'tissue', 'cluster' ], object_data.file.base_url + "cell_marker.tsv.gz.base64.concatanated.txt" );
+            let name_tissue = object_data.setting.app.name_tissue_default;
+            object_data.main.gene.correl.dict_name_tissue_to_cache[ name_tissue ] = { }; // initialize the object
+            InitializeCacheForRemoteData( object_data.main.gene.correl.dict_name_tissue_to_cache[ name_tissue ], object_data.file.dict_name_file_to_parsed_data[ `${object_data.main.gene.correl.dict_name_tissue_to_prefix[ name_tissue ]}.index.tsv.gz.base64.txt` ], [ 'gene_symbol' ], `${object_data.file.base_url}${object_data.main.gene.correl.dict_name_tissue_to_prefix[ name_tissue ]}.tsv.gz.base64.concatanated.txt` ); // initialize the cache for the correlation results of the current tissue
+            // preview boxplot
             object_data.main.gene_summary = { };
             object_data.main.gene_summary.boxplot = { };
             object_data.main.gene_summary.boxplot.dictdictarr = SplitColumn( object_data.file.dict_name_file_to_parsed_data[ "all.box_precomputed_by_tissue.multiplied_by_1000.tsv.gz.base64.txt"] );
@@ -1625,7 +1586,7 @@ var DragSort=function(t){
         });
     }
     // caching data from local or remote sources
-    function InitializeCacheForRemoteData( object_cache, dict_arr_index, l_col_key, dir_remote_file ) { 
+    function InitializeCacheForRemoteData( object_cache, dict_arr_index, l_col_key, dir_remote_file, data_size = 5 ) {  // default data_size = 5
         object_cache.dir_remote_file = dir_remote_file;
         object_cache.dict_arr_index = dict_arr_index;
         // index 'dict_arr_index' with 'l_col_key', combining values from 'l_col_key' with '|'
@@ -1645,6 +1606,15 @@ var DragSort=function(t){
         }
         object_cache.l_key = l_key;
         object_cache.dict_key_to_index = Index_list_with_dictionary( l_key );
+        
+        // add default attributes
+        if ( ! ( 'data' in object_cache ) ) {
+            object_cache[ 'data' ] = { };
+        }
+        if ( ! ( 'data_size' in object_cache ) ) {
+            object_cache[ 'data_size' ] = data_size;
+        }
+
     }
     function EvictCache( object_cache, l_key = null, flag_purge = false ) { // evict cache according to the amount of incoming data (l_key). Evict all data if flag_perge is true
         if ( flag_purge ) {
@@ -1876,16 +1846,7 @@ var DragSort=function(t){
 //             }
 //         })
     }
-    
-    object_data.main.gene.expr = { data : { }, data_size : 250 }; // cache of expression data // size of the cache
-    object_data.main.cell_marker = { data : { }, data_size : 5 };
-    object_data.main.gene.correl = { data : { }, data_size : 10 };
-    object_data.main.umap = { tissue : 'not_drawn' }
-    object_data.main.scatter = { x_label : 'UMAP-1', y_label : 'UMAP-2', x_axis_option : '__UMAP__', y_axis_option : '__UMAP__', x_axis_col_name : 'UMAP_1', y_axis_col_name : 'UMAP_2', flag_waiting_selection_of_gene : false, gene_symbol_selected : '', flag_axis_using_gene_expr : true }; // initialize axis of the scatter plot
-    object_data.setting.expression = { };
-    object_data.setting.expression.n_digits_below_floating_point = 3; // number of digits below floading point of the original expression values (converted to integer by multiplying 1000 during delivery of the data)
-    object_data.main.datatable = { 'datatable_cell_marker' : { df : null, name : 'cell_marker' }, 'datatable_correl' : { df : null, name : 'correl_gene' } };
-    
+
     async function Change_UMAP_Coordinate( str_tissue = null ) { 
         if ( str_tissue === null ) {
             // change x or y-axis of scatter plot using the current setting
@@ -1968,21 +1929,37 @@ var DragSort=function(t){
                 return -1;
             }
             object_data.main.umap.tissue = str_tissue; // update str_tissue of the main UMAP graph
-            object_data.main.umap.flag_all_tissues = str_tissue == 'All'; // flag indicating whether UMAP coordinates of all tissues are used.
-            let dictarr = object_data.file.dict_name_file_to_parsed_data[ "cells.all.tsv.gz.base64.txt" ];
-            if ( object_data.main.umap.flag_all_tissues ) {
-                object_data.main.umap.dictarr = dictarr;
-            } else {
+            object_data.main.umap.flag_combined_tissues = str_tissue in object_data.main.combined; // flag indicating whether UMAP coordinates of combined tissues will be used.
+            let dictarr = object_data.file.dict_name_file_to_parsed_data[ "cells.all.tsv.gz.base64.txt" ]; // retrieve data
+            
+            if ( ! ( str_tissue in object_data.main.gene.correl.dict_name_tissue_to_cache ) ) { // correlation result cache for the name_tissue is not available
+                // initialize correlation result cache for the name_tissue
+                object_data.main.gene.correl.dict_name_tissue_to_cache[ str_tissue ] = { }; // initialize the object
+                await LoadRemoteData( [ `${object_data.file.base_url}${object_data.main.gene.correl.dict_name_tissue_to_prefix[ str_tissue ]}.index.tsv.gz.base64.txt` ] ); // load index data from remote locations (lazy loading)
+                InitializeCacheForRemoteData( object_data.main.gene.correl.dict_name_tissue_to_cache[ str_tissue ], object_data.file.dict_name_file_to_parsed_data[ `${object_data.main.gene.correl.dict_name_tissue_to_prefix[ str_tissue ]}.index.tsv.gz.base64.txt` ], [ 'gene_symbol' ], `${object_data.file.base_url}${object_data.main.gene.correl.dict_name_tissue_to_prefix[ str_tissue ]}.tsv.gz.base64.concatanated.txt` ); // initialize the cache for the correlation results of the current tissue
+            }
+            
+            if ( ! ( str_tissue in object_data.main.filters_for_subsets ) ) { // if the boolean filter does not exist, build the filter
                 // build a boolean index for retrieving UMAP coordinates (and other data) for the current tissue
                 let l_tissue = dictarr[ "tissue" ],
                     l_bool_index = [ ],
                     i = 0;
-                for ( i = 0; i < l_tissue.length; i ++ ) {
-                    l_bool_index.push( l_tissue[ i ] == str_tissue );
+                if ( object_data.main.umap.flag_combined_tissues ) {
+                    let tissues_of_a_combined_dataset = object_data.main.combined[ str_tissue ]; // retrieve name of the tissues of the combined dataset
+                    for ( i = 0; i < l_tissue.length; i ++ ) {
+                        l_bool_index.push( l_tissue[ i ] in tissues_of_a_combined_dataset ); // True if the tissue exists in the list
+                    }
+                } else {
+                    for ( i = 0; i < l_tissue.length; i ++ ) {
+                        l_bool_index.push( l_tissue[ i ] == str_tissue ); // True if the tissue match the current tissue
+                    }
                 }
-                object_data.main.umap.l_bool_index_tissue = l_bool_index;
-                object_data.main.umap.dictarr = DictArrBooleanIndexing( dictarr, l_bool_index );
+                object_data.main.filters_for_subsets[ str_tissue ] = l_bool_index; // save the composed filter
             }
+            
+            let l_bool_index = object_data.main.filters_for_subsets[ str_tissue ]; // retrieve filters
+            object_data.main.umap.l_bool_index_current_cells = l_bool_index; // set the filter
+            object_data.main.umap.dictarr = DictArrBooleanIndexing( dictarr, l_bool_index ); // subset the data
         }
         // Update coordinates of scatter plots
         // draw cell annotation plot
@@ -2068,34 +2045,27 @@ var DragSort=function(t){
         let dictarr = object_data.main.umap.dictarr,
             l_expr = object_data.main.gene.expr.data[ gene_symbol ].data,
             col_name_cell_type = 'cell_type';
-        if ( ! object_data.main.umap.flag_all_tissues ) {
-            l_expr = ArrayBooleanIndexing( l_expr, object_data.main.umap.l_bool_index_tissue );
-            col_name_cell_type = 'tissue_cell_type';
-        }
+        // retrieve expression values
+        l_expr = ArrayBooleanIndexing( l_expr, object_data.main.umap.l_bool_index_current_cells );
+        col_name_cell_type = 'tissue_cell_type';
         // update x-axis values from gene expression data
         if ( object_data.main.scatter.x_axis_col_name == '__x_axis_gene_expr__' ) {
             let gene_symbol_x_axis = object_data.main.scatter.x_axis_option,
                 l_expr_x_axis = [ ];
             await UpdateCache( object_cache, preprocess_expr, [ gene_symbol_x_axis ] ); // retrieve the single cells expression data of the current gene.
-            l_expr_x_axis = object_data.main.gene.expr.data[ gene_symbol_x_axis ].data;
-            if ( ! object_data.main.umap.flag_all_tissues ) {
-                l_expr_x_axis = ArrayBooleanIndexing( l_expr_x_axis, object_data.main.umap.l_bool_index_tissue );
-            }
+            l_expr_x_axis = ArrayBooleanIndexing( object_data.main.gene.expr.data[ gene_symbol_x_axis ].data, object_data.main.umap.l_bool_index_current_cells ); // retrieve x-axis
             dictarr[ '__x_axis_gene_expr__' ] = l_expr_x_axis;
         } else {
-            object_data.main.scatter.x_axis_col_name = ( object_data.main.umap.flag_all_tissues ) ? 'UMAP_1' : 'tissue_UMAP_1';
+            object_data.main.scatter.x_axis_col_name = ( object_data.main.umap.flag_combined_tissues ) ? 'UMAP_1' : 'tissue_UMAP_1';
         }
         if ( object_data.main.scatter.y_axis_col_name == '__y_axis_gene_expr__' ) {
             let gene_symbol_y_axis = object_data.main.scatter.y_axis_option,
                 l_expr_y_axis = [ ];
             await UpdateCache( object_cache, preprocess_expr, [ gene_symbol_y_axis ] ); // retrieve the single cells expression data of the current gene.
-            l_expr_y_axis = object_data.main.gene.expr.data[ gene_symbol_y_axis ].data;
-            if ( ! object_data.main.umap.flag_all_tissues ) {
-                l_expr_y_axis = ArrayBooleanIndexing( l_expr_y_axis, object_data.main.umap.l_bool_index_tissue );
-            }
+            l_expr_y_axis = ArrayBooleanIndexing( object_data.main.gene.expr.data[ gene_symbol_y_axis ].data, object_data.main.umap.l_bool_index_current_cells ); // retrieve y-axis
             dictarr[ '__y_axis_gene_expr__' ] = l_expr_y_axis;
         } else {
-            object_data.main.scatter.y_axis_col_name = ( object_data.main.umap.flag_all_tissues ) ? 'UMAP_2' : 'tissue_UMAP_2';
+            object_data.main.scatter.y_axis_col_name = ( object_data.main.umap.flag_combined_tissues ) ? 'UMAP_2' : 'tissue_UMAP_2';
         }
         // complete the selection process by re-enabling the selection button
         $id( 'select_scatter_x_axis' ).disabled = false; 
@@ -2162,13 +2132,13 @@ var DragSort=function(t){
         }
         // Update correlated genes 
         
-        object_cache = object_data.main.gene.correl;
+        object_cache = object_data.main.gene.correl.dict_name_tissue_to_cache[ object_data.main.umap.tissue ]; // retrieve the cache of correlation result of the current tissue
         await UpdateCache( object_cache, null, [ gene_symbol ] ); // update cache of correlated gene data
         Display_DataTable( 'container_datatable_correl', 'datatable_correl', object_cache.data[ gene_symbol ].data, [ "gene_symbol", "correlation_coefficient", "probability" ] );
         // change panel name
-        document.getElementById( "panel_name_correl_gene").innerHTML = "Co-Expressed Genes of " + gene_symbol;
+        document.getElementById( "panel_name_correl_gene").innerHTML = `Co-Expressed Genes of ${gene_symbol} in "${object_data.main.umap.tissue}"`;
         // change datatable name 
-        object_data.main.datatable[ 'datatable_correl' ].name = `correl_gene.${gene_symbol}`;
+        object_data.main.datatable[ 'datatable_correl' ].name = `correl_gene.${gene_symbol}.${object_data.main.umap.tissue}`;
         // show datatable panel
         $( "#container_panel_datatable_correl" ).collapse( 'show' )
         
@@ -2226,17 +2196,7 @@ var DragSort=function(t){
         }
         Plotly.newPlot( plotSingleCellExpressionViolin, l_trace, layout, { ... config_plotly, filename: name_application + '__Expression_of_' + gene_symbol, height: 600, width: 1100 } );
     }
-    object_data.setting.plot.annotation = { };
-    object_data.setting.plot.annotation.dict_tissue_to_dict_cell_type_to_color = {
-        'All': {'kidney_PT': '#9ACD32', 'kidney_nephrone': '#9932CC', 'lung_AT1': '#FF0000', 'lung_AT2': '#27408B', 'liver_hepatocyte': '#CD5555', 'heart_Fibroblast': '#EEB422', 'lung_Fibroblast': '#CD2626', 'Endothelial': '#90EE90', 'liver_Endo': '#EE4000', 'SMC': '#000080', 'Pericyte': '#8B1C62', 'Plasma': '#00BFFF', 'Intestine_SC': '#8B8B83', 'Intestine TA': '#4EEE94', 'DN': '#EE5C42', 'DP': '#EE00EE', 'DP2': '#7A67EE', 'B cell': '#CDB79E', 'B cell2': '#CDAD00', 'B cell3': '#1874CD', 'T cell': '#CD853F', 'NK': '#4A708B', 'liver_Kuffer': '#8B5742', 'lung_AM': '#CD5555', 'Macrophage': '#5D478B', 'Macrophage2': '#EE9572', 'Myeloid': '#9ACD32', 'Myeloid2': '#009ACD', 'Platlet': '#8B668B', 'RBC': '#CD6839', 'RBC2': '#8B7B8B'},'Kidney': {'PTS1': '#9ACD32', 'PTS1-S2': '#9932CC', 'PTS2': '#FF0000', 'PTS3': '#1874CD', 'ALOH': '#CD5555', 'DCT': '#EEB422', 'CNT': '#00C5CD', 'CD PC': '#90EE90', 'CD IC': '#FF1493', 'Mesangium': '#000080', 'Podocyte': '#8B1C62', 'ENDO': '#00BFFF', 'ENDO2': '#B22222', 'Proliferation': '#4EEE94', 'B cell': '#EE5C42', 'NK': '#EE00EE', 'Macro': '#EE4000', 'Monocyte': '#CDB79E', 'RBC': '#CDAD00'},'Heart': {'Cardiomyocyte': '#EE6AA7', 'Fibro1': '#9932CC', 'Fibro2': '#FF0000', 'Endo': '#CD5555', 'Endo2': '#EEB422', 'Vascular Endothelia': '#00C5CD', 'Pericyte': '#90EE90', 'SMC_pericyte': '#FF1493', 'SMC': '#000080', 'Myofirboblast': '#8B1C62', 'B cell': '#00BFFF', 'NK cell': '#CD96CD', 'Resident Macro': '#4EEE94', 'Resident Macro2': '#EE5C42', 'DC': '#EE00EE', 'Granulocyte': '#EE4000', 'Platelet': '#CDB79E', 'novel': '#1874CD', 'RBC': '#27408B', 'high mt': '#008B45'},'Lung': {'AT1': '#9ACD32', 'AT2': '#9932CC', 'AC': '#FF0000', 'Ciliated': '#1874CD', 'AM': '#CD5555', 'Pericyte': '#EEB422', 'ENDO': '#00C5CD', 'ENDO2': '#90EE90', 'ENDO3': '#FF1493', 'ENDO4': '#000080', 'Mesothelial': '#8B1C62', 'Fibroblast': '#00BFFF', 'Myofibroblast': '#B22222', 'SMC': '#4EEE94', 'SMC2': '#EE5C42', 'Proliferation': '#EE00EE', 'B cell': '#EE4000', 'B cell2': '#CDB79E', 'Naive T cell': '#CDAD00', 'T cell': '#CDC9A5', 'NK cell': '#8B8B83', 'Basophils': '#27408B', 'DC': '#8B5742', 'Neutrophils': '#CD5555', 'Macrophage': '#5D478B', 'Monocyte': '#CD6839', 'Monocyte2': '#9ACD32', 'Immune stromal cell': '#00008B', 'RBC': '#8B668B'},'Thymus': {'DN': '#9ACD32', 'ISP': '#9932CC', 'DP(P)': '#FF0000', 'DP2(P)': '#27408B', 'DP': '#EEB423', 'gd T': '#EEB422', 'ab T': '#CD1076', 'CD8 aa': '#90EE90', 'Cd4 SP': '#EE4000', 'Cd4 SP2': '#000080', 'Cd8 SP': '#8B1C62', 'Cd4 SP(M)': '#00BFFF', 'NK': '#8B8B83', 'DC': '#27408B'},'Liver': {'Hepatocyte': '#9ACD32', 'Hepatocyte2': '#9932CC', 'Cholangiocyte': '#FF0000', 'Stellate cell': '#1874CD', 'Cycling': '#CD5555', 'Kupffer': '#EEB422', 'Kupffer2': '#90EE90', 'ENDO': '#00C5CD', 'ENDO2': '#FF1493', 'B cell': '#000080', 'T cell': '#8B1C62', 'T cell2': '#00BFFF', 'T cell3': '#8B8B83', 'NK cell': '#4EEE94', 'NK cell2': '#EE5C42', 'Macro': '#EE00EE', 'Macro2': '#EE4000', 'Activated Macro': '#CDB79E', 'Granulocyte': '#CDAD00', 'Myeloid': '#FF0000', 'RBC': '#8B8B83'},'Intestine': {'Entero': '#5D478B', 'SC': '#90EE90', 'TA': '#000080', 'Tuft': '#8B8B83', 'PSC': '#EEB422', 'PSC2': '#EE00EE', 'Pericyte': '#8B1C62', 'Pericyte2': '#8B8B83', 'Epithelial': '#CD5555', 'Endo': '#9ACD32', 'Endo2': '#00C5CD', 'Endo3': '#00BFFF', 'BV': '#27408B', 'B cell': '#FF0000', 'B cell2': '#8B5742', 'T cell': '#CD5555', 'T cell2': '#EE4000', 'NK cell': '#CDAD00', 'plasma cell': '#9932CC', 'plasma cell2': '#27408B', 'plasma cell3': '#CDB79E', 'Macro': '#EE4000', 'Mast cell': '#4EEE94', 'Basophile': '#1874CD', 'DC': '#EE5C42'}}; // define color for each cell type
-    object_data.setting.plot.annotation.dict_tissue_to_color = {
-        "Heart" : '#F8766D', 
-        "Intestine" : '#B79F00', 
-        "Kidney" : "#00BA38", 
-        "Lung" : "#619CFF", 
-        "Liver" : "#00BFC4", 
-        "Thymus" : "#F564E3", 
-    }; // define color for each tissue
+
     async function PlotCellAnnotation( flag_restyle = false ) { // draw a new plot by default
         let str_tissue = object_data.main.umap.tissue, // retrieve current tissue
             option_selected = Select_Get_Selected_Option_Using_ID( "select_umap_annotation_data" ),
@@ -2247,7 +2207,7 @@ var DragSort=function(t){
         // demonstration
         let object_cache = object_data.main.gene.expr;
         let dictarr = object_data.main.umap.dictarr, 
-            col_name_cell_type = ( object_data.main.umap.flag_all_tissues ) ? 'cell_type' : 'tissue_cell_type',
+            col_name_cell_type = ( object_data.main.umap.flag_combined_tissues ) ? 'cell_type' : 'tissue_cell_type',
             l_color = [ ], marker_colormap = { }, str_hovertemplate_additional_line = '';
         // set color 
         switch( str_name_data_annotation ) {
@@ -2268,25 +2228,19 @@ var DragSort=function(t){
             let gene_symbol_x_axis = object_data.main.scatter.x_axis_option,
                 l_expr_x_axis = [ ];
             await UpdateCache( object_cache, preprocess_expr, [ gene_symbol_x_axis ] ); // retrieve the single cells expression data of the current gene.
-            l_expr_x_axis = object_data.main.gene.expr.data[ gene_symbol_x_axis ].data;
-            if ( ! object_data.main.umap.flag_all_tissues ) {
-                l_expr_x_axis = ArrayBooleanIndexing( l_expr_x_axis, object_data.main.umap.l_bool_index_tissue );
-            }
+            l_expr_x_axis = ArrayBooleanIndexing( object_data.main.gene.expr.data[ gene_symbol_x_axis ].data, object_data.main.umap.l_bool_index_current_cells ); // retrieve x-axis values
             dictarr[ '__x_axis_gene_expr__' ] = l_expr_x_axis;
         } else {
-            object_data.main.scatter.x_axis_col_name = ( object_data.main.umap.flag_all_tissues ) ? 'UMAP_1' : 'tissue_UMAP_1';
+            object_data.main.scatter.x_axis_col_name = ( object_data.main.umap.flag_combined_tissues ) ? 'UMAP_1' : 'tissue_UMAP_1';
         }
         if ( object_data.main.scatter.y_axis_col_name == '__y_axis_gene_expr__' ) {
             let gene_symbol_y_axis = object_data.main.scatter.y_axis_option,
                 l_expr_y_axis = [ ];
             await UpdateCache( object_cache, preprocess_expr, [ gene_symbol_y_axis ] ); // retrieve the single cells expression data of the current gene.
-            l_expr_y_axis = object_data.main.gene.expr.data[ gene_symbol_y_axis ].data;
-            if ( ! object_data.main.umap.flag_all_tissues ) {
-                l_expr_y_axis = ArrayBooleanIndexing( l_expr_y_axis, object_data.main.umap.l_bool_index_tissue );
-            }
+            l_expr_y_axis = ArrayBooleanIndexing( object_data.main.gene.expr.data[ gene_symbol_y_axis ].data, object_data.main.umap.l_bool_index_current_cells ); // retrieve y-axis values
             dictarr[ '__y_axis_gene_expr__' ] = l_expr_y_axis;
         }  else {
-            object_data.main.scatter.y_axis_col_name = ( object_data.main.umap.flag_all_tissues ) ? 'UMAP_2' : 'tissue_UMAP_2';
+            object_data.main.scatter.y_axis_col_name = ( object_data.main.umap.flag_combined_tissues ) ? 'UMAP_2' : 'tissue_UMAP_2';
         }
         // complete the selection process by re-enabling the selection button
         $id( 'select_scatter_x_axis' ).disabled = false; 
@@ -2355,7 +2309,7 @@ var DragSort=function(t){
         console.log( str_key );
         let object_cache = object_data.main.cell_marker;
         await UpdateCache( object_cache, null, [ str_key ] ); // update cache of cell marker data
-        Display_DataTable( 'container_datatable_cell_marker', 'datatable_cell_marker', object_cache.data[ str_key ].data, [ 'p_val_adj', 'gene', 'avg_logFC', 'pct.1', 'pct.2' ] );
+        Display_DataTable( 'container_datatable_cell_marker', 'datatable_cell_marker', object_cache.data[ str_key ].data, [ 'p_val_adj', 'gene', 'avg_log2FC', 'pct.1', 'pct.2' ] );
         // change panel name
         document.getElementById( "panel_name_cellmarker").innerHTML = "Cell Marker Table for " + str_tissue_cell_type + ' (' + str_tissue + ')';
         // change datatable name 
@@ -2435,15 +2389,7 @@ var DragSort=function(t){
         name_file = object_datatable.name + '.datatable.csv' // change the extension of the filename
         saveAs( blob, name_file ); // save file 
     }
-    object_data.setting.plot.preview_gene = { };
-    object_data.setting.plot.preview_gene.dict_category_to_color = {
-        "Heart (n=5979)" : '#F8766D',
-        "Intestine (n=2330)" : '#B79F00',
-        "Kidney (n=2455)" : "#00BA38",
-        "Lung (n=4375)" : "#619CFF",
-        "Liver (n=4191)" : "#00BFC4",
-        "Thymus (n=2914)" : "#F564E3",
-    }; // define color for each tissue
+
     function SortBoxTrace( trace_a, trace_b ) { return - ( trace_a.q3 - trace_b.q3 ) } // Sort Plotly Boxplot traces based on parameter values
     function PreviewGene( gene_symbol ) { // draw preview of expression of the current gene using boxplots
         
@@ -2492,11 +2438,9 @@ var DragSort=function(t){
     $( "#container_main_sidebar" ).on( "pin.sidebar.complete", function ( event ) {
         window.dispatchEvent( new Event( 'resize' ) ); // trigger resize events to allow Plotly plots to resize its plot
     } );
-    
     $( "#container_main_sidebar" ).on( "pin.sidebar.hidden", function ( event ) {
          button_open_sidebar.style.display = "block";
     } );
-    
     // Get the button_open_sidebar:
     button_open_sidebar = document.getElementById( "button_open_sidebar" );
 
