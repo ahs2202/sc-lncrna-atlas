@@ -2044,10 +2044,10 @@ var DragSort=function(t){
     
         let dictarr = object_data.main.umap.dictarr,
             l_expr = object_data.main.gene.expr.data[ gene_symbol ].data,
-            col_name_cell_type = 'cell_type';
+            col_name_cell_type = ( object_data.main.umap.flag_combined_tissues ) ? 'cell_type' : 'tissue_cell_type';
         // retrieve expression values
         l_expr = ArrayBooleanIndexing( l_expr, object_data.main.umap.l_bool_index_current_cells );
-        col_name_cell_type = 'tissue_cell_type';
+        
         // update x-axis values from gene expression data
         if ( object_data.main.scatter.x_axis_col_name == '__x_axis_gene_expr__' ) {
             let gene_symbol_x_axis = object_data.main.scatter.x_axis_option,
