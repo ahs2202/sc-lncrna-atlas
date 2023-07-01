@@ -377,13 +377,13 @@ code {
                         </li>
                         <li class="sidebar-dropdown">
                             <a href="#">
-                                <i class="fas fa-heart"></i>
-                                <span class="menu-text">Tissue Type</span>
+                                <i class="fas fa-lungs"></i>
+                                <span class="menu-text">Aging/Young Kidney</span>
                             </a>
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Combined.Aging_Kidney' )">Aging Kidney<span class="badge badge-pill badge-primary">20261 cells</span></a>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Combined.Aging_Kidney' )">All<span class="badge badge-pill badge-primary">20261 cells</span></a>
                                     </li>
                                     <li>
                                     <li>
@@ -398,9 +398,19 @@ code {
                                     <li>
                                         <a href="#" onclick="Change_UMAP_Coordinate( 'Tubule (Young)' )">Tubule (Young)<span class="badge badge-pill badge-secondary">3326 cells</span></a>
                                     </li>
-                                    <br>
+                                </ul>
+                            </div>
+                        </li>
+                        
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fas fa-heart"></i>
+                                <span class="menu-text">Diverse Mouse Tissues</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Combined.mTissues6' )">6 Mouse Tissues<span class="badge badge-pill badge-primary">22244 cells</span></a>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Combined.mTissues6' )">All<span class="badge badge-pill badge-primary">22244 cells</span></a>
                                     </li>
                                     <li>
                                     <li>
@@ -424,6 +434,7 @@ code {
                                 </ul>
                             </div>
                         </li>
+                        
                         <li class="header-menu">
                             <span>Data Table</span>
                         </li>
@@ -621,6 +632,9 @@ code {
                 <li class="nav-item active">
                     <a class="nav-link" type="button" aria-label="Toggle Side Menu" id="toggle-sidebar">Side Menu</a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="documentation/index.html">Documentation</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link">Citation</a>
                 </li>
@@ -741,10 +755,10 @@ code {
         <nav class="navbar navbar-dark bg-custom-navbar">
             <a class="navbar-brand mb-0 h5" id="panel_name_cellmarker">Cell Marker Table</a>
             <div class="btn-toolbar" role="toolbar">
-                <div class="input-group mr-2 ml-1 my-0">
+                <div class="input-group mr-1 ml-1 my-0">
+                    <button class="btn btn-light ml-1 mr-2 my-0" type="button" onclick="Download_DataTable( 'datatable_cell_marker' )" data-tooltip="tooltip" data-placement="bottom" title="Press to download current datatable as a CSV file"><i class="material-icons icon-black" style="font-size:20px;cursor:pointer">get_app</i></button> 
                     <div class="input-group-append"><span class="input-group-text">Download Data</span></div>
                 </div>
-                <button class="btn btn-light ml-1 mr-2 my-0" type="button" onclick="Download_DataTable( 'datatable_cell_marker' )" data-tooltip="tooltip" data-placement="bottom" title="Press to download current datatable as a CSV file"><i class="material-icons icon-black" style="font-size:20px;cursor:pointer">get_app</i></button> 
             </div>
             <button type="button" class="close" aria-label="Close container_panel_datatable_cell_marker" data-toggle="collapse" data-target="#container_panel_datatable_cell_marker"><span aria-hidden="true">&times;</span></button>
         </nav>
@@ -754,10 +768,10 @@ code {
         <nav class="navbar navbar-dark bg-custom-navbar">
             <a class="navbar-brand mb-0 h5" id="panel_name_correl_gene">Co-expression Table</a>
             <div class="btn-toolbar" role="toolbar">
-                <div class="input-group mr-2 ml-1 my-0">
+                <div class="input-group mr-1 ml-1 my-0">
+                    <button class="btn btn-light ml-1 mr-2 my-0" type="button" onclick="Download_DataTable( 'datatable_correl' )" data-tooltip="tooltip" data-placement="bottom" title="Press to download current datatable as a CSV file"><i class="material-icons icon-black" style="font-size:20px;cursor:pointer">get_app</i></button> 
                     <div class="input-group-append"><span class="input-group-text">Download Data</span></div>
                 </div>
-                <button class="btn btn-light ml-1 mr-2 my-0" type="button" onclick="Download_DataTable( 'datatable_correl' )" data-tooltip="tooltip" data-placement="bottom" title="Press to download current datatable as a CSV file"><i class="material-icons icon-black" style="font-size:20px;cursor:pointer">get_app</i></button> 
             </div>
             <button type="button" class="close" aria-label="Close container_panel_datatable_correl" data-toggle="collapse" data-target="#container_panel_datatable_correl"><span aria-hidden="true">&times;</span></button>
         </nav>
@@ -964,13 +978,13 @@ var DragSort=function(t){
     
     object_data.setting.plot.annotation = { };
     object_data.setting.plot.annotation.dict_tissue_to_dict_cell_type_to_color = {
-'Combined.mTissues6': {'kidney_PT': '#9ACD32', 'kidney_nephrone': '#9932CC', 'lung_AT1': '#FF0000', 'lung_AT2': '#27408B', 'liver_hepatocyte': '#CD5555', 'heart_Fibroblast': '#EEB422', 'lung_Fibroblast': '#CD2626', 'Endothelial': '#90EE90', 'liver_Endo': '#EE4000', 'SMC': '#000080', 'Pericyte': '#8B1C62', 'Plasma': '#00BFFF', 'Intestine_SC': '#8B8B83', 'Intestine TA': '#4EEE94', 'DN': '#EE5C42', 'DP': '#EE00EE', 'DP2': '#7A67EE', 'B cell': '#CDB79E', 'B cell2': '#CDAD00', 'B cell3': '#1874CD', 'T cell': '#CD853F', 'NK': '#4A708B', 'liver_Kuffer': '#8B5742', 'lung_AM': '#CD5555', 'Macrophage': '#5D478B', 'Macrophage2': '#EE9572', 'Myeloid': '#9ACD32', 'Myeloid2': '#009ACD', 'Platlet': '#8B668B', 'RBC': '#CD6839', 'RBC2': '#8B7B8B'},
-'Kidney': {'PTS1': '#9ACD32', 'PTS1-S2': '#9932CC', 'PTS2': '#FF0000', 'PTS3': '#1874CD', 'ALOH': '#CD5555', 'DCT': '#EEB422', 'CNT': '#00C5CD', 'CD PC': '#90EE90', 'CD IC': '#FF1493', 'Mesangium': '#000080', 'Podocyte': '#8B1C62', 'ENDO': '#00BFFF', 'ENDO2': '#B22222', 'Proliferation': '#4EEE94', 'B cell': '#EE5C42', 'NK': '#EE00EE', 'Macro': '#EE4000', 'Monocyte': '#CDB79E', 'RBC': '#CDAD00'},
+'Combined.mTissues6': { 'kidney_Other tubules' : '#9932CC', 'kidney_PT': '#9ACD32', 'kidney_nephrone': '#9932CC', 'lung_AT1': '#FF0000', 'lung_AT2': '#27408B', 'liver_hepatocyte': '#CD5555', 'heart_Fibroblast': '#EEB422', 'lung_Fibroblast': '#CD2626', 'Endothelial': '#90EE90', 'liver_Endo': '#EE4000', 'SMC': '#000080', 'Pericyte': '#8B1C62', 'Plasma': '#00BFFF', 'Intestine_SC': '#8B8B83', 'Intestine TA': '#4EEE94', 'DN': '#EE5C42', 'DP': '#EE00EE', 'DP2': '#7A67EE', 'B cell': '#CDB79E', 'B cell2': '#CDAD00', 'B cell3': '#1874CD', 'T cell': '#CD853F', 'NK': '#4A708B', 'liver_Kuffer': '#8B5742', 'lung_AM': '#CD5555', 'Macrophage': '#5D478B', 'Macrophage2': '#EE9572', 'Myeloid': '#9ACD32', 'Myeloid2': '#009ACD', 'Platlet': '#8B668B', 'RBC': '#CD6839', 'RBC2': '#8B7B8B'},
+'Kidney': {'PST' : "#1874CD", 'Mesangial cell' : "#000080", 'PCT1' : "#9ACD32", 'PCT1-2' : "#9932CC", 'PCT2' : "#FF0000", 'PTS1': '#9ACD32', 'PTS1-S2': '#9932CC', 'PTS2': '#FF0000', 'PTS3': '#1874CD', 'ALOH': '#CD5555', 'DCT': '#EEB422', 'CNT': '#00C5CD', 'CD PC': '#90EE90', 'CD IC': '#FF1493', 'Mesangium': '#000080', 'Podocyte': '#8B1C62', 'ENDO': '#00BFFF', 'ENDO2': '#B22222', 'Proliferation': '#4EEE94', 'B cell': '#EE5C42', 'NK': '#EE00EE', 'Macro': '#EE4000', 'Monocyte': '#CDB79E', 'RBC': '#CDAD00'},
 'Thymus': {'DN': '#9ACD32', 'ISP': '#9932CC', 'DP(P)': '#FF0000', 'DP2(P)': '#27408B', 'DP': '#EEB423', 'gd T': '#EEB422', 'ab T': '#CD1076', 'CD8 aa': '#90EE90', 'Cd4 SP': '#EE4000', 'Cd4 SP2': '#000080', 'Cd8 SP': '#8B1C62', 'Cd4 SP(M)': '#00BFFF', 'NK': '#8B8B83', 'DC': '#27408B'},
 "Liver" : { "Hepatocyte1" : "#FF0000", "RBC" : "#9ACD32", "Hepatocyte2" : "#A63603", "Stellate cell" : "#00441B", "Endo" : "#A1D99B", "Endo2" : "#238B45", "Endo3" : "#41AB5D", "B cell" : "#2171B5", "B cell2" : "#08306B", "T cell" : "#DFC27D", "T cell2" : "#FD8D3C", "NK/T" : "#BF812D", "NK cell" : "#FDBE85", "Cycling" : "#A6761D", "Kupffer" : "#9ECAE1", "Kupffer2" : "#4292C6", "Granulocyte" : "#9E9AC8", "Neutro" : "#756BB1", "DC" : "#54278F", "Mono" : "#FEE6CE", "pat.Mono" : "#FDAE6B" },
 'Intestine' : { "ISC" : "#FF0000", "Proli_ISC" : "#A63603", "Lgr5+ISC" : "#F781BF", "VTT" : "#00441B", "Fibro" : "#74C476", "Pdgfrb+Fibro" : "#41AB5D", "Myofibro1" : "#80CDC1", "Myofibro2" : "#35978F", "Endo1" : "#DFC27D", "Endo2" : "#BF812D", "Endo3" : "#8C510A", "Endo4" : "#FDBE85", "LV" : "#A6761D", "B cell1" : "#9ECAE1", "B cell2" : "#4292C6", "B cell3" : "#2171B5", "plasma1" : "#756BB1", "plasma2" : "#54278F", "plasma3" : "#9E9AC8", "T cell" : "#FCAE91", "NK cell" : "#FB6A4A", "Lymphoid" : "#A50F15", "Macro" : "#FB9A99", "DC" : "#DE2D26" },
-'Heart' : { "Fibro4" : "#9ACD32", "Cardiomyocyte" : "#D94801", "Endo" : "#FD8D3C", "Endo2" : "#E6550D", "LV" : "#E6550D", "Fibro1" : "#A1D99B", "Fibro2" : "#74C476", "Fibro3" : "#238B45", "Mural cell" : "#F16913", "Myofibro" : "#41AB5D", "SMC2" : "#41AB5D", "Pericyte" : "#4292C6", "B cell" : "#2171B5", "NK cell" : "#756BB1", "Resident Macro" : "#FB6A4A", "DC" : "#FCBBA1", "Granulocyte" : "#A50F15", "Platelet" : "#8C510A", "RBC" : "#4575B4" },
-'Lung' : { "Fibroblast" : "#9ACD32", "Basophils" : "#9ACD32", "AT1" : "#9E0142", "AT2" : "#D53E4F", "Ciliated" : "#DE2D26", "gCap" : "#E6550D", "gCap2" : "#FCBBA1", "gCap3" : "#FD8D3C", "Endo" : "#FDBE85", "Fibroblast2" : "#238B45", "Fibroblast3" : "#006D2C", "Myofibroblast" : "#A1D99B", "Mesothelial" : "#74C476", "SMC" : "#F16913", "Pericyte" : "#8C510A", "Proliferation" : "#2171B5", "Immune stromal cell" : "#4292C6", "B cell" : "#2171B5", "B cell2" : "#9ECAE1", "Naive T cell" : "#80CDC1", "T cell" : "#35978F", "NK/T" : "#003C30", "NK cell" : "#C7EAE5", "AM" : "#FB9A99", "DC" : "#FDAE6B", "Monocyte" : "#C7E9C0", "Monocyte2" : "#41AB5D", "Neutrophils" : "#9E9AC8", "RBC" : "#54278F" },
+'Heart' : { "LE" : "#E6550D", "Mural" : "#F16913", "Fibro4" : "#9ACD32", "Cardiomyocyte" : "#D94801", "Endo" : "#FD8D3C", "Endo2" : "#E6550D", "LV" : "#E6550D", "Fibro1" : "#A1D99B", "Fibro2" : "#74C476", "Fibro3" : "#238B45", "Mural cell" : "#F16913", "Myofibro" : "#41AB5D", "SMC2" : "#41AB5D", "Pericyte" : "#4292C6", "B cell" : "#2171B5", "NK cell" : "#756BB1", "Resident Macro" : "#FB6A4A", "DC" : "#FCBBA1", "Granulocyte" : "#A50F15", "Platelet" : "#8C510A", "RBC" : "#4575B4" },
+'Lung' : { 'gCap ' : "#E6550D", 'gCap3 ' : "#FD8D3C", "Fibroblast" : "#9ACD32", "Basophils" : "#9ACD32", "AT1" : "#9E0142", "AT2" : "#D53E4F", "Ciliated" : "#DE2D26", "gCap" : "#E6550D", "gCap2" : "#FCBBA1", "gCap3" : "#FD8D3C", "Endo" : "#FDBE85", "Fibroblast2" : "#238B45", "Fibroblast3" : "#006D2C", "Myofibroblast" : "#A1D99B", "Mesothelial" : "#74C476", "SMC" : "#F16913", "Pericyte" : "#8C510A", "Proliferation" : "#2171B5", "Immune stromal cell" : "#4292C6", "B cell" : "#2171B5", "B cell2" : "#9ECAE1", "Naive T cell" : "#80CDC1", "T cell" : "#35978F", "NK/T" : "#003C30", "NK cell" : "#C7EAE5", "AM" : "#FB9A99", "DC" : "#FDAE6B", "Monocyte" : "#C7E9C0", "Monocyte2" : "#41AB5D", "Neutrophils" : "#9E9AC8", "RBC" : "#54278F" },
 'Combined.Aging_Kidney' : { "podocyte" : "#A63603", "mesangial cell" : "#E6550D", "JGC" : "#FD8D3C", "PEC" : "#FDBE85", "PT" : "#00441B", "PCT1_1" : "#006D2C", "PCT1_2" : "#238B45", "PCT2_1" : "#41AB5D", "PCT2_2" : "#74C476", "PST" : "#A1D99B", "ALOH" : "#08306B", "macula densa" : "#08306B", "DCT" : "#2171B5", "CNT" : "#4292C6", "CD PC" : "#4292C6", "CD IC" : "#9ECAE1", "GEC" : "#54278F", "aterioles" : "#756BB1", "CD4" : "#9E9AC8", "CD8" : "#A50F15", "NK" : "#DE2D26", "B cell" : "#FB6A4A", "Macrophage" : "#FCAE91", "RBC" : "#543005" },
 'Glom (Old)' : { "podocyte" : "#A63603", "mesangial cell" : "#E6550D", "JGC" : "#FD8D3C", "PEC" : "#FDBE85", "PT" : "#00441B", "PCT1_1" : "#006D2C", "PCT1_2" : "#238B45", "PCT2_1" : "#41AB5D", "PCT2_2" : "#74C476", "PST" : "#A1D99B", "ALOH" : "#08306B", "macula densa" : "#08306B", "DCT" : "#2171B5", "CNT" : "#4292C6", "CD PC" : "#4292C6", "CD IC" : "#9ECAE1", "GEC" : "#54278F", "aterioles" : "#756BB1", "CD4" : "#9E9AC8", "CD8" : "#A50F15", "NK" : "#DE2D26", "B cell" : "#FB6A4A", "Macrophage" : "#FCAE91", "RBC" : "#543005" },
 'Glom (Young)' : { "podocyte" : "#A63603", "mesangial cell" : "#E6550D", "JGC" : "#FD8D3C", "PEC" : "#FDBE85", "PT" : "#00441B", "PCT1_1" : "#006D2C", "PCT1_2" : "#238B45", "PCT2_1" : "#41AB5D", "PCT2_2" : "#74C476", "PST" : "#A1D99B", "ALOH" : "#08306B", "macula densa" : "#08306B", "DCT" : "#2171B5", "CNT" : "#4292C6", "CD PC" : "#4292C6", "CD IC" : "#9ECAE1", "GEC" : "#54278F", "aterioles" : "#756BB1", "CD4" : "#9E9AC8", "CD8" : "#A50F15", "NK" : "#DE2D26", "B cell" : "#FB6A4A", "Macrophage" : "#FCAE91", "RBC" : "#543005" },
@@ -1534,6 +1548,14 @@ var DragSort=function(t){
     }
     async function LoadRemoteData( l_file ) { // load list of given tsv files from remote locations through asynchrous operations
         return new Promise( async function( resolve, reject ) { 
+            let l_file_not_downloaded = [ ]; // list of files that were not downloaded
+            for ( let i = 0; i < l_file.length; i ++ ) { 
+                let url_file = l_file[ i ], name_file = url_file.slice( url_file.lastIndexOf( "/" ) + 1 );
+                if ( ! ( name_file in object_data.file.dict_name_file_to_parsed_data ) ) { // if the name_file does not exist in the parsed data, add the url to 'l_file_not_downloaded'
+                    l_file_not_downloaded.push( url_file );
+                }
+            }
+            l_file = l_file_not_downloaded; // download files that are not already downloaded
             console.log( "[LoadRemoteData] remote data fetch started:", l_file );
             Loading_Screen( true ) // add loading screen
             let l_promise = l_file.map( function( file ) { 
@@ -1557,8 +1579,8 @@ var DragSort=function(t){
             let results = await Promise.all( l_promise ); // wait until all files have been parsed by Papa.parse
             let l_parsed_data = [ ]; 
             l_parsed_data.push( ... results );
-            for ( let i = 0; i < l_file.length; i ++ ) { 
-                let url_file = l_file[ i ], name_file = url_file.slice( url_file.lastIndexOf( "/" ) + 1 )
+            for ( i = 0; i < l_file.length; i ++ ) { 
+                let url_file = l_file[ i ], name_file = url_file.slice( url_file.lastIndexOf( "/" ) + 1 );
                 object_data.file.dict_name_file_to_parsed_data[ name_file ] = l_parsed_data[ i ];
             } // put parsed data into a dictionary
             console.log( "[LoadRemoteData] remote data loaded:", l_file );
@@ -2070,9 +2092,9 @@ var DragSort=function(t){
         // complete the selection process by re-enabling the selection button
         $id( 'select_scatter_x_axis' ).disabled = false; 
         $id( 'select_scatter_y_axis' ).disabled = false; 
-        object_data.setting.plot.single_cell_scatter.int_factor_axis_range_to_marker_size = object_data.main.scatter.flag_axis_using_gene_expr ? 7 : 30;
+        object_data.setting.plot.single_cell_scatter.int_factor_axis_range_to_marker_size = object_data.main.scatter.flag_axis_using_gene_expr ? 16 : 80;
         object_data.setting.plot.single_cell_scatter.marker_size = ResponsiveMarkerSize( plotSingleCellAnnotation, object_data.setting.plot.single_cell_scatter.int_factor_axis_range_to_marker_size, object_data.setting.plot.single_cell_scatter.int_factor_marker_size_multiply );
-        console.log( object_data.setting.plot.single_cell_scatter.marker_size );
+        console.log( `marker size is ${object_data.setting.plot.single_cell_scatter.marker_size}` );
         if ( flag_restyle ) { // restyle existing plot
             console.log( "[UpdateGene] restyling existing plot for", gene_symbol );
             let update = { 
@@ -2323,7 +2345,7 @@ var DragSort=function(t){
             return object_data.setting.plot.single_cell_scatter.marker_size; // if plotly has not been drawn, use the default value for the marker size
         }
         let x = div.layout.xaxis, y = div.layout.yaxis,
-            int_marker_size_to_be_updated = Math.min( 10, Math.min( Math.ceil( int_factor_axis_range_to_marker_size / ( x.range[ 1 ] - x.range[ 0 ] ) ), Math.ceil( int_factor_axis_range_to_marker_size / ( y.range[ 1 ] - y.range[ 0 ] ) ) ) * int_factor_marker_size_multiply );
+            int_marker_size_to_be_updated = Math.min( 15, Math.min( Math.ceil( int_factor_axis_range_to_marker_size / ( x.range[ 1 ] - x.range[ 0 ] ) ), Math.ceil( int_factor_axis_range_to_marker_size / ( y.range[ 1 ] - y.range[ 0 ] ) ) ) * int_factor_marker_size_multiply );
         return int_marker_size_to_be_updated;
     }
     // synchronization of zoom levels across plots
