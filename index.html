@@ -722,7 +722,7 @@ code {
         </div> 
         <div id="container_main_panel">
             <div id="container_searchbox_main">
-                <input name='tags' id='searchbox_main' placeholder='Enter Gene Symbol' value='Fos,Gapdh,Actb' data-blacklist='.NET,PHP'>
+                <input name='tags' id='searchbox_main' placeholder='Enter Gene Symbol' value='' data-blacklist='.NET,PHP'>
             </div>
             <div id="container_plotly_searchbox_main_preview_container" style="position:relative">
                 <div id="container_plotly_searchbox_main_preview" class="collapse" style="position:absolute; z-index:990; left:0; top:0;">
@@ -971,26 +971,26 @@ var DragSort=function(t){
     }
     object_data.main.gene.correl.dict_name_tissue_to_cache = { };
     object_data.main.umap = { tissue : 'not_drawn' }; // set default values
-    object_data.main.scatter = { x_label : 'UMAP-1', y_label : 'UMAP-2', x_axis_option : '__UMAP__', y_axis_option : '__UMAP__', x_axis_col_name : 'UMAP_1', y_axis_col_name : 'UMAP_2', flag_waiting_selection_of_gene : false, gene_symbol_selected : '', flag_axis_using_gene_expr : true }; // initialize axis of the scatter plot
+    object_data.main.scatter = { x_label : 'UMAP-1', y_label : 'UMAP-2', x_axis_option : '__UMAP__', y_axis_option : '__UMAP__', x_axis_col_name : 'UMAP_1', y_axis_col_name : 'UMAP_2', flag_waiting_selection_of_gene : false, gene_symbol_selected : '', flag_axis_using_gene_expr : false }; // initialize axis of the scatter plot
     object_data.setting.expression = { };
     object_data.setting.expression.n_digits_below_floating_point = 3; // number of digits below floading point of the original expression values (converted to integer by multiplying 1000 during delivery of the data)
     object_data.main.datatable = { 'datatable_cell_marker' : { df : null, name : 'cell_marker' }, 'datatable_correl' : { df : null, name : 'correl_gene' } };
     
     object_data.setting.plot.annotation = { };
     object_data.setting.plot.annotation.dict_tissue_to_dict_cell_type_to_color = {
-'Combined.mTissues6': { 'kidney_Other tubules' : '#9932CC', 'kidney_PT': '#9ACD32', 'kidney_nephrone': '#9932CC', 'lung_AT1': '#FF0000', 'lung_AT2': '#27408B', 'liver_hepatocyte': '#CD5555', 'heart_Fibroblast': '#EEB422', 'lung_Fibroblast': '#CD2626', 'Endothelial': '#90EE90', 'liver_Endo': '#EE4000', 'SMC': '#000080', 'Pericyte': '#8B1C62', 'Plasma': '#00BFFF', 'Intestine_SC': '#8B8B83', 'Intestine TA': '#4EEE94', 'DN': '#EE5C42', 'DP': '#EE00EE', 'DP2': '#7A67EE', 'B cell': '#CDB79E', 'B cell2': '#CDAD00', 'B cell3': '#1874CD', 'T cell': '#CD853F', 'NK': '#4A708B', 'liver_Kuffer': '#8B5742', 'lung_AM': '#CD5555', 'Macrophage': '#5D478B', 'Macrophage2': '#EE9572', 'Myeloid': '#9ACD32', 'Myeloid2': '#009ACD', 'Platlet': '#8B668B', 'RBC': '#CD6839', 'RBC2': '#8B7B8B'},
-'Kidney': {'PST' : "#1874CD", 'Mesangial cell' : "#000080", 'PCT1' : "#9ACD32", 'PCT1-2' : "#9932CC", 'PCT2' : "#FF0000", 'PTS1': '#9ACD32', 'PTS1-S2': '#9932CC', 'PTS2': '#FF0000', 'PTS3': '#1874CD', 'ALOH': '#CD5555', 'DCT': '#EEB422', 'CNT': '#00C5CD', 'CD PC': '#90EE90', 'CD IC': '#FF1493', 'Mesangium': '#000080', 'Podocyte': '#8B1C62', 'ENDO': '#00BFFF', 'ENDO2': '#B22222', 'Proliferation': '#4EEE94', 'B cell': '#EE5C42', 'NK': '#EE00EE', 'Macro': '#EE4000', 'Monocyte': '#CDB79E', 'RBC': '#CDAD00'},
-'Thymus': {'DN': '#9ACD32', 'ISP': '#9932CC', 'DP(P)': '#FF0000', 'DP2(P)': '#27408B', 'DP': '#EEB423', 'gd T': '#EEB422', 'ab T': '#CD1076', 'CD8 aa': '#90EE90', 'Cd4 SP': '#EE4000', 'Cd4 SP2': '#000080', 'Cd8 SP': '#8B1C62', 'Cd4 SP(M)': '#00BFFF', 'NK': '#8B8B83', 'DC': '#27408B'},
-"Liver" : { "Hepatocyte1" : "#FF0000", "RBC" : "#9ACD32", "Hepatocyte2" : "#A63603", "Stellate cell" : "#00441B", "Endo" : "#A1D99B", "Endo2" : "#238B45", "Endo3" : "#41AB5D", "B cell" : "#2171B5", "B cell2" : "#08306B", "T cell" : "#DFC27D", "T cell2" : "#FD8D3C", "NK/T" : "#BF812D", "NK cell" : "#FDBE85", "Cycling" : "#A6761D", "Kupffer" : "#9ECAE1", "Kupffer2" : "#4292C6", "Granulocyte" : "#9E9AC8", "Neutro" : "#756BB1", "DC" : "#54278F", "Mono" : "#FEE6CE", "pat.Mono" : "#FDAE6B" },
-'Intestine' : { "ISC" : "#FF0000", "Proli_ISC" : "#A63603", "Lgr5+ISC" : "#F781BF", "VTT" : "#00441B", "Fibro" : "#74C476", "Pdgfrb+Fibro" : "#41AB5D", "Myofibro1" : "#80CDC1", "Myofibro2" : "#35978F", "Endo1" : "#DFC27D", "Endo2" : "#BF812D", "Endo3" : "#8C510A", "Endo4" : "#FDBE85", "LV" : "#A6761D", "B cell1" : "#9ECAE1", "B cell2" : "#4292C6", "B cell3" : "#2171B5", "plasma1" : "#756BB1", "plasma2" : "#54278F", "plasma3" : "#9E9AC8", "T cell" : "#FCAE91", "NK cell" : "#FB6A4A", "Lymphoid" : "#A50F15", "Macro" : "#FB9A99", "DC" : "#DE2D26" },
-'Heart' : { "LE" : "#E6550D", "Mural" : "#F16913", "Fibro4" : "#9ACD32", "Cardiomyocyte" : "#D94801", "Endo" : "#FD8D3C", "Endo2" : "#E6550D", "LV" : "#E6550D", "Fibro1" : "#A1D99B", "Fibro2" : "#74C476", "Fibro3" : "#238B45", "Mural cell" : "#F16913", "Myofibro" : "#41AB5D", "SMC2" : "#41AB5D", "Pericyte" : "#4292C6", "B cell" : "#2171B5", "NK cell" : "#756BB1", "Resident Macro" : "#FB6A4A", "DC" : "#FCBBA1", "Granulocyte" : "#A50F15", "Platelet" : "#8C510A", "RBC" : "#4575B4" },
-'Lung' : { 'gCap ' : "#E6550D", 'gCap3 ' : "#FD8D3C", "Fibroblast" : "#9ACD32", "Basophils" : "#9ACD32", "AT1" : "#9E0142", "AT2" : "#D53E4F", "Ciliated" : "#DE2D26", "gCap" : "#E6550D", "gCap2" : "#FCBBA1", "gCap3" : "#FD8D3C", "Endo" : "#FDBE85", "Fibroblast2" : "#238B45", "Fibroblast3" : "#006D2C", "Myofibroblast" : "#A1D99B", "Mesothelial" : "#74C476", "SMC" : "#F16913", "Pericyte" : "#8C510A", "Proliferation" : "#2171B5", "Immune stromal cell" : "#4292C6", "B cell" : "#2171B5", "B cell2" : "#9ECAE1", "Naive T cell" : "#80CDC1", "T cell" : "#35978F", "NK/T" : "#003C30", "NK cell" : "#C7EAE5", "AM" : "#FB9A99", "DC" : "#FDAE6B", "Monocyte" : "#C7E9C0", "Monocyte2" : "#41AB5D", "Neutrophils" : "#9E9AC8", "RBC" : "#54278F" },
-'Combined.Aging_Kidney' : { "podocyte" : "#A63603", "mesangial cell" : "#E6550D", "JGC" : "#FD8D3C", "PEC" : "#FDBE85", "PT" : "#00441B", "PCT1_1" : "#006D2C", "PCT1_2" : "#238B45", "PCT2_1" : "#41AB5D", "PCT2_2" : "#74C476", "PST" : "#A1D99B", "ALOH" : "#08306B", "macula densa" : "#08306B", "DCT" : "#2171B5", "CNT" : "#4292C6", "CD PC" : "#4292C6", "CD IC" : "#9ECAE1", "GEC" : "#54278F", "aterioles" : "#756BB1", "CD4" : "#9E9AC8", "CD8" : "#A50F15", "NK" : "#DE2D26", "B cell" : "#FB6A4A", "Macrophage" : "#FCAE91", "RBC" : "#543005" },
-'Glom (Old)' : { "podocyte" : "#A63603", "mesangial cell" : "#E6550D", "JGC" : "#FD8D3C", "PEC" : "#FDBE85", "PT" : "#00441B", "PCT1_1" : "#006D2C", "PCT1_2" : "#238B45", "PCT2_1" : "#41AB5D", "PCT2_2" : "#74C476", "PST" : "#A1D99B", "ALOH" : "#08306B", "macula densa" : "#08306B", "DCT" : "#2171B5", "CNT" : "#4292C6", "CD PC" : "#4292C6", "CD IC" : "#9ECAE1", "GEC" : "#54278F", "aterioles" : "#756BB1", "CD4" : "#9E9AC8", "CD8" : "#A50F15", "NK" : "#DE2D26", "B cell" : "#FB6A4A", "Macrophage" : "#FCAE91", "RBC" : "#543005" },
-'Glom (Young)' : { "podocyte" : "#A63603", "mesangial cell" : "#E6550D", "JGC" : "#FD8D3C", "PEC" : "#FDBE85", "PT" : "#00441B", "PCT1_1" : "#006D2C", "PCT1_2" : "#238B45", "PCT2_1" : "#41AB5D", "PCT2_2" : "#74C476", "PST" : "#A1D99B", "ALOH" : "#08306B", "macula densa" : "#08306B", "DCT" : "#2171B5", "CNT" : "#4292C6", "CD PC" : "#4292C6", "CD IC" : "#9ECAE1", "GEC" : "#54278F", "aterioles" : "#756BB1", "CD4" : "#9E9AC8", "CD8" : "#A50F15", "NK" : "#DE2D26", "B cell" : "#FB6A4A", "Macrophage" : "#FCAE91", "RBC" : "#543005" },
-'Tubule (Old)' : { "podocyte" : "#A63603", "mesangial cell" : "#E6550D", "JGC" : "#FD8D3C", "PEC" : "#FDBE85", "PT" : "#00441B", "PCT1_1" : "#006D2C", "PCT1_2" : "#238B45", "PCT2_1" : "#41AB5D", "PCT2_2" : "#74C476", "PST" : "#A1D99B", "ALOH" : "#08306B", "macula densa" : "#08306B", "DCT" : "#2171B5", "CNT" : "#4292C6", "CD PC" : "#4292C6", "CD IC" : "#9ECAE1", "GEC" : "#54278F", "aterioles" : "#756BB1", "CD4" : "#9E9AC8", "CD8" : "#A50F15", "NK" : "#DE2D26", "B cell" : "#FB6A4A", "Macrophage" : "#FCAE91", "RBC" : "#543005" },
-'Tubule (Young)' : { "podocyte" : "#A63603", "mesangial cell" : "#E6550D", "JGC" : "#FD8D3C", "PEC" : "#FDBE85", "PT" : "#00441B", "PCT1_1" : "#006D2C", "PCT1_2" : "#238B45", "PCT2_1" : "#41AB5D", "PCT2_2" : "#74C476", "PST" : "#A1D99B", "ALOH" : "#08306B", "macula densa" : "#08306B", "DCT" : "#2171B5", "CNT" : "#4292C6", "CD PC" : "#4292C6", "CD IC" : "#9ECAE1", "GEC" : "#54278F", "aterioles" : "#756BB1", "CD4" : "#9E9AC8", "CD8" : "#A50F15", "NK" : "#DE2D26", "B cell" : "#FB6A4A", "Macrophage" : "#FCAE91", "RBC" : "#543005" },
-    }; // define color for each cell type
+        'Combined.Aging_Kidney': {'podocyte': '#A63603', 'mesangial': '#FDBE85', 'JGC': '#E6550D', 'PEC': '#FD8D3C', 'PT1': '#A1D99B', 'PT2': '#238B45', 'ALOH': '#4292C6', 'CD PC': '#9ECAE1', 'GEC': '#FEB24C', 'endo_podo': '#08306B', 'endo_ALOH': '#4292C6', 'endo_immune': '#2171B5', 'lymphocytes': '#54278F', 'myeloid': '#9E9AC8', 'RBC': '#FCCDE5'}, 
+        'Glom (Old)': {'podocyte': '#A63603', 'mesangial': '#FDBE85', 'JGC': '#E6550D', 'PEC': '#FD8D3C', 'PT1': '#A1D99B', 'PT2': '#238B45', 'ALOH': '#4292C6', 'CD PC': '#9ECAE1', 'GEC': '#FEB24C', 'endo_podo': '#08306B', 'endo_ALOH': '#4292C6', 'endo_immune': '#2171B5', 'lymphocytes': '#54278F', 'myeloid': '#9E9AC8', 'RBC': '#FCCDE5'}, 
+        'Glom (Young)': {'podocyte': '#A63603', 'mesangial': '#FDBE85', 'JGC': '#E6550D', 'PEC': '#FD8D3C', 'PT1': '#A1D99B', 'PT2': '#238B45', 'ALOH': '#4292C6', 'CD PC': '#9ECAE1', 'GEC': '#FEB24C', 'endo_podo': '#08306B', 'endo_ALOH': '#4292C6', 'endo_immune': '#2171B5', 'lymphocytes': '#54278F', 'myeloid': '#9E9AC8', 'RBC': '#FCCDE5'}, 
+        'Tubule (Old)': {'podocyte': '#A63603', 'mesangial': '#FDBE85', 'JGC': '#E6550D', 'PEC': '#FD8D3C', 'PT1': '#A1D99B', 'PT2': '#238B45', 'ALOH': '#4292C6', 'CD PC': '#9ECAE1', 'GEC': '#FEB24C', 'endo_podo': '#08306B', 'endo_ALOH': '#4292C6', 'endo_immune': '#2171B5', 'lymphocytes': '#54278F', 'myeloid': '#9E9AC8', 'RBC': '#FCCDE5'}, 
+        'Tubule (Young)': {'podocyte': '#A63603', 'mesangial': '#FDBE85', 'JGC': '#E6550D', 'PEC': '#FD8D3C', 'PT1': '#A1D99B', 'PT2': '#238B45', 'ALOH': '#4292C6', 'CD PC': '#9ECAE1', 'GEC': '#FEB24C', 'endo_podo': '#08306B', 'endo_ALOH': '#4292C6', 'endo_immune': '#2171B5', 'lymphocytes': '#54278F', 'myeloid': '#9E9AC8', 'RBC': '#FCCDE5'}, 
+        'Combined.mTissues6': {'PT': 'yellowgreen', 'hepatocyte1': 'darkorchid', 'hepatocyte2': '#FF0000', 'kidney_other_tubule': '#FDB462', 'Cardiomyocyte': '#27408B', 'Proli_ISC': '#CD5555', 'Ciliated': '#EEB422', 'AT1': '#CD2626', 'AT2': '#90EE90', 'Fibroblast2': '#EE4000', 'Fibroblast1': '#8DD3C7', 'Fibro3': '#8B1C62', 'podocyte': '#66C2A5', 'mesangial': '#FC8D62', 'JGC': '#8DA0CB', 'Pericyte': '#E78AC3', 'Myofibro': '#A6D854', 'GEC': '#FFD92F', 'Endo1': '#E5C494', 'Endo2': '#B3B3B3', 'LE': '#8DD3C7', 'DN_DP': '#BC80BD', 'T cell': '#B3CDE3', 'NK': '#FB8072', 'B cell': '#80B1D3', 'B cell2': '#FDB462', 'plasma1': '#B3DE69', 'Kupffer': '#FCCDE5', 'Myeloid1': '#D9D9D9', 'AM': '#BC80BD', 'myeloid': '#CCEBC5', 'RBC': '#FFED6F'}, 
+        'Kidney': {'podocyte': '#8DD3C7', 'mesangial': '#B3B3B3', 'JGC': '#E5C494', 'PEC': '#FB8072', 'PT1': '#80B1D3', 'PT2': '#FDB462', 'PST': '#B3DE69', 'ALOH': '#FCCDE5', 'DCT': '#FFD92F', 'PC': '#BC80BD', 'IC': '#CCEBC5', 'GEC': '#FFED6F', 'aterioles': '#66C2A5', 'B cell': '#FC8D62', 'CD8': '#8DA0CB', 'Macro': '#E78AC3', 'RBC': '#A6D854'}, 
+        'Heart': {'Cardiomyocyte': '#B15928', 'Endo1': '#8DD3C7', 'Endo2': '#B3B3B3', 'Endo3': '#E5C494', 'LE': '#FB8072', 'Fibro1': '#80B1D3', 'Fibro2': '#FDB462', 'Fibro3': '#B3DE69', 'Sox10_Fibro': '#FCCDE5', 'Myofibro': '#FFD92F', 'SMC': '#BC80BD', 'Pericyte': '#CCEBC5', 'B cell': '#FFED6F', 'T cell': '#66C2A5', 'RM': '#FC8D62', 'RM2': '#8DA0CB', 'DC': '#E78AC3', 'Granulocyte': '#A6D854', 'Platelet': '#A6CEE3', 'RBC': '#1F78B4'}, 
+        'Intestine': {'Proli_ISC': '#6A3D9A', 'Proli': '#B15928', 'VTT': '#8DD3C7', 'VTT2': '#B3B3B3', 'Endo1': '#E5C494', 'Endo2': '#FB8072', 'Endo3': '#80B1D3', 'Endo4': '#FDB462', 'LV': '#B3DE69', 'Pdgfrb+Fibro': '#FCCDE5', 'Fibro': '#FFD92F', 'Myofibro1': '#BC80BD', 'Myofibro2': '#CCEBC5', 'proli_B cell': '#FFED6F', 'B cell': '#66C2A5', 'plasma': '#FC8D62', 'plasma2': '#8DA0CB', 'Naive_Cd4': '#E78AC3', 'Cd4 T': '#A6D854', 'Naive_Cd8': '#A6CEE3', 'Cd8 T': '#1F78B4', 'NK': '#B2DF8A', 'Myeloid': '#33A02C', 'Macro': '#FB9A99', 'DC': '#E31A1C'}, 
+        'Liver': {'hepatocyte1': '#6A3D9A', 'hepatocyte2': '#B15928', 'Stellate cell': '#8DD3C7', 'Endo1': '#B3B3B3', 'Endo2': '#E5C494', 'Endo3': '#FB8072', 'Endo4': '#80B1D3', 'Endo5': '#FDB462', 'B cell': '#B3DE69', 'T cell': '#FCCDE5', 'T cell2': '#FFD92F', 'T cell3': '#BC80BD', 'NK/T': '#CCEBC5', 'NK': '#FFED6F', 'Cycling': '#66C2A5', 'Kupffer': '#FC8D62', 'Mono': '#8DA0CB', 'Mono2': '#E78AC3', 'pat.Mono': '#A6D854', 'Neutro': '#A6CEE3', 'Granulocyte': '#1F78B4', 'DC': '#B2DF8A', 'RBC': '#33A02C'}, 
+        'Lung': {'AT1': '#8DD3C7', 'AT2': '#B3B3B3', 'Ciliated': '#E5C494', 'Gcap': '#FB8072', 'Fibroblast1': '#80B1D3', 'Fibroblast2': '#FDB462', 'Fibroblast3': '#B3DE69', 'Myofibro': '#FCCDE5', 'Mesothelial': '#FFD92F', 'SMC2': '#BC80BD', 'Immune stromal cell': '#CCEBC5', 'Pericyte': '#FFED6F', 'Naive T': '#66C2A5', 'CD8': '#FC8D62', 'NK': '#8DA0CB', 'B cell': '#E78AC3', 'B cell2': '#A6D854', 'AM': '#A6CEE3', 'Basophils': '#1F78B4', 'DC': '#B2DF8A', 'Monocyte2': '#33A02C', 'Monocyte3': '#FB9A99', 'Neutrophils': '#E31A1C', 'proliferating': '#FDBF6F', 'Myeloid': '#FF7F00', 'RBC': '#CAB2D6'}, 
+        'Thymus': {'DN': '#6A3D9A', 'ISP': '#B15928', 'DP(P)': '#8DD3C7', 'DP2(P)': '#FB8072', 'DP': '#80B1D3', 'alpha beta T': '#FDB462', 'CD8 alpha alpha': '#B3DE69', 'Cd8 SP': '#FCCDE5', 'Cd4 SP': '#FFD92F', 'Cd4 SP(M)': '#BC80BD', 'NK': '#CCEBC5', 'DC': '#FC8D62'}
+    }
     object_data.setting.plot.annotation.dict_tissue_to_color = {
         "Heart" : '#F8766D', 
         "Intestine" : '#B79F00', 
@@ -1016,11 +1016,11 @@ var DragSort=function(t){
         "Tubule (Young) (n=3326)" : "#E6E627",
         "Tubule (Old) (n=2772)" : "#E8D190",
     }; // define color for each tissue
+    object_data.setting.plot.preview_gene.flag_preview_on_hover = true; //setting
     
     // for faster async loading, the data files will be loaded together
     var l_remote_file = [ "current/rawdata/base64/cells.all.tsv.gz.base64.txt",
                           "current/rawdata/base64/all.box_precomputed_by_tissue.multiplied_by_1000.tsv.gz.base64.txt",
-                          "current/rawdata/base64/genes.tsv.gz.base64.txt",
                           "current/rawdata/base64/expr.multiplied_by_1000.index.tsv.gz.base64.txt",
                           "current/rawdata/base64/cell_marker.index.tsv.gz.base64.txt",
                           `current/rawdata/base64/${object_data.main.gene.correl.dict_name_tissue_to_prefix[ object_data.setting.app.name_tissue_default ]}.index.tsv.gz.base64.txt`
@@ -1032,12 +1032,10 @@ var DragSort=function(t){
         await ParseData( );
         console.log( "[Initialize] processing of parsed data completed:", Object.keys( object_data.file.dict_name_file_to_parsed_data ) );
         Initialize_SearchBox_Main( );
-//         Initialize_SearchBox_CellCluster( );
         console.log( "[Initialize] the main Gene_Symbol search box is now ready to receive queries", Object.keys( object_data.file.dict_name_file_to_parsed_data ) );
-        // plot one gene as an example
-        object_data.main.gene.gene_symbol = 'Fos';
-        // plot graph
+        object_data.main.gene.gene_symbol = 'Col15a1'; // plot one gene as an example
         Change_UMAP_Coordinate( object_data.setting.app.name_tissue_default ); // load the default name_tissue
+        tagify_searchbox_main.addTags( 'Col15a1') // add another tags
         PreviewGene( object_data.main.gene.gene_symbol );
         Loading_Screen( false );
     }    
@@ -1739,7 +1737,7 @@ var DragSort=function(t){
             },
             maxTags: object_data.main.gene.expr.data_size, // max number of tags = max size of gene expression data cache
             editTags: false, // disable editing
-            enforceWhitelist: true, whitelist: object_data.file.dict_name_file_to_parsed_data[ "genes.tsv.gz.base64.txt" ][ "Gene_Symbol" ]
+            enforceWhitelist: true, whitelist: object_data.file.dict_name_file_to_parsed_data[ "expr.multiplied_by_1000.index.tsv.gz.base64.txt" ][ "gene_symbol" ]
         })
         // Chainable event listeners
         tagify_searchbox_main
@@ -1752,6 +1750,27 @@ var DragSort=function(t){
                 object_data.main.gene.gene_symbol = e.detail.data.value;
                 UpdateGene( flag_restyle = true );
             }
+            $( e.detail.tag ).mouseenter( function( e ) {
+                console.log( 'mouse enter', e.target.textContent )
+                if ( object_data.setting.plot.preview_gene.flag_preview_on_hover ) {
+                    let gene_symbol = e.target.textContent; // retrieve gene_symbol
+                    // preview a gene on hover
+                    $( "#container_plotly_searchbox_main_preview" ).collapse( 'show' ); // show boxplot panel
+                    PreviewGene( gene_symbol );
+                }
+            })
+                .mouseleave( function( e ) {
+                console.log( 'mouse leave', e.target.textContent )
+                // hide boxplot panel
+                $( "#container_plotly_searchbox_main_preview" ).collapse( 'hide' ); // show boxplot panel
+            })
+                .mousemove( function( e ) {
+                console.log( 'mouse move', e.target.textContent )
+                if ( object_data.setting.plot.preview_gene.flag_preview_on_hover ) {
+                    // show boxplot panel
+                    $( "#container_plotly_searchbox_main_preview" ).collapse( 'show' ); // show boxplot panel
+                }
+            })
         } )
               .on( 'click', e => { 
             console.log( "onClickTag: ", e.detail.data.value );
@@ -1800,74 +1819,6 @@ var DragSort=function(t){
             }
         })
     }
-    var searchbox_cell_cluster = document.getElementById( 'searchbox_cell_cluster' ), tagify_searchbox_cell_cluster = { };
-    function Initialize_SearchBox_CellCluster( ) {
-        whitelist = object_data.file.dict_name_file_to_parsed_data[ "genes.tsv.gz.base64.txt" ][ "Gene_Symbol" ]
-        tagify_searchbox_cell_cluster = new Tagify( searchbox_cell_cluster, {
-            dropdown: { 
-                maxItems: 100,
-                enabled: 0,
-                position: 'text', // enable minimal sizing of a dropdown list
-                highlightFirst: true, // enable enhanced autocomplete feature
-            },
-            maxTags: object_data.main.gene.expr.data_size, // max number of tags = max size of gene expression data cache
-            editTags: false, // disable editing
-            enforceWhitelist: true, whitelist: object_data.file.dict_name_file_to_parsed_data[ "genes.tsv.gz.base64.txt" ][ "Gene_Symbol" ]
-        })
-//         // Chainable event listeners
-//         tagify_searchbox_cell_cluster
-//               .on( 'add', e => { 
-//             console.log( "onAddTag: ", e.detail.data.value );
-//             let index_gene = object_data.main.gene.dict_gene_symbol_lowercase_to_index_gene[ e.detail.data.value.toLowerCase( ) ];
-//             object_data.main.gene.index_gene = index_gene;
-//             UpdateGene( );
-//         } )
-        
-//               .on( 'click', e => { 
-//             console.log( "onClickTag: ", e.detail.data.value );
-//             let index_gene = object_data.main.gene.dict_gene_symbol_lowercase_to_index_gene[ e.detail.data.value.toLowerCase( ) ];
-//             object_data.main.gene.index_gene = index_gene;
-//             UpdateGene( );
-//         } )
-//               .on( 'remove', e => { console.log( "onRemoveTag: ", e.detail ); } )
-//               .on('input', e => { // preview during typing
-//             if ( ! isString( e.detail.value ) ) { return -1; }
-//             let gene_symbol_lowercase = e.detail.value.toLowerCase( ); // retrieve current input
-//             if ( gene_symbol_lowercase in object_data.main.gene.dict_gene_symbol_lowercase_to_index_gene ) { // show preview of the gene if it exists in the data
-//                 let index_gene = object_data.main.gene.dict_gene_symbol_lowercase_to_index_gene[ gene_symbol_lowercase ];
-//                 PreviewGene( index_gene );
-//             }
-//         } )
-//               .on( "dropdown:hide", ( e ) => { console.log( "dropdown:hide" ); $( "#container_plotly_searchbox_main_preview" ).collapse( 'hide' ); } )
-//               .on( "dropdown:show", ( e ) => { // preview during exploring dropdown options
-//             $( "#container_plotly_searchbox_main_preview" ).collapse( 'show' );
-//             console.log( "dropdown:show" );
-//             if ( ! object_data.flags.flag_tagify_searchbox_main_mutationobserver_attached ) {
-//                 let dropdown = document.querySelector( '.tagify__dropdown' ); // retrieve DOM of active dropdown
-//                 let options = {
-//                     subtree: true,
-//                     attributes: true
-//                 };
-//                 let observer = new MutationObserver( function( mutations ) {
-//                     mutations.forEach( function( e ) {
-//                         if ( ( e.attributeName == 'class' ) & ( e.target.className == "tagify__dropdown__item tagify__dropdown__item--active" ) ) { // detect the innerHTML of the active element using MutationObserver
-//                             console.log( "dropdown active element:", e.target.innerHTML );
-//                             let index_gene = object_data.main.gene.dict_gene_symbol_lowercase_to_index_gene[ e.target.innerHTML.toLowerCase( ) ];
-//                             PreviewGene( index_gene );
-//                         }
-//                     });
-//                 });
-//                 observer.observe( dropdown, options );
-//                 let dragsort = new DragSort( tagify_searchbox_cell_cluster.DOM.scope, {
-//                     selector: '.' + tagify_searchbox_cell_cluster.settings.classNames.tag,
-//                     callbacks: {
-//                         dragEnd: ( elm ) => { tagify_searchbox_cell_cluster.updateValueByDOMTags( ); }
-//                     }
-//                 });
-//                 object_data.flags.flag_tagify_searchbox_main_mutationobserver_attached = true; // set the flag to true after attaching mutationobserver to the dropdown list so that another observer is not attached.
-//             }
-//         })
-    }
 
     async function Change_UMAP_Coordinate( str_tissue = null ) { 
         if ( str_tissue === null ) {
@@ -1914,7 +1865,7 @@ var DragSort=function(t){
                     console.log( '[Change_UMAP_Coordinate] (X-axis) waiting a gene_symbol to be selected' );
                     return 1;
                 }
-            } else {
+            } else { // update y-axis
                 let option_gene = select_y_axis.options[ 1 ];
                 if( y_axis_option_current == '__UMAP__' ) {
                     object_data.main.scatter.y_label = 'UMAP-2';
@@ -2000,9 +1951,9 @@ var DragSort=function(t){
         plotSingleCellExpressionViolin = document.getElementById( "plotly_sclncrna_expression_violine" );
     object_data.setting.plot.single_cell_scatter = { 
         max_height: 750,
-        marker_size: 3,
+        marker_size: 2,
         int_factor_axis_range_to_marker_size : 30, 
-        int_factor_marker_size_multiply : 3
+        int_factor_marker_size_multiply : 1
     }; // defsult single-cell scatter plot setting
     object_data.setting.plot.single_cell_violin = { };
     var config_plotly = { responsive: true, displaylogo: false, toImageButtonOptions: { hoverClosestCartesian: true, format: 'png', filename: name_application, height: 750, width: 1100, scale: 1 }, modeBarButtonsToRemove: [ 'autoScale2d', 'toggleSpikelines', 'hoverCompareCartesian', 'hoverClosestCartesian' ] } // flexible plot width according to the window size  // do not display plotly logo
@@ -2092,8 +2043,8 @@ var DragSort=function(t){
         // complete the selection process by re-enabling the selection button
         $id( 'select_scatter_x_axis' ).disabled = false; 
         $id( 'select_scatter_y_axis' ).disabled = false; 
-        object_data.setting.plot.single_cell_scatter.int_factor_axis_range_to_marker_size = object_data.main.scatter.flag_axis_using_gene_expr ? 16 : 80;
-        object_data.setting.plot.single_cell_scatter.marker_size = ResponsiveMarkerSize( plotSingleCellAnnotation, object_data.setting.plot.single_cell_scatter.int_factor_axis_range_to_marker_size, object_data.setting.plot.single_cell_scatter.int_factor_marker_size_multiply );
+        object_data.setting.plot.single_cell_scatter.int_factor_axis_range_to_marker_size = object_data.main.scatter.flag_axis_using_gene_expr ? 6 : 30;
+        object_data.setting.plot.single_cell_scatter.marker_size = ResponsiveMarkerSize( plotSingleCellExpression, object_data.setting.plot.single_cell_scatter.int_factor_axis_range_to_marker_size, object_data.setting.plot.single_cell_scatter.int_factor_marker_size_multiply );
         console.log( `marker size is ${object_data.setting.plot.single_cell_scatter.marker_size}` );
         if ( flag_restyle ) { // restyle existing plot
             console.log( "[UpdateGene] restyling existing plot for", gene_symbol );
@@ -2144,7 +2095,7 @@ var DragSort=function(t){
                     width: 0
                 },
             };
-            Plotly.newPlot( plotSingleCellExpression, [ trace ], { margin: { l: 65, r: 65, b: 90, t: 50, pad: 4 }, xaxis: { title : object_data.main.scatter.x_label, zeroline: false }, yaxis: { title : object_data.main.scatter.y_label, zeroline: false }, hovermode: "closest" }, { ... config_plotly, filename: name_application + '__Expression_of_' + gene_symbol, height: 1100, width: 1100 } ); // draw scatter plot of the annotation
+            Plotly.newPlot( plotSingleCellExpression, [ trace ], { margin: { l: 65, r: 65, b: 90, t: 50, pad: 4 }, xaxis: { title : object_data.main.scatter.x_label, zeroline: false, showgrid : false }, yaxis: { title : object_data.main.scatter.y_label, zeroline: false, showgrid : false }, hovermode: "closest" }, { ... config_plotly, filename: name_application + '__Expression_of_' + gene_symbol, height: 1100, width: 1100 } ); // draw scatter plot of the annotation
             plotSingleCellExpression.on( "plotly_relayout" , function( ed ) {
                 PlotlySynchronizedLayout( ed, l_div_plotly );
             });
@@ -2267,7 +2218,7 @@ var DragSort=function(t){
         // complete the selection process by re-enabling the selection button
         $id( 'select_scatter_x_axis' ).disabled = false; 
         $id( 'select_scatter_y_axis' ).disabled = false; 
-        object_data.setting.plot.single_cell_scatter.int_factor_axis_range_to_marker_size = object_data.main.scatter.flag_axis_using_gene_expr ? 7 : 30;
+        object_data.setting.plot.single_cell_scatter.int_factor_axis_range_to_marker_size = object_data.main.scatter.flag_axis_using_gene_expr ? 6 : 30;
         object_data.setting.plot.single_cell_scatter.marker_size = ResponsiveMarkerSize( plotSingleCellAnnotation, object_data.setting.plot.single_cell_scatter.int_factor_axis_range_to_marker_size, object_data.setting.plot.single_cell_scatter.int_factor_marker_size_multiply );
         if ( flag_restyle ) { // restyle existing plot
             console.log( "[PlotCellAnnotation] restyling existing plot for", str_name_data_annotation );
@@ -2312,7 +2263,7 @@ var DragSort=function(t){
                 },
             };
             trace.marker = { ... trace.marker, ... marker_colormap }; // update setting for showing colormap
-            Plotly.newPlot( plotSingleCellAnnotation, [ trace ], { margin: { l: 65, r: 65, b: 90, t: 50, pad: 4 }, xaxis: { title : object_data.main.scatter.x_label, zeroline: false }, yaxis: { title : object_data.main.scatter.y_label, zeroline: false }, hovermode: "closest" }, { ... config_plotly, filename: name_application + '__Annotation', height: 1100, width: 1100 } ); // draw scatter plot of the annotation
+            Plotly.newPlot( plotSingleCellAnnotation, [ trace ], { margin: { l: 65, r: 65, b: 90, t: 50, pad: 4 }, xaxis: { title : object_data.main.scatter.x_label, zeroline: false, showgrid : false }, yaxis: { title : object_data.main.scatter.y_label, zeroline: false, showgrid : false }, hovermode: "closest" }, { ... config_plotly, filename: name_application + '__Annotation', height: 1100, width: 1100 } ); // draw scatter plot of the annotation
             
             // add interactions
             plotSingleCellAnnotation.on( 'plotly_click', async function( data ) {
@@ -2340,12 +2291,12 @@ var DragSort=function(t){
         $( "#container_panel_datatable_cell_marker" ).collapse( 'show' )
     }
     
-    function ResponsiveMarkerSize( div, int_factor_axis_range_to_marker_size = 30, int_factor_marker_size_multiply = 3 ) { // get marker size according to the given parameter and x- and y-axis range of the division containing a plotly plot
+    function ResponsiveMarkerSize( div, int_factor_axis_range_to_marker_size = 6, int_factor_marker_size_multiply = 1 ) { // get marker size according to the given parameter and x- and y-axis range of the division containing a plotly plot
         if ( ! ( 'layout' in div ) ) {
             return object_data.setting.plot.single_cell_scatter.marker_size; // if plotly has not been drawn, use the default value for the marker size
         }
         let x = div.layout.xaxis, y = div.layout.yaxis,
-            int_marker_size_to_be_updated = Math.min( 15, Math.min( Math.ceil( int_factor_axis_range_to_marker_size / ( x.range[ 1 ] - x.range[ 0 ] ) ), Math.ceil( int_factor_axis_range_to_marker_size / ( y.range[ 1 ] - y.range[ 0 ] ) ) ) * int_factor_marker_size_multiply );
+            int_marker_size_to_be_updated = Math.max( 2, Math.min( 15, Math.min( Math.ceil( int_factor_axis_range_to_marker_size / ( x.range[ 1 ] - x.range[ 0 ] ) ), Math.ceil( int_factor_axis_range_to_marker_size / ( y.range[ 1 ] - y.range[ 0 ] ) ) ) * int_factor_marker_size_multiply ) ); // max value is 15, min value is 2
         return int_marker_size_to_be_updated;
     }
     // synchronization of zoom levels across plots
@@ -2356,8 +2307,8 @@ var DragSort=function(t){
             let x = div.layout.xaxis, y = div.layout.yaxis, flag_relayout = false, update = { }; // a flag indicating whether a relayout event is required
             // ignore when layouts are changed due to autoranging
             let int_marker_size_current = div.data[ 0 ].marker.size;
-                int_marker_size_to_be_updated = ResponsiveMarkerSize( div, object_data.setting.plot.single_cell_scatter.int_factor_axis_range_to_marker_size, object_data.setting.plot.single_cell_scatter.int_factor_marker_size_multiply ),
-                flag_restyle = int_marker_size_to_be_updated != int_marker_size_current;
+            int_marker_size_to_be_updated = ResponsiveMarkerSize( div, object_data.setting.plot.single_cell_scatter.int_factor_axis_range_to_marker_size, object_data.setting.plot.single_cell_scatter.int_factor_marker_size_multiply );
+            flag_restyle = int_marker_size_to_be_updated != int_marker_size_current;
 
             if ( flag_restyle ) { // restyle existing plot
                 console.log( "[UpdateGene] restyling marker size to ", int_marker_size_to_be_updated );
@@ -2418,7 +2369,7 @@ var DragSort=function(t){
         let window_width = window.innerWidth,
             window_height = window.innerHeight,
             window_width_excluding_sidebar = $id( "controlBox_plotly_graph_main" ).offsetWidth,
-            preview_height = parseInt( Math.min( Math.max( 175, window_height / 3.5 ), 500 ) ),
+            preview_height = parseInt( Math.min( Math.max( 175, window_height / 3.5 ), 500 ) ), // max height is 500px
             preview_width = window_width_excluding_sidebar,
             div_preview = $id( "plotly_searchbox_main_preview" );
         div_preview.style.height = ( preview_height ).toString( ) + 'px';
