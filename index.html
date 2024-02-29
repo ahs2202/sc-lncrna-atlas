@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description"
         content="single cell lncRNA database web application">
-    <title>Single Cell LncRNA Atlas</title>
+    <title>Single Cell lncRNA Atlas</title>
     
     <!--Bootstrap CSS library-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -383,25 +383,24 @@ code {
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Combined.Aging_Kidney' )">All<span class="badge badge-pill badge-primary">20261 cells</span></a>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Combined.Aging_Kidney' )">All<span class="badge badge-pill badge-primary">17,690 cells</span></a>
                                     </li>
                                     <li>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Glom (Old)' )">Glomerulus (Old)<span class="badge badge-pill badge-secondary">6505 cells</span></a>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Glom-enriched (young mice)' )">Glomerulus (Young)<span class="badge badge-pill badge-secondary">6,888 cells</span></a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Glom (Young)' )">Glomerulus (Young)<span class="badge badge-pill badge-secondary">7658 cells</span></a>
+                                        <a href="#" onclick="Change_UMAP_Coordinate(  'Glom-enriched (old mice)' )">Glomerulus (Old)<span class="badge badge-pill badge-secondary">5,695 cells</span></a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Tubule (Old)' )">Tubule (Old)<span class="badge badge-pill badge-secondary">2772 cells</span></a>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Tubule-enriched (young mice)' )">Tubule (Young)<span class="badge badge-pill badge-secondary">2,618 cells</span></a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Tubule (Young)' )">Tubule (Young)<span class="badge badge-pill badge-secondary">3326 cells</span></a>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Tubule-enriched (old mice)' )">Tubule (Old)<span class="badge badge-pill badge-secondary">2,489 cells</span></a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
-                        
                         <li class="sidebar-dropdown">
                             <a href="#">
                                 <i class="fas fa-heart"></i>
@@ -410,26 +409,26 @@ code {
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Combined.mTissues6' )">All<span class="badge badge-pill badge-primary">22244 cells</span></a>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Combined.mTissues6' )">All<span class="badge badge-pill badge-primary">34,357 cells</span></a>
                                     </li>
                                     <li>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Heart' )">Heart<span class="badge badge-pill badge-secondary">5979 cells</span></a>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Kidney' )">Kidney<span class="badge badge-pill badge-secondary">15,703 cells</span></a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Intestine' )">Intestine<span class="badge badge-pill badge-secondary">2330 cells</span></a>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Heart' )">Heart<span class="badge badge-pill badge-secondary">5,322 cells</span></a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Kidney' )">Kidney<span class="badge badge-pill badge-secondary">2455 cells</span></a>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Intestine' )">Intestine<span class="badge badge-pill badge-secondary">4,374 cells</span></a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Lung' )">Lung<span class="badge badge-pill badge-secondary">4375 cells</span></a>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Lung' )">Lung<span class="badge badge-pill badge-secondary">4,144 cells</span></a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Liver' )">Liver<span class="badge badge-pill badge-secondary">4191 cells</span></a>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Liver' )">Liver<span class="badge badge-pill badge-secondary">2,914 cells</span></a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Thymus' )">Thymus<span class="badge badge-pill badge-secondary">2914 cells</span></a>
+                                        <a href="#" onclick="Change_UMAP_Coordinate( 'Thymus' )">Thymus<span class="badge badge-pill badge-secondary">1,900 cells</span></a>
                                     </li>
                                 </ul>
                             </div>
@@ -622,12 +621,15 @@ code {
 <div id="application-current-view"> 
 <div id="single_cell_lncrna_database">
     <nav class="navbar navbar-expand-lg navbar-dark bg-custom-navbar"> <!-- sticky-top -->
-        <a class="navbar-brand mb-0 h1">Single Cell Long noncoding RNA Atlas</a>
+        <a class="navbar-brand mb-0 h1">Single Cell Long Non-coding RNA Atlas</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav_top" aria-controls="navbarNav_top" aria-expanded="false" aria-label="Toggle top navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarNav_top">
             <ul class="navbar-nav">
                 <li class="nav-item active">
                     <a class="nav-link" type="button" data-toggle="collapse" data-target="#introduction" aria-controls="introduction" aria-expanded="false" aria-label="Toggle introduction" onclick="Toggle_Introduction_Modal( )">Introduction</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" type="button" data-toggle="collapse" data-target="#download" aria-controls="download" aria-expanded="false" aria-label="Toggle download" onclick="Toggle_Download_Modal( )">Download</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" type="button" aria-label="Toggle Side Menu" id="toggle-sidebar">Side Menu</a>
@@ -661,6 +663,7 @@ code {
                         <div class="input-group-prepend mx-2 my-0" style="height:30px"><h5 id="text_umap_annotation" class="input-group-text">Annotation</h5></div>
                         <select class="form-control my-0" id="select_umap_annotation_data" style="text-align: center; height:30px; line-height: 0px; padding-top: 0px; padding-bottom: 0px;" data-tooltip="tooltip" data-placement="bottom" data-html="true" title="Select data to be visualized on the 'Annotation' UMAP plot" onchange="PlotCellAnnotation( flag_restyle = true )">
                             <option value="cell type" selected>Cell Type</option>
+                            <option value="age">Age</option>
                             <option value="tissue">Tissue</option>
                             <option value="nCount_RNA">Number of mRNA</option>
                             <option value="nFeature_RNA">Number of Genes</option>
@@ -683,6 +686,9 @@ code {
                         </select>
 <!--                         <button class="btn btn-light btn-sm mx-2 my-0" type="button" data-toggle="button" data-tooltip="tooltip" data-placement="bottom" data-html="true" title="Press to <b>on/off</b> the <i>legend</i> of the graph" id="button_umap_expr_left" onclick=""><i class="fas fa-caret-up"></i></button> -->
 <!--                         <button class="btn btn-light btn-sm my-0" type="button" data-toggle="button" data-tooltip="tooltip" data-placement="bottom" data-html="true" title="Press to <b>on/off</b> the <i>legend</i> of the graph" id="button_umap_expr_right" onclick=""><i class="fas fa-caret-down"></i></button> -->
+                    </form>
+                    <form class="form-inline">
+                        <button class="btn btn-light ml-1 mr-2 my-0" type="button" onclick="Download_UMAP( )" data-tooltip="tooltip" data-placement="bottom" title="Press to download current datatable as a CSV file"><i class="material-icons icon-black" style="font-size:20px;cursor:pointer">get_app</i></button> 
                     </form>
                 </nav>
                 <div class="collapse" id="navbarToggleExternalContent__plotly_graph_umap">
@@ -876,16 +882,10 @@ code {
   <div class="modal-dialog" style="width: 100%!important;height: 100%!important;margin: 0!important;padding: 0!important;max-width:none !important;">
     <div class="modal-content" style="height: auto !important; min-height: 100% !important; border-radius: 0 !important;min-width: 100% !important;">
         <nav class="navbar navbar-expand-lg navbar-dark bg-custom-navbar"> <!-- sticky-top -->
-            <a class="navbar-brand mb-0 h1">Single Cell Long noncoding RNA Atlas</a>
+            <a class="navbar-brand mb-0 h1">Single Cell Long Non-coding RNA Atlas</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav_top" aria-controls="navbarNav_top" aria-expanded="false" aria-label="Toggle top navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarNav_top">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link">Citation</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link">Feedback</a>
-                    </li>
                 </ul>
             </div>
         </nav>
@@ -918,6 +918,70 @@ code {
         </div>
     </div>
 </div>
+
+
+<div id="modal_download" class="modal fade show" tabindex="-1" role="dialog" aria-labelledby="modal_download" aria-hidden="true" style="padding-right: 0px!important;"> <!-- disable fading when the web page has been loaded -->
+  <div class="modal-dialog" style="width: 100%!important;height: 100%!important;margin: 0!important;padding: 0!important;max-width:none !important;">
+    <div class="modal-content" style="height: auto !important; min-height: 100% !important; border-radius: 0 !important;min-width: 100% !important;">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-custom-navbar"> <!-- sticky-top -->
+            <a class="navbar-brand mb-0 h1">Single Cell Long Non-coding RNA Atlas</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav_top" aria-controls="navbarNav_top" aria-expanded="false" aria-label="Toggle top navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarNav_top">
+                <ul class="navbar-nav">
+                </ul>
+            </div>
+        </nav>
+            <div class="modal-header">
+                <h1 class="modal-title">Download Data</h1>
+                <button class="btn btn-link btn-lg mt-2 mr-auto" onclick="Toggle_Download_Modal();">Continue exploring the atlas</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <br>
+                <h3 class="modal-title">Raw Data in RDS format (R Seurat object)</h3>
+                <br>
+                <ul class="list-group">
+                    <li class="list-group-item"><a href='https://sc-lncrna-atlas.s3.amazonaws.com/raw_data/RDS/kidney_aging.rds' download="kidney_aging.rds"><h5>Aging kidney-merged (glomeruli and tubules)</h5></a></li>
+                    <li class="list-group-item"><a href='https://sc-lncrna-atlas.s3.amazonaws.com/raw_data/RDS/tissue_merge.rds' download="tissue_merge.rds"><h5>Diverse mouse organs-merged</h5></a></li>
+                    <li class="list-group-item"><a href='https://sc-lncrna-atlas.s3.amazonaws.com/raw_data/RDS/kidney.rds' download="kidney.rds"><h5>Kidney</h5></a></li>
+                    <li class="list-group-item"><a href='https://sc-lncrna-atlas.s3.amazonaws.com/raw_data/RDS/heart.rds' download="heart.rds"><h5>Heart</h5></a></li>
+                    <li class="list-group-item"><a href='https://sc-lncrna-atlas.s3.amazonaws.com/raw_data/RDS/intestine.rds' download="intestine.rds"><h5>Intestine</h5></a></li>
+                    <li class="list-group-item"><a href='https://sc-lncrna-atlas.s3.amazonaws.com/raw_data/RDS/liver.rds' download="liver.rds"><h5>Liver</h5></a></li>
+                    <li class="list-group-item"><a href='https://sc-lncrna-atlas.s3.amazonaws.com/raw_data/RDS/lung.rds' download="lung.rds"><h5>Lung</h5></a></li>
+                    <li class="list-group-item"><a href='https://sc-lncrna-atlas.s3.amazonaws.com/raw_data/RDS/thymus.rds' download="thymus.rds"><h5>Thymus</h5></a></li>
+                </ul>
+                <br>
+                <br>
+
+                <h3 class="modal-title">Raw Data in H5AD format (Python SCANPY object)</h3>
+                <br>
+                <ul class="list-group">
+                    <li class="list-group-item"><a href='https://sc-lncrna-atlas.s3.amazonaws.com/raw_data/h5ad/kidney_aging.h5ad' download="kidney_aging.h5ad"><h5>Aging kidney-merged (glomeruli and tubules)</h5></a></li>
+                    <li class="list-group-item"><a href='https://sc-lncrna-atlas.s3.amazonaws.com/raw_data/h5ad/tissue_merge.h5ad' download="tissue_merge.h5ad"><h5>Diverse mouse organs-merged</h5></a></li>
+                    <li class="list-group-item"><a href='https://sc-lncrna-atlas.s3.amazonaws.com/raw_data/h5ad/kidney.h5ad' download="kidney.h5ad"><h5>Kidney</h5></a></li>
+                    <li class="list-group-item"><a href='https://sc-lncrna-atlas.s3.amazonaws.com/raw_data/h5ad/heart.h5ad' download="heart.h5ad"><h5>Heart</h5></a></li>
+                    <li class="list-group-item"><a href='https://sc-lncrna-atlas.s3.amazonaws.com/raw_data/h5ad/intestine.h5ad' download="intestine.h5ad"><h5>Intestine</h5></a></li>
+                    <li class="list-group-item"><a href='https://sc-lncrna-atlas.s3.amazonaws.com/raw_data/h5ad/liver.h5ad' download="liver.h5ad"><h5>Liver</h5></a></li>
+                    <li class="list-group-item"><a href='https://sc-lncrna-atlas.s3.amazonaws.com/raw_data/h5ad/lung.h5ad' download="lung.h5ad"><h5>Lung</h5></a></li>
+                    <li class="list-group-item"><a href='https://sc-lncrna-atlas.s3.amazonaws.com/raw_data/h5ad/thymus.h5ad' download="thymus.h5ad"><h5>Thymus</h5></a></li>
+                </ul>
+                <br>
+                <br>
+                
+                <h3 class="modal-title">Processed Data</h3>
+                <br>
+                <ul class="list-group">
+                    <li class="list-group-item"><a href='https://sc-lncrna-atlas.s3.amazonaws.com/processed_data/Single-Cell-lncRNA-Atlas.lncRNA-specificity-values-among-cell-types.xlsx' download="Single-Cell-lncRNA-Atlas.lncRNA-specificity-values-among-cell-types.xlsx"><h5>lncRNA specificity values among cell types</h5></a></li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary btn-lg btn-block" data-dismiss="modal">Dismiss</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div id="loading_screen"></div>
 
 <script src="js/github__pro_sidebar-jquery.mCustomScrollbar.concat.min.js"></script>
@@ -945,7 +1009,7 @@ var DragSort=function(t){
     object_data.file.dict_name_file_to_parsed_data = { };
     object_data.main = { };
     object_data.main.gene = { };
-    object_data.main.combined = { 'Combined.Aging_Kidney' : { 'Glom (Old)' : 1, 'Glom (Young)' : 1, 'Tubule (Old)' : 1, 'Tubule (Young)' : 1 }, 'Combined.mTissues6' : { 'Heart' : 1, 'Intestine' : 1, 'Kidney' : 1, 'Lung' : 1, 'Liver' : 1, 'Thymus' : 1 } }; // define combined dataset
+    object_data.main.combined = { 'Combined.Aging_Kidney' : { 'Glom-enriched (young mice)' : 1, 'Glom-enriched (old mice)' : 1, 'Tubule-enriched (young mice)' : 1, 'Tubule-enriched (old mice)' : 1 }, 'Combined.mTissues6' : { 'Heart' : 1, 'Intestine' : 1, 'Kidney' : 1, 'Lung' : 1, 'Liver' : 1, 'Thymus' : 1 } }; // define combined dataset
     object_data.main.filters_for_subsets = { }; // an empty object that will contains filters for subset
     object_data.setting = { };
     object_data.setting.app = { };
@@ -962,10 +1026,10 @@ var DragSort=function(t){
         'Lung' : 'expr.correlation.tissue.Lung', 
         'Liver' : 'expr.correlation.tissue.Liver', 
         'Thymus' : 'expr.correlation.tissue.Thymus', 
-        'Glom (Old)' : 'expr.correlation.tissue.Kidney_Glom_Old', 
-        'Tubule (Old)' : 'expr.correlation.tissue.Kidney_Tubule_Old', 
-        'Glom (Young)' : 'expr.correlation.tissue.Kidney_Glom_Young', 
-        'Tubule (Young)' : 'expr.correlation.tissue.Kidney_Tubule_Young', 
+        'Glom-enriched (old mice)' : 'expr.correlation.tissue.Kidney_Glom_Old', 
+        'Tubule-enriched (old mice)' : 'expr.correlation.tissue.Kidney_Tubule_Old', 
+        'Glom-enriched (young mice)' : 'expr.correlation.tissue.Kidney_Glom_Young', 
+        'Tubule-enriched (young mice)' : 'expr.correlation.tissue.Kidney_Tubule_Young', 
         'Combined.mTissues6' : 'expr.correlation.combined.mTissues6', 
         'Combined.Aging_Kidney' : 'expr.correlation.combined.Aging_and_Young_Kidney_Glom_Enrich', 
     }
@@ -977,12 +1041,13 @@ var DragSort=function(t){
     object_data.main.datatable = { 'datatable_cell_marker' : { df : null, name : 'cell_marker' }, 'datatable_correl' : { df : null, name : 'correl_gene' } };
     
     object_data.setting.plot.annotation = { };
+    // define colors
     object_data.setting.plot.annotation.dict_tissue_to_dict_cell_type_to_color = {
-        'Combined.Aging_Kidney': {'podocyte': '#A63603', 'mesangial': '#FDBE85', 'JGC': '#E6550D', 'PEC': '#FD8D3C', 'PT1': '#A1D99B', 'PT2': '#238B45', 'ALOH': '#4292C6', 'CD PC': '#9ECAE1', 'GEC': '#FEB24C', 'endo_podo': '#08306B', 'endo_ALOH': '#4292C6', 'endo_immune': '#2171B5', 'lymphocytes': '#54278F', 'myeloid': '#9E9AC8', 'RBC': '#FCCDE5'}, 
-        'Glom (Old)': {'podocyte': '#A63603', 'mesangial': '#FDBE85', 'JGC': '#E6550D', 'PEC': '#FD8D3C', 'PT1': '#A1D99B', 'PT2': '#238B45', 'ALOH': '#4292C6', 'CD PC': '#9ECAE1', 'GEC': '#FEB24C', 'endo_podo': '#08306B', 'endo_ALOH': '#4292C6', 'endo_immune': '#2171B5', 'lymphocytes': '#54278F', 'myeloid': '#9E9AC8', 'RBC': '#FCCDE5'}, 
-        'Glom (Young)': {'podocyte': '#A63603', 'mesangial': '#FDBE85', 'JGC': '#E6550D', 'PEC': '#FD8D3C', 'PT1': '#A1D99B', 'PT2': '#238B45', 'ALOH': '#4292C6', 'CD PC': '#9ECAE1', 'GEC': '#FEB24C', 'endo_podo': '#08306B', 'endo_ALOH': '#4292C6', 'endo_immune': '#2171B5', 'lymphocytes': '#54278F', 'myeloid': '#9E9AC8', 'RBC': '#FCCDE5'}, 
-        'Tubule (Old)': {'podocyte': '#A63603', 'mesangial': '#FDBE85', 'JGC': '#E6550D', 'PEC': '#FD8D3C', 'PT1': '#A1D99B', 'PT2': '#238B45', 'ALOH': '#4292C6', 'CD PC': '#9ECAE1', 'GEC': '#FEB24C', 'endo_podo': '#08306B', 'endo_ALOH': '#4292C6', 'endo_immune': '#2171B5', 'lymphocytes': '#54278F', 'myeloid': '#9E9AC8', 'RBC': '#FCCDE5'}, 
-        'Tubule (Young)': {'podocyte': '#A63603', 'mesangial': '#FDBE85', 'JGC': '#E6550D', 'PEC': '#FD8D3C', 'PT1': '#A1D99B', 'PT2': '#238B45', 'ALOH': '#4292C6', 'CD PC': '#9ECAE1', 'GEC': '#FEB24C', 'endo_podo': '#08306B', 'endo_ALOH': '#4292C6', 'endo_immune': '#2171B5', 'lymphocytes': '#54278F', 'myeloid': '#9E9AC8', 'RBC': '#FCCDE5'}, 
+        'Combined.Aging_Kidney': {'podocyte': '#A63603', 'mesangial': '#FDBE85', 'JGC': '#E6550D', 'PEC': '#FD8D3C', 'PT1': '#A1D99B', 'PT2': '#238B45', 'ALOH': '#4292C6', 'CD PC': '#9ECAE1', 'GEC': '#FEB24C', 'lymphocytes': '#54278F', 'myeloid': '#9E9AC8', 'RBC': '#FCCDE5'}, 
+        'Glom-enriched (old mice)': {'podocyte': '#A63603', 'mesangial': '#FDBE85', 'JGC': '#E6550D', 'PEC': '#FD8D3C', 'PT1': '#A1D99B', 'PT2': '#238B45', 'ALOH': '#4292C6', 'CD PC': '#9ECAE1', 'GEC': '#FEB24C', 'lymphocytes': '#54278F', 'myeloid': '#9E9AC8', 'RBC': '#FCCDE5'}, 
+        'Glom-enriched (young mice)': {'podocyte': '#A63603', 'mesangial': '#FDBE85', 'JGC': '#E6550D', 'PEC': '#FD8D3C', 'PT1': '#A1D99B', 'PT2': '#238B45', 'ALOH': '#4292C6', 'CD PC': '#9ECAE1', 'GEC': '#FEB24C', 'lymphocytes': '#54278F', 'myeloid': '#9E9AC8', 'RBC': '#FCCDE5'}, 
+        'Tubule-enriched (old mice)': {'podocyte': '#A63603', 'mesangial': '#FDBE85', 'JGC': '#E6550D', 'PEC': '#FD8D3C', 'PT1': '#A1D99B', 'PT2': '#238B45', 'ALOH': '#4292C6', 'CD PC': '#9ECAE1', 'GEC': '#FEB24C', 'lymphocytes': '#54278F', 'myeloid': '#9E9AC8', 'RBC': '#FCCDE5'}, 
+        'Tubule-enriched (young mice)': {'podocyte': '#A63603', 'mesangial': '#FDBE85', 'JGC': '#E6550D', 'PEC': '#FD8D3C', 'PT1': '#A1D99B', 'PT2': '#238B45', 'ALOH': '#4292C6', 'CD PC': '#9ECAE1', 'GEC': '#FEB24C', 'lymphocytes': '#54278F', 'myeloid': '#9E9AC8', 'RBC': '#FCCDE5'}, 
         'Combined.mTissues6': {'PT': 'yellowgreen', 'hepatocyte1': 'darkorchid', 'hepatocyte2': '#FF0000', 'kidney_other_tubule': '#FDB462', 'Cardiomyocyte': '#27408B', 'Proli_ISC': '#CD5555', 'Ciliated': '#EEB422', 'AT1': '#CD2626', 'AT2': '#90EE90', 'Fibroblast2': '#EE4000', 'Fibroblast1': '#8DD3C7', 'Fibro3': '#8B1C62', 'podocyte': '#66C2A5', 'mesangial': '#FC8D62', 'JGC': '#8DA0CB', 'Pericyte': '#E78AC3', 'Myofibro': '#A6D854', 'GEC': '#FFD92F', 'Endo1': '#E5C494', 'Endo2': '#B3B3B3', 'LE': '#8DD3C7', 'DN_DP': '#BC80BD', 'T cell': '#B3CDE3', 'NK': '#FB8072', 'B cell': '#80B1D3', 'B cell2': '#FDB462', 'plasma1': '#B3DE69', 'Kupffer': '#FCCDE5', 'Myeloid1': '#D9D9D9', 'AM': '#BC80BD', 'myeloid': '#CCEBC5', 'RBC': '#FFED6F'}, 
         'Kidney': {'podocyte': '#8DD3C7', 'mesangial': '#B3B3B3', 'JGC': '#E5C494', 'PEC': '#FB8072', 'PT1': '#80B1D3', 'PT2': '#FDB462', 'PST': '#B3DE69', 'ALOH': '#FCCDE5', 'DCT': '#FFD92F', 'PC': '#BC80BD', 'IC': '#CCEBC5', 'GEC': '#FFED6F', 'aterioles': '#66C2A5', 'B cell': '#FC8D62', 'CD8': '#8DA0CB', 'Macro': '#E78AC3', 'RBC': '#A6D854'}, 
         'Heart': {'Cardiomyocyte': '#B15928', 'Endo1': '#8DD3C7', 'Endo2': '#B3B3B3', 'Endo3': '#E5C494', 'LE': '#FB8072', 'Fibro1': '#80B1D3', 'Fibro2': '#FDB462', 'Fibro3': '#B3DE69', 'Sox10_Fibro': '#FCCDE5', 'Myofibro': '#FFD92F', 'SMC': '#BC80BD', 'Pericyte': '#CCEBC5', 'B cell': '#FFED6F', 'T cell': '#66C2A5', 'RM': '#FC8D62', 'RM2': '#8DA0CB', 'DC': '#E78AC3', 'Granulocyte': '#A6D854', 'Platelet': '#A6CEE3', 'RBC': '#1F78B4'}, 
@@ -998,11 +1063,16 @@ var DragSort=function(t){
         "Lung" : "#619CFF", 
         "Liver" : "#00BFC4", 
         "Thymus" : "#F564E3", 
-        "Glom (Young)" : "#7111F0",
-        "Glom (Old)" : "#E590E8",
-        "Tubule (Young)" : "#E6E627",
-        "Tubule (Old)" : "#E8D190",
-    }; // define color for each tissue
+        "Glom-enriched (young mice)" : "#7111F0",
+        "Glom-enriched (old mice)" : "#f99ffc",
+        "Tubule-enriched (young mice)" : "#E6E627",
+        "Tubule-enriched (old mice)" : "#ff6f3b",
+    }; 
+    object_data.setting.plot.annotation.dict_age_to_color = {
+        '6-8 weeks (young mice)' : '#388eff', 
+        '84 weeks (old mice)' : '#ff9b38',
+        '8 weeks (young mice)' : '#388eff',
+    }; 
     object_data.setting.plot.preview_gene = { };
     object_data.setting.plot.preview_gene.dict_category_to_color = {
         "Heart (n=5979)" : '#F8766D',
@@ -1011,10 +1081,10 @@ var DragSort=function(t){
         "Lung (n=4375)" : "#619CFF",
         "Liver (n=4191)" : "#00BFC4",
         "Thymus (n=2914)" : "#F564E3",
-        "Glom (Young) (n=7658)" : "#7111F0",
-        "Glom (Old) (n=6505)" : "#E590E8",
-        "Tubule (Young) (n=3326)" : "#E6E627",
-        "Tubule (Old) (n=2772)" : "#E8D190",
+        'Glom-enriched (young mice) (n=6888)' : "#7111F0",
+        'Glom-enriched (old mice) (n=5695)' : "#E590E8",
+        'Tubule-enriched (young mice) (n=2618)' : "#E6E627",
+        'Tubule-enriched (old mice) (n=2489)' : "#E8D190",
     }; // define color for each tissue
     object_data.setting.plot.preview_gene.flag_preview_on_hover = true; //setting
     
@@ -1118,6 +1188,10 @@ var DragSort=function(t){
     function Toggle_Introduction_Modal( ) { 
         $( '#modal_introduction' ).modal( 'toggle' );
         document.getElementById( "modal_introduction" ).style[ "padding-right" ] = "0px";
+    } // Toggle Modal for an Introduction 
+    function Toggle_Download_Modal( ) { 
+        $( '#modal_download' ).modal( 'toggle' );
+        document.getElementById( "modal_download" ).style[ "padding-right" ] = "0px";
     } // Toggle Modal for an Introduction 
 // custom utility functions
     // getElementById
@@ -2184,6 +2258,9 @@ var DragSort=function(t){
             l_color = [ ], marker_colormap = { }, str_hovertemplate_additional_line = '';
         // set color 
         switch( str_name_data_annotation ) {
+          case 'age' :
+            l_color = ArrayMap( dictarr[ str_name_data_annotation ], object_data.setting.plot.annotation.dict_age_to_color );
+            break;
           case 'tissue':
             l_color = ArrayMap( dictarr[ str_name_data_annotation ], object_data.setting.plot.annotation.dict_tissue_to_color );
             break;
@@ -2360,6 +2437,26 @@ var DragSort=function(t){
         }
         let blob = new Blob( [ string_csv_datatable ], { type: "text/plain;charset=utf-8" } );
         name_file = object_datatable.name + '.datatable.csv' // change the extension of the filename
+        saveAs( blob, name_file ); // save file 
+    }
+    function Download_UMAP( ) {
+        /* download UMAP expression data and cell annotation */
+        let data = plotSingleCellExpression.data[ 0 ],
+            data_anno = plotSingleCellAnnotation.data[ 0 ],
+            l_anno = ArrayTranspose( data_anno.customdata ),
+            df = new DataFrame(
+            {
+                cell_id : l_anno[ 2 ],
+                cell_type : l_anno[ 0 ],
+                sample : l_anno[ 1 ],
+                UMAP_1 : data.x, 
+                UMAP_2: data.y,
+                gene_expression : data.marker.color,
+            }, 
+            ['cell_id', 'cell_type', 'sample', 'UMAP_1', 'UMAP_2', 'gene_expression']),
+            string_csv_datatable = df.toCSV( true ),
+            blob = new Blob( [ string_csv_datatable ], { type: "text/plain;charset=utf-8" } ),
+            name_file = `${object_data.main.gene.gene_symbol}.expression_and_annotation.UMAP.csv`; // change the extension of the filename
         saveAs( blob, name_file ); // save file 
     }
 
